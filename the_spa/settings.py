@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qh@kz%qqwmu+y+cn4=6*c*_tr@*cpgws$9w)x5q(z2_3v3m3$2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu111.gitpod.io' ,'.herokuapp.com'
 ]
@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'home',
+    'services',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +72,10 @@ ROOT_URLCONF = 'the_spa.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
