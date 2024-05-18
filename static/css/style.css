@@ -1,11 +1,61 @@
 * {
     margin: 0;
+    color: #191521; 
     
 }
 
 html {
     height: 100%;
    
+}
+
+.bg-colour_blue {
+    background-color: #b3d0d7; 
+}
+
+.bg-colour-grey {
+    background-color: #eceeec; 
+}
+
+.bg-dark{
+    background-color: #191521;
+}
+
+
+/* navbar */
+
+.navbar-nav {
+    margin-top: 50px;
+    display: none;
+    position: fixed;
+    margin-left: 20px;
+}
+
+/* Style for the hamburger icon */
+.navbar-toggle {
+    cursor: pointer;
+}
+
+.navbar-nav.open {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px; 
+    height: 100%;
+    background-color: #333; 
+    /*padding: 20px;*/
+    z-index: 1000; 
+}
+
+.navbar-nav li {
+    list-style-type: none;
+    margin-bottom: 10px; 
+}
+
+.navbar-nav a {
+    color: #191521; 
+    text-decoration: none;
 }
 
 /* Override Bootstrap's gutter spacing for containers */
@@ -27,7 +77,7 @@ html {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     text-align: center;
 }
 
@@ -41,21 +91,10 @@ html {
 
 footer {
     position: fixed;
-    padding: 20px 0; 
+    padding: 20px 20px; 
     bottom: 0;
     width: 100%;
     z-index: 1000; /* Ensure footer appears above other content */
 }
 
 
-.bg-colour_blue {
-    background-color: #b3d0d7; 
-}
-
-.bg-colour-grey {
-    background-color: #eceeec; 
-}
-
-.bg-dark{
-    background-color: #191521;
-}
