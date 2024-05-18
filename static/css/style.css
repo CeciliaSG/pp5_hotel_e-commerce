@@ -39,10 +39,23 @@ html {
     margin: 0;
 }
 
+footer {
+    position: fixed;
+    padding: 20px 0; 
+    bottom: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure footer appears above other content */
+}
+
+
 .bg-colour_blue {
     background-color: #b3d0d7; 
 }
 
 .bg-colour-grey {
     background-color: #eceeec; 
+}
+
+.bg-dark{
+    background-color: #191521;
 }

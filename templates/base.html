@@ -29,8 +29,35 @@
     {% endif %}
 
     {% block page_header %}{% endblock %}
+    
+  <!-- Main Content -->
+    <main style="margin: 0;">
+        <div class="content" style="margin: 0;">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
 
-    {% block content %}{% endblock %}
+
+ <!-- Footer -->
+<footer class="bg-dark py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Footer Content</h5>
+        <p>Some content</p>
+      </div>
+      <div class="col-md-6">
+        <h5>Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
 
     {% block postloadjs %}{% endblock %}
 
