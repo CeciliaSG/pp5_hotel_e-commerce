@@ -38,22 +38,25 @@
 
   <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
         <div class="row justify-content-center w-100">
-          <div class="col text-center">
+          <div class="col text-left">
             <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="#about">About the Spa</a></li>
             <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
-          </div>
-          <div class="col text-center">
-            <li class="nav-item"><a class="nav-link" href="#book">Book</a></li>
+             <li class="nav-item"><a class="nav-link" href="#book">Book</a></li>
             <li class="nav-item"><a class="nav-link" href="#checkout">Checkout</a></li>
+          </div>
+          <div class="col text-left">
             {% if not request.user.is_authenticated %}
               <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Register</a></li>
               <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Login</a></li>
             {% else %}
               <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Logout</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
             {% endif %}
           </div>
         </div>
+        <div class="separator"></div>
+            <div class="social-media-symbols">social media</div>
       </ul>
   </div>
 </nav>
@@ -78,7 +81,6 @@
         <p>Some content</p>
       </div>
       <div class="col-md-6">
-        <h5>Links</h5>
         <ul class="list-unstyled">
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
