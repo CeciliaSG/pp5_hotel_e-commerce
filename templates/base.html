@@ -36,24 +36,21 @@
 
   <div class="collapse collapse-horizontal justify-content-center" id="collapseNavbar">
 
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <div class="row justify-content-center">
-          <a class="navbar-brand" href="#">Logo
-    </a>
-          <div class="col">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">About the Spa</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Treatments</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Prices</a></li>
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col text-center">
+            <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About the Spa</a></li>
+            <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
           </div>
-          <div class="col">
-            <li class="nav-item"><a class="nav-link" href="#">Book</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Checkout</a></li>
+          <div class="col text-center">
+            <li class="nav-item"><a class="nav-link" href="#book">Book</a></li>
+            <li class="nav-item"><a class="nav-link" href="#checkout">Checkout</a></li>
             {% if not request.user.is_authenticated %}
-            <li class="nav-item"></li><a href="{% url 'account_signup' %}" class="dropdown-item">Register</a></li>
-           <li class="nav-item"></li><a href="{% url 'account_login' %}" class="dropdown-item">Login</a></li>
+              <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Register</a></li>
+              <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Login</a></li>
             {% else %}
-            <li class="nav-item"></li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
+              <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Logout</a></li>
             {% endif %}
           </div>
         </div>
