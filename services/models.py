@@ -19,6 +19,8 @@ class SpaService(models.Model):
    duration = models.DurationField()
    is_access = models.BooleanField(default=False)
    available = models.BooleanField(default=True)
+   employee_name = models.CharField(max_length=100, blank=True, null=True)
+
 
    def __str__(self):
         return self.name
