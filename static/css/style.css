@@ -1,8 +1,9 @@
 * {
     margin: 0;
     color: #191521; 
-    
 }
+
+/* Global styles */
 
 html {
     height: 100%;
@@ -41,7 +42,7 @@ html {
     color: #191521;
     position: fixed;
     margin-top: 30px;
-    margin-left: 100px;
+    margin-left: 60px;
     z-index: 1001; 
 }
 
@@ -88,7 +89,7 @@ html {
     text-align: center;
 }
 
-.container{
+.container {
     margin: 10px;
     margin-top: 20px;
 }
@@ -96,6 +97,14 @@ html {
 .row{
     margin: 0;
 }
+
+.bg-landing-section{
+    background-image: url('../images/laura-chouette-te8u5ngLwBg-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Footer */
 
 footer {
     position: fixed;
