@@ -5,44 +5,47 @@
 
 <div class="container-fluid" style="height: 100vh;">
 
-  <div class="section bg-landing-section bg-colour_blue" id="home">
+  <section class="section bg-landing-section bg-colour_blue" id="home">
     <div class="container">
       <div class="row">
         <h1>The Spa</h1>
         <p>lorem Ipsum</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="section bg-section-two bg-colour-grey" id="about">
+  <section class="section bg-section-two bg-colour-grey" id="about">
     <div class="container">
       <div class="row">
         <h1>About</h1>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="section bg-section-three bg-colour_blue" id="treatments">
-    <div class="container">
-      <div class="row">
+<section class="section bg-section-three bg-colour_blue" id="treatments">
+<div class="container services-container px-4">
         <h1>Treatments</h1>
- {% for service in spa_services %}
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-     <h5 class="card-category">{{ category.name }}</h5>
-    <h5 class="card-title">{{ service.name }}</h5>
-    <p class="card-text">{{ service.description }}</p>
-    <a href="#" class="btn btn-primary">Read more about the treatment</a>
-  </div>
-   {% endfor %}
-</div>
-
-      </div>
+<div class="row gy-5 gx-3">
+  {% for category in categories %}
+  {% for service in spa_services %}
+  <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+    <div class="card h-100 p-3" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-category">{{ category.name }}</h5>
+          <h5 class="card-title">{{ service.name }}</h5>
+          <p class="card-text">{{ service.description | truncatewords:20  }}</p>
+          <a href="#" class="btn btn-primary">Read more about the treatment</a>
+        </div>
     </div>
   </div>
+  {% endfor %}
+  {% endfor %}
+</div>
+</div>
+</section>
 
-    <div class="section bg-section-four bg-colour-grey" id="book">
+<section class="section bg-section-four bg-colour-grey" id="book">
     <div class="container">
       <div class="row">
         <h1>Book</h1>
@@ -55,19 +58,20 @@
     </ul>
   <ul>
     {% for service in spa_services %}
-      <li>{{ service.name }} - {{ service.price }}</li>
+      <li>{{ service.name }} - {{ service.price }}sek</li>
     {% endfor %}
   </ul>
       </div>
     </div>
-  </div>
-     <div class="section bg-section-four bg-colour-grey" id="checkout">
+  </section>
+
+<section class="section bg-section-four bg-colour-grey" id="checkout">
     <div class="container">
       <div class="row">
-        <h1>Chaeckout & Payment</h1>
+        <h1>Checkout & Payment</h1>
       </div>
     </div>
-  </div>
+ </section>
 
 
 
