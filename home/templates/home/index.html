@@ -5,7 +5,7 @@
 
 <div class="container-fluid" style="height: 100vh;">
 
-  <section class="section bg-landing-section bg-colour_blue" id="home">
+  <section class="section bg-landing-section bg-colour-blue" id="home">
     <div class="container">
       <div class="row">
         <h1>The Spa</h1>
@@ -22,7 +22,7 @@
     </div>
   </section>
 
-<section class="section bg-section-three bg-colour_blue" id="treatments">
+<section class="section bg-section-three bg-colour-blue" id="treatments">
 <div class="container services-container px-4">
         <h1>Treatments</h1>
 <div class="row gy-5 gx-3">
@@ -49,21 +49,28 @@
     <div class="container">
       <div class="row">
         <h1>Book</h1>
-    <ul>
-        {% for category in categories %}
-            <li>{{ category.name }}</li>
+   <h2 class="h4">Our Spa Services</h2>
+    <ul class="list-unstyled">
+      {% for category in categories %}
+        {% for service in spa_services %}
+            <li>
+              {{ category.name }}
+                {{ service.name }} - {{ service.price }} sek
+                <form action="{% url 'book_spa_service' %}" method="get" style="display: inline;">
+                    <button type="submit" name="service_id" value="{{ service.id }}">Book Now</button>
+                </form>
+            </li>
+        {% endfor %}
         {% endfor %}
     </ul>
-  <ul>
-    {% for service in spa_services %}
-      <li>{{ service.name }} - {{ service.price }}sek</li>
-    {% endfor %}
-  </ul>
       </div>
+
+ 
+
     </div>
   </section>
 
-<section class="section bg-section-four bg-colour-grey" id="checkout">
+<section class="section bg-section-four bg-colour-blue" id="checkout">
     <div class="container">
       <div class="row">
         <h1>Checkout & Payment</h1>

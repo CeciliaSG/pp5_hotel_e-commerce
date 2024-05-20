@@ -12,8 +12,6 @@ def services_by_category(request, category_id):
     category = get_object_or_404(ServiceCategory, id=category_id)
     services = SpaService.objects.filter(category=category, available=True)
 
-    print("Category:", Category)
-
     context = {
         'category': category,
         'services': services,
@@ -22,7 +20,7 @@ def services_by_category(request, category_id):
     return render(request, 'home/index.html', context)
 
 
-def spa_services(request):
+def spa_services(request, context_only=False):
     """
     Fetches and renders SpaServices in the index.html template
     """
@@ -35,10 +33,6 @@ def spa_services(request):
     spa_services = services.filter(is_access=False)
     categories = ServiceCategory.objects.all()
 
-    print("Services:", services)
-    print("Access Services:", access_services)
-    print("Spa Services:", spa_services)
-    print("Categories:", categories)
 
     context = {
         'access_services': access_services,
@@ -46,4 +40,7 @@ def spa_services(request):
         'categories': categories,
     }
 
-    return render(request, 'home/index.html', context)
+    if context_only:
+        return context
+    else:
+        return render(request, 'home/index.html', context)
