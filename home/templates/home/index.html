@@ -26,6 +26,18 @@
     <div class="container">
       <div class="row">
         <h1>Treatments</h1>
+ {% for service in spa_services %}
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+     <h5 class="card-category">{{ category.name }}</h5>
+    <h5 class="card-title">{{ service.name }}</h5>
+    <p class="card-text">{{ service.description }}</p>
+    <a href="#" class="btn btn-primary">Read more about the treatment</a>
+  </div>
+   {% endfor %}
+</div>
+
       </div>
     </div>
   </div>
@@ -34,6 +46,18 @@
     <div class="container">
       <div class="row">
         <h1>Book</h1>
+
+        <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+            <li>{{ category.name }}</li>
+        {% endfor %}
+    </ul>
+  <ul>
+    {% for service in spa_services %}
+      <li>{{ service.name }} - {{ service.price }}</li>
+    {% endfor %}
+  </ul>
       </div>
     </div>
   </div>

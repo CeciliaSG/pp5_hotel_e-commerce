@@ -30,11 +30,11 @@ SECRET_KEY = 'django-insecure-qh@kz%qqwmu+y+cn4=6*c*_tr@*cpgws$9w)x5q(z2_3v3m3$2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io' ,'.herokuapp.com'
+ALLOWED_HOSTS = ['8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu111.gitpod.io' ,'.herokuapp.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io',
+    'https://8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu111.gitpod.io',
     'https://yourapp.herokuapp.com',
 ]
 
@@ -169,7 +169,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

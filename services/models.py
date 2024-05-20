@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -8,6 +9,9 @@ class ServiceCategory(models.Model):
 
     def __str__(self):
         return self.name
+        
+
+STATUS = ((0, "Draft"), (1, "Published"),)        
 
 
 class SpaService(models.Model):
@@ -20,6 +24,8 @@ class SpaService(models.Model):
    is_access = models.BooleanField(default=False)
    available = models.BooleanField(default=True)
    employee_name = models.CharField(max_length=100, blank=True, null=True)
+   featured_image = CloudinaryField('image', null=True, blank=True)
+   status = models.SmallIntegerField(choices=STATUS, default=0)
 
 
    def __str__(self):
