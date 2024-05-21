@@ -22,20 +22,25 @@
     </div>
   </section>
 
+
+
 <section class="section bg-section-three bg-colour-blue" id="treatments">
 <div class="container services-container px-4">
-        <h1>Treatments</h1>
+        <h1 class="section-heading pb-5 pt-4">Featured Treatments</h1>
 <div class="row gy-5 gx-3">
   {% for category in categories %}
   {% for service in spa_services %}
-  <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-    <div class="card h-100 p-3" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
+  <div class="col-sm-6 col-md-4 col-lg-3 mb-4 gy-4">
+    <div class="card h-60">
+        <a href="#" class="card-link"></a>
+<div class="card-image-container">
+  <img class="card-img-top" src=" {{ service.featured_image.url }}" alt="{{ service.image }}">
+</div>     
+  <div class="card-body text-start">
           <h5 class="card-category">{{ category.name }}</h5>
           <h5 class="card-title">{{ service.name }}</h5>
-          <p class="card-text">{{ service.description | truncatewords:20  }}</p>
-          <a href="#" class="btn btn-primary">Read more about the treatment</a>
+          <p class="card-text">{{ service.description | truncatewords:10  }}</p>
+</a>
         </div>
     </div>
   </div>
@@ -45,28 +50,36 @@
 </div>
 </section>
 
+
+
+
 <section class="section bg-section-four bg-colour-grey" id="book">
     <div class="container">
       <div class="row">
-        <h1>Book</h1>
+        <h1 class="section-heading pt-4 pb-5">Prices & Booking</h1>
+    <div>
+      <div class="row">
+          <div class="col-sm-4 col-md-4 col-lg-3 mb-4">
+
    <h2 class="h4">Our Spa Services</h2>
-    <ul class="list-unstyled">
+   <div class="card" style="width: 18rem;"></div>
+
       {% for category in categories %}
         {% for service in spa_services %}
-            <li>
-              {{ category.name }}
+           <li class="list-group-item">
+              {{ category.name }} |
                 {{ service.name }} - {{ service.price }} sek
                 <form action="{% url 'book_spa_service' %}" method="get" style="display: inline;">
-                    <button type="submit" name="service_id" value="{{ service.id }}">Book Now</button>
+                    <button type="submit" name="service_id" value="{{ service.id }}"> Book Now</button>
                 </form>
             </li>
         {% endfor %}
         {% endfor %}
     </ul>
+    </div>
+    </div>
+    </div>
       </div>
-
- 
-
     </div>
   </section>
 
@@ -77,8 +90,6 @@
       </div>
     </div>
  </section>
-
-
 
 </div>
 {% endblock %}
