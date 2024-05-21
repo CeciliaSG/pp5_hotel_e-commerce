@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from .forms import SpaBookingForm, SpaBookingServicesFormSet
 from .models import SpaBooking, SpaBookingServices
+from datetime import datetime
+from django.shortcuts import redirect
+
+
 
 
 # Create your views here.
@@ -12,6 +16,13 @@ def book_spa_service(request, context_only=False):
 
         if booking_form.is_valid() and service_formset.is_valid():
             booking = booking_form.save(commit=False)
+
+            booking.customer_profile = request.user
+    
+            
+            booking.date_and_time = datetime.now()  
+            booking.booking_date = datetime.now()  
+            
             booking.booking_total = 0
             booking.save()
 
@@ -22,7 +33,7 @@ def book_spa_service(request, context_only=False):
 
             booking.update_total()
 
-            return redirect('home/index.html')
+            return redirect('home')
 
     else:
         booking_form = SpaBookingForm()

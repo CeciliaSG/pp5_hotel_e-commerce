@@ -1,14 +1,28 @@
- <h1>Book a Spa Service</h1>
+
+ {% extends "base.html" %}
+ {% load static %}
+
+ {% load crispy_forms_filters %}
+ {% load crispy_forms_tags %}
+ 
+  {% block content %}
+<div class="section container form-container my-5 pb-5">
+    <div class="row">
+        <div class="col-md-12">
+ <h1 class="h2">Book a Spa Service</h1>
     <form method="post" action="{% url 'book_spa_service' %}">
         {% csrf_token %}
-        {{ booking_form.as_p }}
-        <h2>Select Services</h2>
+        {{ booking_form | crispy }}
+        <h2 class="h5 mb-4 mt-4">Select Services</h2>
         {{ service_formset.management_form }}
         {% for form in service_formset %}
             <div class="service-form">
-                {{ form.as_p}}
+                {{ form|crispy}}
             </div>
         {% endfor %}
-        
         <button type="submit">Book Now</button>
     </form>
+    </div>
+    </div>
+    </div>
+    {% endblock %}
