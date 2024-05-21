@@ -1,10 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import SpaBookingForm, SpaBookingServicesFormSet
 from .models import SpaBooking, SpaBookingServices
 from datetime import datetime
-from django.shortcuts import redirect
-
-
+from django.urls import reverse
 
 
 # Create your views here.
@@ -16,13 +14,9 @@ def book_spa_service(request, context_only=False):
 
         if booking_form.is_valid() and service_formset.is_valid():
             booking = booking_form.save(commit=False)
-
             booking.customer_profile = request.user
-    
-            
-            booking.date_and_time = datetime.now()  
-            booking.booking_date = datetime.now()  
-            
+            booking.date_and_time = datetime.now()
+            booking.booking_date = datetime.now()
             booking.booking_total = 0
             booking.save()
 
@@ -32,8 +26,7 @@ def book_spa_service(request, context_only=False):
                 service.save()
 
             booking.update_total()
-
-            return redirect('home')
+            return redirect(reverse('add_to_cart', args=[booking.id]))
 
     else:
         booking_form = SpaBookingForm()
@@ -47,3 +40,10 @@ def book_spa_service(request, context_only=False):
         return context
     else:
         return render(request, 'booking/book_spa_service.html', context)
+
+
+
+
+    
+
+

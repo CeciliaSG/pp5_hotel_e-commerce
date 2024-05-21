@@ -1,0 +1,12 @@
+{% load static %}
+
+{% block content %}
+  <h1>Your Cart</h1>
+  <ul>
+    {% for service in services %}
+      <li>{{ service.spa_service }} | Quantity: {{ service.quantity }} - Price: {{ service.spa_service_total }}</li>
+    {% endfor %}
+  </ul>
+  <p>Total Booking Cost: {{ total_cost }}</p>
+  <a href="#">Checkout</a>
+{% endblock %}

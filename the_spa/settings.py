@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qh@kz%qqwmu+y+cn4=6*c*_tr@*cpgws$9w)x5q(z2_3v3m3$2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io' ,'.herokuapp.com'
 ]
 
@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'booking',
+    'cart',
+    'checkout',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
