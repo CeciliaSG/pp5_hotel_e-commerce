@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from booking.forms import SpaBookingForm, SpaBookingServicesFormSet
-from booking.models import SpaBookingServices, SpaBooking
+from booking.models import SpaBookingServices, SpaBooking, SpaService
 from decimal import Decimal
 
 # Create your views here.
@@ -70,10 +71,19 @@ def remove_from_cart(request, service_id):
     Remove a specific service from the cart.
     """
     cart = request.session.get('cart', {})
-    if service_id in cart:
-        del cart[service_id]
-    request.session['cart'] = cart
-    return redirect('view_cart')
+    try:
+            if str(service_id) in cart:
+                del cart[str(service_id)]
+                messages.success(request, 'Service removed from cart successfully')
+            else:
+                messages.error(request, 'Service not found in cart')
+
+            request.session['cart'] = cart    
+            return redirect('view_cart')
+
+    except KeyError:
+        messages.error(request, 'Service not found in cart')
+        return redirect('view_cart')
 
 
 def clear_cart(request):
