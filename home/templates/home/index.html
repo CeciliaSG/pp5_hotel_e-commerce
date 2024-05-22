@@ -69,7 +69,7 @@
            <li class="list-group-item">
               {{ category.name }} |
                 {{ service.name }} - {{ service.price }} sek
-                <form action="{% url 'book_spa_service' %}" method="get" style="display: inline;">
+            <form action="{% url 'book_spa_service' service.id %}" method="get" style="display: inline;">
                     <button type="submit" name="service_id" value="{{ service.id }}"> Book Now</button>
                 </form>
             </li>

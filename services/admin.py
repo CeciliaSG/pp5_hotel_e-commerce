@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import SpaService, ServiceCategory
 
 
-
 # Register your models here.
 
 class ServiceCategoryAdmin(admin.ModelAdmin):

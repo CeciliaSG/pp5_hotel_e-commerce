@@ -1,45 +1,36 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .forms import SpaBookingForm, SpaBookingServicesFormSet
-from .models import SpaBooking, SpaBookingServices
+from .models import SpaBooking, SpaBookingServices, SpaService
 from datetime import datetime
 from django.urls import reverse
 
 
 # Create your views here.
 
-def book_spa_service(request, context_only=False):
-    if request.method == 'POST':
-        booking_form = SpaBookingForm(request.POST)
-        service_formset = SpaBookingServicesFormSet(request.POST)
+def book_spa_service(request, service_id):
+    service = get_object_or_404(SpaService, pk=service_id)
+    quantity = int(request.POST.get('quantity', 1))
+    redirect_url = request.POST.get('redirect_url', 'view_cart')
+    cart = request.session.get('cart', {})
+    service_id_str = str(service_id)
 
-        if booking_form.is_valid() and service_formset.is_valid():
-            booking = booking_form.save(commit=False)
-            booking.customer_profile = request.user
-            booking.date_and_time = datetime.now()
-            booking.booking_date = datetime.now()
-            booking.booking_total = 0
-            booking.save()
-
-            for service_form in service_formset:
-                service = service_form.save(commit=False)
-                service.spa_booking = booking
-                service.save()
-
-            booking.update_total()
-            return redirect(reverse('add_to_cart', args=[booking.id]))
-
+    if service_id_str in cart:
+        cart[service_id_str]['quantity'] += quantity
+        cart[service_id_str]['spa_service_total'] = str(service.price * cart[service_id_str]['quantity'])
+        messages.success(request, f'Updated {service.name} quantity to {cart[service_id_str]["quantity"]}')
     else:
-        booking_form = SpaBookingForm()
-        service_formset = SpaBookingServicesFormSet()
+        cart[service_id_str] = {
+            'spa_service': service.name,
+            'quantity': quantity,
+            'spa_service_total': str(service.price * quantity)
+        }
+        messages.success(request, f'Added {service.name} to your cart')
 
-    context = {
-        'booking_form': booking_form,
-        'service_formset': service_formset,
-    }
-    if context_only:
-        return context
-    else:
-        return render(request, 'booking/book_spa_service.html', context)
+    request.session['cart'] = cart
+    return redirect(redirect_url)
+
+
 
 
 
