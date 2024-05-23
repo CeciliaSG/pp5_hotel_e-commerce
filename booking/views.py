@@ -1,40 +1,40 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .forms import SpaBookingForm, SpaBookingServicesFormSet
-from .models import SpaBooking, SpaBookingServices, SpaService
-from datetime import datetime
-from django.urls import reverse
+from django.shortcuts import render
+from .forms import ServiceBookingForm
+from .models import SpaService
+from services.models import Availability
 
 
 # Create your views here.
 
-def book_spa_service(request, service_id):
-    service = get_object_or_404(SpaService, pk=service_id)
-    quantity = int(request.POST.get('quantity', 1))
-    redirect_url = request.POST.get('redirect_url', 'view_cart')
-    cart = request.session.get('cart', {})
-    service_id_str = str(service_id)
+def book_spa_service(request):
+    available_time_slots = []
+    selected_service = None
+    selected_date_and_time = None
 
-    if service_id_str in cart:
-        cart[service_id_str]['quantity'] += quantity
-        cart[service_id_str]['spa_service_total'] = str(service.price * cart[service_id_str]['quantity'])
-        messages.success(request, f'Updated {service.name} quantity to {cart[service_id_str]["quantity"]}')
+    if request.method == "POST":
+        form = ServiceBookingForm(request.POST)
+        if form.is_valid():
+            selected_service = form.cleaned_data["service"]
+            selected_date_and_time = form.cleaned_data["date_and_time"]
+
+            availability = Availability.objects.filter(
+                spa_service=selected_service,
+                specific_dates__date=selected_date_and_time.date(),
+            ).first()
+            if availability:
+                available_time_slots = availability.time_slots.all()
     else:
-        cart[service_id_str] = {
-            'spa_service': service.name,
-            'quantity': quantity,
-            'spa_service_total': str(service.price * quantity)
-        }
-        messages.success(request, f'Added {service.name} to your cart')
+        form = ServiceBookingForm()
 
-    request.session['cart'] = cart
-    return redirect(redirect_url)
-
-
-
-
-
-
-    
-
-
+    return render(
+        request,
+        "booking/book_spa_service.html",
+        {
+            "form": form,
+            "available_time_slots": available_time_slots,
+            "service_id": selected_service.id if selected_service else None,
+            "selected_service": selected_service,
+            "selected_date_and_time": selected_date_and_time,
+        },
+    )

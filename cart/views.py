@@ -1,89 +1,92 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from booking.forms import SpaBookingForm, SpaBookingServicesFormSet
+from django.http import HttpResponseBadRequest
 from booking.models import SpaBookingServices, SpaBooking, SpaService
 from decimal import Decimal
 
 # Create your views here.
 
-def add_to_cart(request, booking_id=None):
-    if 'booking_id' in request.session:
-        booking_id = request.session['booking_id']
+def add_to_cart(request, service_id=None):
+    if service_id is None:
+        return HttpResponseBadRequest("Service ID is required")
+
+    selected_service = get_object_or_404(SpaService, pk=service_id)
+
+    cart = request.session.get("cart", {})
+    service_key = str(selected_service.id)
+
+    if service_key in cart:
+        cart[service_key]["quantity"] += 1
+
     else:
-        return redirect('book_spa_service')
+        cart[service_key] = {
+            "spa_service": selected_service.name,
+            "quantity": 1,
+            "spa_service_total": str(selected_service.price),
+        }
 
-    booking = get_object_or_404(SpaBooking, pk=booking_id)
+    request.session["cart"] = cart
 
-    cart = request.session.get('cart', {})
-    booking_services = SpaBookingServices.objects.filter(spa_booking=booking)
-    for service in booking_services:
-        service_id = str(service.id)
-        if service_id in cart:
-            cart[service_id]['quantity'] += service.quantity
-        else:
-            cart[service_id] = {
-                'spa_service': service.spa_service.name,
-                'quantity': service.quantity,
-                'spa_service_total': str(service.spa_service_total)
-            }
-
-    request.session['cart'] = cart
-    return redirect('view_cart')
+    return redirect("view_cart")
 
 
 def update_cart(request, service_id):
-    if request.method == 'POST':
-        cart = request.session.get('cart', {})
+    if request.method == "POST":
+        cart = request.session.get("cart", {})
         if str(service_id) in cart:
-            new_quantity = int(request.POST.get('quantity', 1))
-            cart[str(service_id)]['quantity'] = new_quantity
-            request.session['cart'] = cart
-    return redirect('view_cart')
+            new_quantity = int(request.POST.get("quantity", 1))
+            cart[str(service_id)]["quantity"] = new_quantity
+            request.session["cart"] = cart
+    return redirect("view_cart")
 
 
 def view_cart(request):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
     services = []
-    total_cost = Decimal('0.00')
+    total_cost = Decimal("0.00")
 
     for service_id, details in cart.items():
         try:
-            service_total = Decimal(details['spa_service_total']) * details['quantity']
+            service_total = Decimal(details["spa_service_total"]) * details["quantity"]
             total_cost += service_total
-            services.append({
-                'id': service_id,
-                'spa_service': details['spa_service'],
-                'quantity': details['quantity'],
-                'spa_service_total': service_total
-            })
+            services.append(
+                {
+                    "id": service_id,
+                    "spa_service": details["spa_service"],
+                    "quantity": details["quantity"],
+                    "spa_service_total": service_total,
+                    "selected_date_and_time": details.get("selected_date_and_time"),
+                    "selected_time_slot_id": details.get("selected_time_slot_id"),
+                }
+            )
         except KeyError as e:
             print(f"Missing key in cart session data: {e}")
 
     context = {
-        'services': services,
-        'total_cost': total_cost,
+        "services": services,
+        "total_cost": total_cost,
     }
-    return render(request, 'cart/view_cart.html', context) 
+    return render(request, "cart/view_cart.html", context)
 
 
 def remove_from_cart(request, service_id):
     """
     Remove a specific service from the cart.
     """
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
     try:
-            if str(service_id) in cart:
-                del cart[str(service_id)]
-                messages.success(request, 'Service removed from cart successfully')
-            else:
-                messages.error(request, 'Service not found in cart')
+        if str(service_id) in cart:
+            del cart[str(service_id)]
+            messages.success(request, "Service removed from cart successfully")
+        else:
+            messages.error(request, "Service not found in cart")
 
-            request.session['cart'] = cart    
-            return redirect('view_cart')
+        request.session["cart"] = cart
+        return redirect("view_cart")
 
     except KeyError:
-        messages.error(request, 'Service not found in cart')
-        return redirect('view_cart')
+        messages.error(request, "Service not found in cart")
+        return redirect("view_cart")
 
 
 def clear_cart(request):
@@ -101,5 +104,5 @@ def clear_cart(request):
         HttpResponseRedirect: A redirect response to the 'view_cart' page.
     """
 
-    request.session['cart'] = {}
-    return redirect('view_cart')
+    request.session["cart"] = {}
+    return redirect("view_cart")

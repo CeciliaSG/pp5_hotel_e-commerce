@@ -1,28 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
 
- {% extends "base.html" %}
- {% load static %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 
- {% load crispy_forms_filters %}
- {% load crispy_forms_tags %}
- 
-  {% block content %}
-<div class="section container form-container my-5 pb-5">
-    <div class="row">
-        <div class="col-md-12">
- <h1 class="h2">Book a Spa Service</h1>
-    <form method="post" action="{% url 'book_spa_service' %}">
-        {% csrf_token %}
-        {{ booking_form | crispy }}
-        <h2 class="h5 mb-4 mt-4">Select Services</h2>
-        {{ service_formset.management_form }}
-        {% for form in service_formset %}
-            <div class="service-form">
-                {{ form|crispy}}
-            </div>
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit">Show available time slots</button>
+</form>
+
+{% if available_time_slots %}
+<h2>Available Time Slots:</h2>
+<form method="post" action="{% url 'add_to_cart' service_id=selected_service.id %}">
+    {% csrf_token %}
+    <ul>
+        {% for time_slot in available_time_slots %}
+        <li>
+            <input type="radio" name="selected_time_slot" value="{{ time_slot.id }}">
+            <label>{{ time_slot.time }}</label>
+        </li>
         {% endfor %}
-        <button type="submit">Book Now</button>
-    </form>
-    </div>
-    </div>
-    </div>
-    {% endblock %}
+    </ul>
+    <input type="hidden" name="service_id" value="{{ selected_service.id }}">
+    <input type="hidden" name="selected_date_and_time" value="{{ selected_date_and_time }}">
+    <button type="submit">Add to Cart</button>
+</form>
+{% endif %}
+
+
+{% endblock %}

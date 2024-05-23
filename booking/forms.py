@@ -1,26 +1,28 @@
 from django import forms
-from .models import SpaBooking, SpaBookingServices
-from django.forms import inlineformset_factory
+from booking.models import SpaService
+from django.forms import formset_factory
 
 
-class SpaBookingForm(forms.ModelForm):
-    class Meta:
-        model = SpaBooking
-        fields = ['customer_name', 'email', 'phone_number', 'date_and_time']
+class ServiceBookingForm(forms.Form):
+    service = forms.ModelChoiceField(
+        queryset=SpaService.objects.all(), empty_label="Select a service"
+    )
+    date_and_time = forms.DateTimeField(
+        widget=forms.DateTimeInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Select date and time",
+                "type": "datetime-local",
+            }
+        )
+    )
+    quantity = forms.IntegerField(
+        min_value=1,
+        initial=1,
+        widget=forms.NumberInput(
+            attrs={"class": "form-control", "placeholder": "Quantity"}
+        ),
+    )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['date_and_time'].widget = forms.DateTimeInput(attrs={
-            'class': 'formInputs',
-            'placeholder': 'Select date and time',
-            'type': 'datetime-local'
-        })
 
-class SpaBookingServicesForm(forms.ModelForm):
-    class Meta:
-        model = SpaBookingServices
-        fields = ['spa_service', 'quantity']
-
-SpaBookingServicesFormSet = inlineformset_factory(
-    SpaBooking, SpaBookingServices, form=SpaBookingServicesForm, extra=1, can_delete=True
-)
+ServiceBookingFormSet = formset_factory(ServiceBookingForm, extra=1)
