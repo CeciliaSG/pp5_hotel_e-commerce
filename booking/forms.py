@@ -12,7 +12,7 @@ class ServiceBookingForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Select date and time",
-                "type": "datetime-local",
+                "type": "date",
             }
         )
     )

@@ -7,6 +7,7 @@ from services.models import Availability
 
 # Create your views here.
 
+
 def book_spa_service(request):
     available_time_slots = []
     selected_service = None
@@ -17,7 +18,6 @@ def book_spa_service(request):
         if form.is_valid():
             selected_service = form.cleaned_data["service"]
             selected_date_and_time = form.cleaned_data["date_and_time"]
-
             availability = Availability.objects.filter(
                 spa_service=selected_service,
                 specific_dates__date=selected_date_and_time.date(),
