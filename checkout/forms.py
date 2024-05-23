@@ -4,7 +4,7 @@ from booking.models import SpaBooking
 class SpaBookingForm(forms.ModelForm):
     class Meta:
         model = SpaBooking
-        fields = ['customer_name', 'email', 'phone_number', 'date_and_time']
+        fields = ['customer_name', 'email', 'phone_number']
 
     def __init__(self, *args, **kwargs):
 
@@ -15,10 +15,3 @@ class SpaBookingForm(forms.ModelForm):
         'phone_number': 'Phone Number',
         }
 
-        self.fields["date_and_time"].widget = forms.DateTimeInput(
-            attrs={
-                "class": "formInputs",
-                "placeholder": "Select date and time",
-                "type": "datetime-local",
-            }
-        )
