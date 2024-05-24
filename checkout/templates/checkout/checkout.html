@@ -13,15 +13,12 @@
             <ul>
                 {% for cart_service in cart_services %}
                 <li>
-                    {{ cart_service.service.name }} (Quantity: {{ cart_service.quantity }})
+                    {{ cart_service.service.name }} {{ cart_service.selected_date_and_time }}
                     Total Price: ${{ cart_service.total_price }}
                 </li>
                 {% endfor %}
             </ul>
             <p>Total Price: ${{ total_price }}</p>
-
-
-
             <form method="post" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 {{ spa_booking_form | crispy }}

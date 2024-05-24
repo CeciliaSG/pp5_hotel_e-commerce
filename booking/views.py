@@ -7,7 +7,6 @@ from services.models import Availability
 
 # Create your views here.
 
-
 def book_spa_service(request):
     available_time_slots = []
     selected_service = None

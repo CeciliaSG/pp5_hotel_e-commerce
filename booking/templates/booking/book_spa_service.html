@@ -5,7 +5,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<div>
+    <button id="cartModalButton" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">View Cart</button>
+</div>
+<h1 class="h4">Create your booking:</h1>
 <form method="post">
     {% csrf_token %}
     {{ form | crispy }}
@@ -19,7 +22,7 @@
     <ul>
         {% for time_slot in available_time_slots %}
         <li>
-            <input type="radio" name="selected_time_slot" value="{{ time_slot.id }}">
+            <input type="radio" name="selected_time_slot" value="{{ time_slot.id }}" required>
             <label>{{ time_slot.time }}</label>
         </li>
         {% endfor %}

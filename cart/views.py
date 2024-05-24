@@ -13,7 +13,13 @@ def add_to_cart(request, service_id=None):
     selected_service = get_object_or_404(SpaService, pk=service_id)
 
     cart = request.session.get("cart", {})
-    service_key = str(selected_service.id)
+    #service_key = str(selected_service.id)
+
+    selected_date_and_time = request.POST.get("selected_date_and_time")
+    if not selected_date_and_time:
+        return HttpResponseBadRequest("Date and time are required")
+
+    service_key = f"{selected_service.id}_{selected_date_and_time}"
 
     if service_key in cart:
         cart[service_key]["quantity"] += 1
@@ -23,10 +29,10 @@ def add_to_cart(request, service_id=None):
             "spa_service": selected_service.name,
             "quantity": 1,
             "spa_service_total": str(selected_service.price),
+            "selected_date_and_time": selected_date_and_time,
         }
 
     request.session["cart"] = cart
-
     return redirect("view_cart")
 
 

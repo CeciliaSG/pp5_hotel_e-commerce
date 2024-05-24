@@ -5,6 +5,8 @@ from .forms import SpaBookingForm
 import uuid
 from booking.models import SpaBookingServices
 from services.models import SpaService
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 # Create your views here.
@@ -19,14 +21,22 @@ def checkout(request):
 
     cart_services = []
     total_price = 0
-    for service_id, service_data in cart.items():
-        service = SpaService.objects.get(pk=service_id)
+    for unique_key, service_data in cart.items():
+        try:    
+            service_id, selected_date_and_time = unique_key.split('_')            
+            service = SpaService.objects.get(pk=service_id)
+        except ObjectDoesNotExist:
+            messages.error(request, f"The service with ID {service_id} does not exist.")
+            continue
+
         quantity = service_data.get('quantity', 0)
         total_price += service.price * quantity
         cart_services.append({
             'service': service,
             'quantity': quantity,
-            'total_price': service.price * quantity
+            'total_price': service.price * quantity,
+            "selected_date_and_time": service_data.get("selected_date_and_time", "N/A"),
+
         })
 
     spa_booking_form = SpaBookingForm()
