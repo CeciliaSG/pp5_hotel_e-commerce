@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponseBadRequest
 from booking.models import SpaBookingServices, SpaBooking, SpaService
 from decimal import Decimal
+from booking.forms import TimeSlotSelectionForm
 
 # Create your views here.
 
@@ -12,29 +13,40 @@ def add_to_cart(request, service_id=None):
 
     selected_service = get_object_or_404(SpaService, pk=service_id)
 
-    cart = request.session.get("cart", {})
-    #service_key = str(selected_service.id)
+    if request.method == "POST":
+        time_slot_form = TimeSlotSelectionForm(request.POST)
+        if time_slot_form.is_valid():
+            selected_time_slot = time_slot_form.cleaned_data["selected_time_slot"]
+            selected_date = request.POST.get("selected_date")
+            quantity = request.POST.get("quantity")
 
-    selected_date_and_time = request.POST.get("selected_date_and_time")
-    if not selected_date_and_time:
-        return HttpResponseBadRequest("Date and time are required")
+            if not selected_date:
+                return HttpResponseBadRequest("Date is required")
 
-    service_key = f"{selected_service.id}_{selected_date_and_time}"
+            if not quantity:
+                return HttpResponseBadRequest("Quantity is required")
 
-    if service_key in cart:
-        cart[service_key]["quantity"] += 1
+            spa_service_total = selected_service.price
 
-    else:
-        cart[service_key] = {
-            "spa_service": selected_service.name,
-            "quantity": 1,
-            "spa_service_total": str(selected_service.price),
-            "selected_date_and_time": selected_date_and_time,
-        }
+            cart = request.session.get("cart", {})
+            service_key = f"{selected_service.id}_{selected_date}_{selected_time_slot.time}"
 
-    request.session["cart"] = cart
-    return redirect("view_cart")
+            if service_key in cart:
+                cart[service_key]["quantity"] += int(quantity)
+            else:
+                cart[service_key] = {
+                    "spa_service": selected_service.name,
+                    "quantity": int(quantity),
+                    "spa_service_total": str(spa_service_total),
+                    "selected_date": selected_date,
+                    "selected_time": selected_time_slot.time,
+                }
 
+            request.session["cart"] = cart
+            return redirect("view_cart")
+
+    return HttpResponseBadRequest("Invalid request")
+    
 
 def update_cart(request, service_id):
     if request.method == "POST":

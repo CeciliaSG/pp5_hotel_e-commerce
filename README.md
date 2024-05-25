@@ -10,3 +10,7 @@ https://stackoverflow.com/questions/68382186/django-add-form-validation-to-inlin
 https://stackoverflow.com/questions/62315482/django-day-and-time-picker/62316055#62316055
 
 https://stackoverflow.com/questions/54825483/combine-django-filter-datetimefromtorangefilter-and-datetimeinputdatepicker
+
+https://nancylin.xyz/how-to-implement-date-time-picker-in-django-without-javascript/
+
+https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html

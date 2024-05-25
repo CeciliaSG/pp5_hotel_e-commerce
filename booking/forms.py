@@ -1,19 +1,19 @@
 from django import forms
-from booking.models import SpaService
-from django.forms import formset_factory
+from django.forms import fields
+from django.forms.widgets import DateInput
+from services.models import SpaService, TimeSlot
 
 
 class ServiceBookingForm(forms.Form):
     service = forms.ModelChoiceField(
         queryset=SpaService.objects.all(), empty_label="Select a service"
     )
-    date_and_time = forms.DateTimeField(
-        widget=forms.DateTimeInput(
+    date = forms.DateField(
+        widget=DateInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Select date and time",
-                 "type": "date",
-                 "required": True
+                "placeholder": "Select date",
+                "required": True
             }
         )
     )
@@ -25,5 +25,7 @@ class ServiceBookingForm(forms.Form):
         ),
     )
 
-
-ServiceBookingFormSet = formset_factory(ServiceBookingForm, extra=1)
+class TimeSlotSelectionForm(forms.Form):
+    selected_time_slot = forms.ModelChoiceField(
+        queryset=TimeSlot.objects.none(), empty_label=None, widget=forms.RadioSelect
+    )

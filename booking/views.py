@@ -1,39 +1,42 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.shortcuts import render
-from .forms import ServiceBookingForm
-from .models import SpaService
-from services.models import Availability
-
-
-# Create your views here.
+from django.http import HttpResponseBadRequest
+from .forms import ServiceBookingForm, TimeSlotSelectionForm
+from services.models import SpaService, Availability, TimeSlot
+#from django.forms.widgets import DateInput
 
 def book_spa_service(request):
+    form = ServiceBookingForm()
+    time_slot_form = TimeSlotSelectionForm()
+    #selected_service = None
+    #selected_date = None
+    quantity = None
     available_time_slots = []
-    selected_service = None
-    selected_date_and_time = None
 
     if request.method == "POST":
         form = ServiceBookingForm(request.POST)
         if form.is_valid():
-            selected_service = form.cleaned_data["service"]
-            selected_date_and_time = form.cleaned_data["date_and_time"]
-            availability = Availability.objects.filter(
-                spa_service=selected_service,
-                specific_dates__date=selected_date_and_time.date(),
-            ).first()
-            if availability:
-                available_time_slots = availability.time_slots.all()
-    else:
-        form = ServiceBookingForm()
+            selected_service = form.cleaned_data.get("spa_service")
+            selected_date = form.cleaned_data.get("date")
+            quantity = form.cleaned_data.get("quantity")
+            selected_service_id = request.POST.get('service')
+            selected_service = get_object_or_404(SpaService, pk=selected_service_id)
+
+            if selected_service and selected_date:
+                available_time_slots = TimeSlot.objects.filter(availability__spa_service=selected_service, availability__specific_dates__date=selected_date)
+
+
+            print("Available Time Slots:", available_time_slots)
+            print("Service ID:", selected_service.id if selected_service else None)
 
     return render(
         request,
         "booking/book_spa_service.html",
         {
             "form": form,
-            "available_time_slots": available_time_slots,
+            "time_slot_form": time_slot_form,
             "service_id": selected_service.id if selected_service else None,
-            "selected_service": selected_service,
-            "selected_date_and_time": selected_date_and_time,
+            "selected_date": selected_date,
+            "quantity": quantity,
+            "available_time_slots": available_time_slots,
         },
     )
