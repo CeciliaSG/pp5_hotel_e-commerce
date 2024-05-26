@@ -26,7 +26,7 @@ def add_to_cart(request, service_id=None):
             if not quantity:
                 return HttpResponseBadRequest("Quantity is required")
 
-            spa_service_total = selected_service.price
+            spa_service_total = selected_service.price if selected_service.price else 0
 
             cart = request.session.get("cart", {})
             service_key = f"{selected_service.id}_{selected_date}_{selected_time_slot.time}"

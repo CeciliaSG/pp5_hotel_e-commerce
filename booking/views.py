@@ -7,10 +7,11 @@ from services.models import SpaService, Availability, TimeSlot
 def book_spa_service(request):
     form = ServiceBookingForm()
     time_slot_form = TimeSlotSelectionForm()
-    #selected_service = None
-    #selected_date = None
+    selected_service = None
+    selected_date = None
     quantity = None
     available_time_slots = []
+    price = None
 
     if request.method == "POST":
         form = ServiceBookingForm(request.POST)
@@ -18,15 +19,19 @@ def book_spa_service(request):
             selected_service = form.cleaned_data.get("spa_service")
             selected_date = form.cleaned_data.get("date")
             quantity = form.cleaned_data.get("quantity")
+            #price = selected_service.price
             selected_service_id = request.POST.get('service')
             selected_service = get_object_or_404(SpaService, pk=selected_service_id)
+
+            if selected_service:
+                price = selected_service.price
 
             if selected_service and selected_date:
                 available_time_slots = TimeSlot.objects.filter(availability__spa_service=selected_service, availability__specific_dates__date=selected_date)
 
 
-            print("Available Time Slots:", available_time_slots)
-            print("Service ID:", selected_service.id if selected_service else None)
+            #print("Available Time Slots:", available_time_slots)
+            #print("Service ID:", selected_service.id if selected_service else None)
 
     return render(
         request,
@@ -38,5 +43,6 @@ def book_spa_service(request):
             "selected_date": selected_date,
             "quantity": quantity,
             "available_time_slots": available_time_slots,
+            "price": price,
         },
     )
