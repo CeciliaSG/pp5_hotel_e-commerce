@@ -29,10 +29,6 @@ def book_spa_service(request):
             if selected_service and selected_date:
                 available_time_slots = TimeSlot.objects.filter(availability__spa_service=selected_service, availability__specific_dates__date=selected_date)
 
-
-            #print("Available Time Slots:", available_time_slots)
-            #print("Service ID:", selected_service.id if selected_service else None)
-
     return render(
         request,
         "booking/book_spa_service.html",

@@ -131,9 +131,9 @@ def view_cart(request):
                 try:
                     service_total = Decimal(details["spa_service_total"]) * details["quantity"]
                     total_cost += service_total
+
                     #time_slot = TimeSlot.objects.get(pk=details["selected_time_slot_id"])
-                    #selected_time = time_slot.time
-                    #logger.debug(f"Selected time: {selected_time}")
+                    #selected_time = time_slot.time.strftime("%H:%M")
 
                     services.append(
                         {
