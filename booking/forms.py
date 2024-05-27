@@ -27,5 +27,7 @@ class ServiceBookingForm(forms.Form):
 
 class TimeSlotSelectionForm(forms.Form):
     selected_time_slot = forms.ModelChoiceField(
-        queryset=TimeSlot.objects.none(), empty_label=None, widget=forms.RadioSelect
+        queryset=TimeSlot.objects.all(), empty_label=None, widget=forms.RadioSelect
     )
+    def __str__(self):
+        return "TimeSlotSelectionForm"

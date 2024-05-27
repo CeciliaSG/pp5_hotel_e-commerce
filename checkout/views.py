@@ -4,12 +4,14 @@ from django.urls import reverse
 from .forms import SpaBookingForm
 import uuid
 from booking.models import SpaBookingServices
-from services.models import SpaService
+from services.models import SpaService,TimeSlot
 from django.core.exceptions import ObjectDoesNotExist
-
+import logging
 
 
 # Create your views here.
+
+logger = logging.getLogger(__name__)
 
 def checkout(request):
     cart = request.session.get('cart', {})
@@ -23,10 +25,16 @@ def checkout(request):
     total_price = 0
     for unique_key, service_data in cart.items():
         try:    
-            service_id, selected_date_and_time = unique_key.split('_')            
+            service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+            time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
+            selected_time = time_slot.time.strftime("%H:%M")
             service = SpaService.objects.get(pk=service_id)
         except ObjectDoesNotExist:
             messages.error(request, f"The service with ID {service_id} does not exist.")
+            continue
+        except ValueError as e:
+            logger.error(f"Error processing cart item: {e}")
+            messages.error(request, f"Invalid format for cart item key: {e}")
             continue
 
         quantity = service_data.get('quantity', 0)
@@ -35,8 +43,9 @@ def checkout(request):
             'service': service,
             'quantity': quantity,
             'total_price': service.price * quantity,
-            "selected_date_and_time": service_data.get("selected_date_and_time", "N/A"),
-
+            'selected_date': selected_date,
+            'selected_time': selected_time,
+            'selected_time_slot_id': selected_time_slot_id,
         })
 
     spa_booking_form = SpaBookingForm()

@@ -7,7 +7,7 @@
 <table>
     <tr>
         <th>Service</th>
-        <th>Date and Time</th>
+        <th>Date & Time</th>
         <th>Quantity</th>
         <th>Total</th>
         <th>Actions</th>
@@ -15,7 +15,7 @@
     {% for service in services %}
     <tr>
         <td>{{ service.spa_service }}</td>
-        <td>{{ service.selected_date_and_time }}</td>
+        <td>{{ service.selected_date }} at {{ service.selected_time }}</td>
         <td>
             <form action="{% url 'update_cart' service.id %}" method="post">
                 {% csrf_token %}

@@ -7,16 +7,21 @@
 <div class="section container form-container my-5 pb-5">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="h2">Checkout and Pay</h1>
+            <h1 class="h2">Checkout & Pay</h1>
             <p>Booking ID: {{ booking_id }}</p>
 
             <ul>
                 {% for cart_service in cart_services %}
                 <li>
-                    {{ cart_service.service.name }} {{ cart_service.selected_date_and_time }}
+                    {{ cart_service.service.name }}
+                    Date: {{ cart_service.selected_date }},
+                    Time: {{ cart_service.selected_time }},
+                    Quantity: {{ cart_service.quantity }}
+                    Time Slot ID: {{ cart_service.selected_time_slot_id }}
                     Total Price: ${{ cart_service.total_price }}
                 </li>
                 {% endfor %}
+            </ul>
             </ul>
             <p>Total Price: ${{ total_price }}</p>
             <form method="post" action="{% url 'checkout' %}">
