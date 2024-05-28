@@ -4,25 +4,30 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container form-container">
-    <div class="row">
+<div class="container form-container mt-5">
+    <div class="row justify-content-center">
         <div class="col-md-9 col-lg-6">
-            <h1 class="h2">Checkout & Pay</h1>
-            <p>Booking ID: {{ booking_id }}</p>
-            <ul>
+            <hr>
+            <h1 class="h2 text-center">Checkout & Pay</h1>
+            <hr>
+            <ul class="list-group">
+                <li>Booking ID: {{ booking_id }}</li>
                 {% for cart_service in cart_services %}
                 <li>
                     {{ cart_service.service.name }}
+                </li>
+                <li>
                     Date: {{ cart_service.selected_date }},
+                </li>
+                <li>
                     Time: {{ cart_service.selected_time }},
+                </li>
+                <li>
                     Quantity: {{ cart_service.quantity }}
-                    <!--Time Slot ID: {{ cart_service.selected_time_slot_id }}-->
-                    Total Price: ${{ cart_service.total_price }}
                 </li>
                 {% endfor %}
             </ul>
-            </ul>
-            <p>Total Price: ${{ total_price }}</p>
+            <p><strong>Total Price: ${{ total_price }}</strong></p>
             <form method="post" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 {{ spa_booking_form | crispy }}

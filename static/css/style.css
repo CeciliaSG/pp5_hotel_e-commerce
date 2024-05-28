@@ -51,7 +51,7 @@ main {
     color: #538991;
     position: fixed;
     margin-top: 30px;
-    margin-left: 60px;
+    margin-left: 40px;
     z-index: 1001; 
 }
 
@@ -76,11 +76,11 @@ main {
 }
 
 .separator {
-      width: 100%;
-      height: 1px;
-      background-color: white;
-      margin: 10px 0;
-    }
+    width: 100%;
+    height: 1px;
+    background-color: white;
+    margin: 10px 0;
+}
 
 .social-media-symbols{
     color: white;
@@ -88,10 +88,9 @@ main {
     margin-top: 10px;
 }
 
- .navbar-nav .nav-item .nav-link:hover {
-      color: #538991; 
-    }
-
+.navbar-nav .nav-item .nav-link:hover {
+    color: #538991; 
+}
 
 
 /* Override Bootstrap's gutter spacing for containers */
@@ -99,8 +98,8 @@ main {
     --bs-gutter-x: 0 !important;
     --bs-gutter-y: 0;
     width: 100%;
-    padding-right: calc(var(--bs-gutter-x)* .5);
-    padding-left: calc(var(--bs-gutter-x)* .5);
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
     margin-right: auto;
     margin-left: auto;
 }
@@ -113,27 +112,24 @@ main {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    /*align-items: center;*/
     text-align: center;
     padding: 10px;
 }
 
-.bg-color-section-heading{
+.bg-color-section-heading {
     height: 40px;
     color: #538991 ;
 }
 
-
-
-.form-container{
+.form-container {
 
 }
 
-.row{
+.row {
     margin: 0;
 }
 
-.bg-landing-section{
+.bg-landing-section {
     background-image: url('../images/laura-chouette-te8u5ngLwBg-unsplash.jpg');
     background-size: cover;
     background-position: center;
@@ -154,12 +150,12 @@ main {
     max-height: 340px;
 }
 
-.card-image-container{
+.card-image-container {
     width: 100%;
     margin: 0;
 }
 
-.card-img-top{
+.card-img-top {
     border-radius: 0 !important;
 }
 
@@ -183,9 +179,9 @@ main {
 }
 
 .navbar-button {
-      position: absolute;
-      z-index: 1000;
-    }
+    position: absolute;
+    z-index: 1000;
+}
 
 .container-fluid {
     padding-left: 0;
@@ -198,6 +194,30 @@ main {
 
 .form-control-sm {
     width: auto;
+}
+
+/* Styling buttons */
+
+button {
+    border: none;
+}
+
+button, .btn {
+    background-color: #538991;
+    border-radius: 0;
+}
+
+a.btn {
+    background-color: #538991;
+    border-radius: 0;
+    border: none;
+}
+
+
+button.btn.btn-sm {
+    background-color: #538991;
+    border-radius: 0;
+    border: none;
 }
 
 /* Footer */
@@ -233,15 +253,16 @@ footer {
         white-space: nowrap;
     }
 
-    .table thead, .table tbody, .table tr, .table td, .table th
+    .table thead, .table tbody, .table tr, .table td, .table th {
+        display: block; 
+    }
 }
 
 /* Media Screens */
 
 @media (min-width: 768px) {
-
     main {
-    flex: 1 0 auto;
-    padding-bottom: 100px; 
-}
+        flex: 1 0 auto;
+        padding-bottom: 100px; 
+    }
 }
