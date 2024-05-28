@@ -87,20 +87,20 @@ def view_cart(request):
     services = []
     total_cost = Decimal("0.00")
 
-    for service_id, details in cart.items():
+    #for service_id, details in cart.items():
         #try:
             #service_total = Decimal(details["spa_service_total"]) * details["quantity"]
             #total_cost += service_total
 
-            for service_id, details in cart.items():
-                try:
-                    service_total = Decimal(details["spa_service_total"]) * details["quantity"]
-                    total_cost += service_total
+    for service_id, details in cart.items():
+        try:
+            service_total = Decimal(details["spa_service_total"]) * details["quantity"]
+            total_cost += service_total
 
                     #time_slot = TimeSlot.objects.get(pk=details["selected_time_slot_id"])
                     #selected_time = time_slot.time.strftime("%H:%M")
 
-                    services.append(
+            services.append(
                         {
                             "id": service_id,
                             "spa_service": details["spa_service"],
@@ -112,9 +112,9 @@ def view_cart(request):
                             "selected_time_slot_id": details.get("selected_time_slot.id"),
                         }
             )
-                except KeyError as e:
+        except KeyError as e:
                     print(f"Missing key in cart session data: {e}")
-                except TimeSlot.DoesNotExist:
+        except TimeSlot.DoesNotExist:
                     print(f"TimeSlot with id {details.get('selected_time_slot_id')} does not exist.")    
 
     context = {

@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5 mb-2">
     <div class="row mx-2 justify-content-center">
         <div class="col-lg-4 col-sm-12">
             <hr>
@@ -39,9 +39,9 @@
                         </div>
                         <div><strong>Total:</strong> SEK{{ service.spa_service_total }}</div>
                         <div>
-                            <a href="{% url 'remove_from_cart' service.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            <a href="{% url 'remove_from_cart' service.id %}" class="btn btn-danger btn-sm">Remove
+                                service</a>
                         </div>
-                        <a href="{% url 'book_spa_service' %}" class="btn add-more-button">Add More Services</a>
                     </div>
                     {% endfor %}
                 </div>
