@@ -9,38 +9,15 @@ import logging
 
 
 # Create your views here.
-logger = logging.getLogger(__name__)
 
 def add_to_cart(request, service_id=None):
-    logger.debug("Received request data:")
-    logger.debug(f"Service ID: {service_id}")
-    logger.debug(f"Request method: {request.method}")
-    logger.debug(f"Request POST data: {request.POST}")
-    logger.debug(f"Request GET data: {request.GET}")
 
     if service_id is None:
         return HttpResponseBadRequest("Service ID is required")
 
-    logger.debug("Received request data_2:")
-    logger.debug(f"Service ID: {service_id}")
-    logger.debug(f"Request method: {request.method}")
-    logger.debug(f"Request POST data: {request.POST}")
-    logger.debug(f"Request GET data: {request.GET}")
-
     selected_service = get_object_or_404(SpaService, pk=service_id)
 
-    logger.debug("Received request data_3:")
-    logger.debug(f"Service ID: {service_id}")
-    logger.debug(f"Request method: {request.method}")
-    logger.debug(f"Request POST data: {request.POST}")
-    logger.debug(f"Request GET data: {request.GET}")
-
     if request.method == "POST":
-        logger.debug("Received request data_4:")
-        logger.debug(f"Service ID: {service_id}")
-        logger.debug(f"Request method: {request.method}")
-        logger.debug(f"Request POST data: {request.POST}")
-        logger.debug(f"Request GET data: {request.GET}")
 
         time_slot_form = TimeSlotSelectionForm(request.POST)
         if not time_slot_form.is_valid():
@@ -53,18 +30,6 @@ def add_to_cart(request, service_id=None):
             selected_date = request.POST.get("selected_date")
             quantity = request.POST.get("quantity")
             price = request.POST.get("price")
-
-            logger.debug("Received request data_5:")
-            logger.debug(f"Service ID: {service_id}")
-            logger.debug(f"Request method: {request.method}")
-            logger.debug(f"Request POST data: {request.POST}")
-            logger.debug(f"Request GET data: {request.GET}")
-
-
-            logger.debug(f"Selected time slot: {selected_time_slot}")
-            logger.debug(f"Selected date: {selected_date}")
-            logger.debug(f"Quantity: {quantity}")
-            logger.debug(f"Price: {price}")
 
             if not selected_date:
                 return HttpResponseBadRequest("Date is required")

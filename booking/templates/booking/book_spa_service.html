@@ -4,38 +4,41 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div>
-    <button id="cartModalButton" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">View Cart</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="h4">Create your booking:</h1>
+            <form method="post" action="{% url 'book_spa_service' %}">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit">Show available time slots</button>
+            </form>
+
+            {% if service_id and available_time_slots %}
+            <form method="post" action="{% url 'add_to_cart' service_id=service_id %}">
+                {% csrf_token %}
+                <h2>Available Time Slots:</h2>
+                <ul>
+                    {% for time_slot in available_time_slots %}
+                    <li>
+                        <input type="radio" id="time_slot_{{ time_slot.id }}" name="selected_time_slot"
+                            value="{{ time_slot.id }}">
+                        <label for="time_slot_{{ time_slot.id }}">{{ time_slot }}</label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <input type="hidden" name="service_id" value="{{ service_id }}">
+                <input type="hidden" name="selected_date" value="{{ selected_date }}">
+                <input type="hidden" name="price" value="{{ time_slot.id }}">
+                <input type="hidden" name="quantity" value="{{ quantity }}">
+                <input type="hidden" name="price" value="{{ price }}">
+
+                <button type="submit">Add to Cart</button>
+            </form>
+            {% elif service_id %}
+            <p>No available time slots.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
-<h1 class="h4">Create your booking:</h1>
-<form method="post" action="{% url 'book_spa_service' %}">
-    {% csrf_token %}
-    {{ form | crispy }}
-    <button type="submit">Show available time slots</button>
-</form>
-
-
-{% if service_id and available_time_slots %}
-<form method="post" action="{% url 'add_to_cart' service_id=service_id %}">
-    {% csrf_token %}
-    <h2>Available Time Slots:</h2>
-    <ul>
-        {% for time_slot in available_time_slots %}
-        <li>
-            <input type="radio" id="time_slot_{{ time_slot.id }}" name="selected_time_slot" value="{{ time_slot.id }}">
-            <label for="time_slot_{{ time_slot.id }}">{{ time_slot }}</label>
-        </li>
-        {% endfor %}
-    </ul>
-    <input type="hidden" name="service_id" value="{{ service_id }}">
-    <input type="hidden" name="selected_date" value="{{ selected_date }}">
-    <input type="hidden" name="price" value="{{ time_slot.id }}">
-    <input type="hidden" name="quantity" value="{{ quantity }}">
-    <input type="hidden" name="price" value="{{ price }}">
-
-    <button type="submit">Add to Cart</button>
-</form>
-{% elif service_id %}
-<p>No available time slots.</p>
-{% endif %}
 {% endblock %}

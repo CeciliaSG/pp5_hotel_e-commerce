@@ -11,8 +11,7 @@ function openOverlay(event) {
             return response.text();
         })
         .then(data => {
-            console.log("Fetched cart data:", data); 
-            document.getElementById("modal").innerHTML = data;
+            document.getElementById("modal").innerHTML = data + '<button onclick="closeOverlay()" class="close-btn">Close</button>';
         })
         .catch(error => {
             console.error('Error:', error);

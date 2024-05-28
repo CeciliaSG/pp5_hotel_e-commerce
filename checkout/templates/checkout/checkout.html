@@ -4,12 +4,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="section container form-container my-5 pb-5">
+<div class="container form-container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9 col-lg-6">
             <h1 class="h2">Checkout & Pay</h1>
             <p>Booking ID: {{ booking_id }}</p>
-
             <ul>
                 {% for cart_service in cart_services %}
                 <li>

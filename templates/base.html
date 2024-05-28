@@ -25,18 +25,16 @@
 </head>
 
 <body>
-  <!-- <header class="container-fluid fixed-top"></header>-->
   {% if messages %}
   <div class="message-container"></div>
   {% endif %}
 
   {% block page_header %}
   <!-- Navbar -->
-  <!--<nav class="navbar">-->
-  <nav>
-    <button class="btn btn-primary navbar-button" type="button" data-bs-toggle="collapse"
-      data-bs-target="#collapseNavbar" aria-expanded="false" aria-controls="collapseNavbar">
-      <i class="bi bi-list"></i>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="btn navbar-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar"
+      aria-expanded="false" aria-controls="collapseNavbar">
+      <i class="bi bi-list">Menu</i>
     </button>
 
     <div class="collapse collapse-horizontal justify-content-center" id="collapseNavbar">
@@ -49,8 +47,11 @@
             <li class="nav-item"><a class="nav-link" href="#about">About the Spa</a></li>
             <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
             <li class="nav-item"><a class="nav-link" href="#book">Prices & Booking</a></li>
-            <li class="nav-item"><a class="nav-link" href="#checkout">Checkout</a></li>
-            <li><a href="{% url 'view_cart' %}" class="btn btn-primary" onclick="openOverlay(event)">View Cart</a></li>
+            <li class="nav-item"><a href="{% url 'view_cart' %}" class="nav-link">Cart</a></li>
+            <li class="nav-item"><a href="{% url 'checkout' %}" class="nav-link">Checkout</a></li>
+
+
+            <!--<li><a href="{% url 'view_cart' %}" class="btn btn-primary" onclick="openOverlay(event)">View Cart</a></li>-->
 
           </div>
           <div class="col text-left">
@@ -67,13 +68,14 @@
         <div class="social-media-symbols">social media</div>
       </ul>
     </div>
+
   </nav>
 
   {% endblock %}
 
   <!-- Main Content -->
   <main style="margin: 0;">
-    <div class="content" style="margin: 0;">
+    <div class="content mx-2" style="margin: 0;">
       {% block content %}
       {% endblock %}
     </div>
