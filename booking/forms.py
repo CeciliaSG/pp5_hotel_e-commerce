@@ -1,10 +1,27 @@
 from django import forms
-from django.forms import fields
-from django.forms.widgets import DateInput
+from .models import SpaBooking
 from services.models import SpaService, TimeSlot
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
-class ServiceBookingForm(forms.Form):
+class ServiceBookingForm(forms.ModelForm):
+    class Meta:
+        model = SpaBooking
+        fields = ['service', 'date', 'quantity']
+        widgets = {
+            'date': DateInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Select date",
+                    "required": True
+                }
+            ),
+            'quantity': forms.NumberInput(
+                attrs={"class": "form-control", "placeholder": "Quantity"}
+            ),
+        }
+
     service = forms.ModelChoiceField(
         queryset=SpaService.objects.all(), empty_label="Select a service"
     )
