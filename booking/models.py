@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 import uuid
 from services.models import SpaService
+from django.db.models import Sum
 
 # Create your models here.
 
@@ -22,7 +23,7 @@ class SpaBooking(models.Model):
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
     date_and_time = models.DateTimeField()
-    booking_date = models.DateTimeField()
+    booking_date = models.DateTimeField(auto_now_add=True)
     booking_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
 
@@ -81,10 +82,10 @@ class SpaBookingServices(models.Model):
         spa_booking (SpaBooking): The spa booking associated with this service.
     """
 
-    spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
+    spa_service = models.ForeignKey(SpaService, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     spa_service_total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
-    spa_booking = models.ForeignKey('SpaBooking', related_name='spa_booking_services', on_delete=models.CASCADE)
+    spa_booking = models.ForeignKey('SpaBooking', related_name='spa_booking_services', null=False, blank=False, on_delete=models.CASCADE)
 
 
     def save(self, *args, **kwargs):

@@ -12,6 +12,7 @@ def book_spa_service(request):
     quantity = None
     available_time_slots = []
     price = None
+    is_access = None
 
     if request.method == "POST":
         form = ServiceBookingForm(request.POST)
@@ -25,6 +26,7 @@ def book_spa_service(request):
 
             if selected_service:
                 price = selected_service.price
+                is_access = selected_service.is_access 
 
             if selected_service and selected_date:
                 available_time_slots = TimeSlot.objects.filter(availability__spa_service=selected_service, availability__specific_dates__date=selected_date)
@@ -40,5 +42,6 @@ def book_spa_service(request):
             "quantity": quantity,
             "available_time_slots": available_time_slots,
             "price": price,
+            "is_access": is_access,
         },
     )

@@ -7,6 +7,7 @@
 
 html, body {
     height: 100%;
+    min-height: 100hv;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -15,7 +16,7 @@ html, body {
 
 main {
     flex: 1 0 auto;
-    padding-bottom: 100px; 
+    padding-bottom: 120px;
 }
 
 .bg-colour-blue {
@@ -43,20 +44,21 @@ main {
     max-width: 400px;
     height: 45%;
     background-color: #191521;
-    padding-top: 20px;
+    padding-top: 0px;
     z-index: 1000;
 }
 
-.navbar-button {
-    color: #538991;
-    position: fixed;
-    margin-top: 30px;
-    margin-left: 40px;
-    z-index: 1001; 
-}
 
 .bi-list {
     color: #191521;
+}
+
+nav {
+    padding: 0;
+}
+
+.navbar {
+--bs-navbar-padding-y: 0;
 }
 
 .navbar-nav.open {
@@ -93,7 +95,7 @@ main {
 }
 
 
-/* Override Bootstrap's gutter spacing for containers */
+/*Override Bootstrap's gutter spacing for containers */
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 0 !important;
     --bs-gutter-y: 0;
@@ -127,6 +129,16 @@ main {
 
 .row {
     margin: 0;
+}
+
+.custom-row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: nowrap !important;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
 }
 
 .bg-landing-section {
@@ -178,22 +190,29 @@ main {
     color: gray;
 }
 
-.navbar-button {
-    position: absolute;
-    z-index: 1000;
-}
 
 .container-fluid {
     padding-left: 0;
     padding-right: 0;
+    height: 100%;
+    padding-bottom: 20px;
 }
 
 .table-responsive {
     overflow-x: auto;
 }
 
+.list-group-item {
+    word-wrap: break-word;
+    font-size: 0.9rem;
+}
+
 .form-control-sm {
     width: auto;
+}
+
+.content-wrapper {
+    margin-bottom: 100px;
 }
 
 /* Styling buttons */
@@ -220,8 +239,22 @@ button.btn.btn-sm {
     border: none;
 }
 
-.content-wrapper {
-    margin-bottom: 100px;
+.btn-close {
+    position: fixed;
+    left: 10px;
+    top: 20px;
+}
+
+.navbar-button {
+    position: fixed;
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    z-index: 1001; 
+}
+
+
 
 /* Footer */
 
@@ -273,5 +306,4 @@ footer {
     footer {
         position: fixed;
     }
-}
 }

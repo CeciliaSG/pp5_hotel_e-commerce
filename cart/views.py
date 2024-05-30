@@ -52,19 +52,36 @@ def add_to_cart(request, service_id=None):
             cart = request.session.get("cart", {})
             service_key = f"{selected_service.id}_{selected_date}_{selected_time_slot.id}"
             
+            if selected_service.is_access:
+                if service_key in cart:
+                    cart[service_key]["quantity"] += int(quantity)
+                else:
+                    cart[service_key] = {
+                        "service_id": selected_service.id,
+                        "spa_service": selected_service.name,
+                        "quantity": int(quantity),
+                        "spa_service_total": str(spa_service_total),
+                        "selected_date": selected_date,
+                        "selected_time": str(selected_time_slot.time),
+                        "selected_time": selected_time_slot.id,
+                        "is_access": selected_service.is_access
+                    }
 
-            if service_key in cart:
-                cart[service_key]["quantity"] += int(quantity)
             else:
-                cart[service_key] = {
-                    "service_id": selected_service.id,
-                    "spa_service": selected_service.name,
-                    "quantity": int(quantity),
-                    "spa_service_total": str(spa_service_total),
-                    "selected_date": selected_date,
-                    "selected_time": str(selected_time_slot.time),
-                    "selected_time": selected_time_slot.id,
-                }
+                if service_key not in cart:
+                    cart[service_key] = {
+                        "service_id": selected_service.id,
+                        "spa_service": selected_service.name,
+                        "quantity": 1,  
+                        "spa_service_total": str(spa_service_total),
+                        "selected_date": selected_date,
+                        "selected_time": str(selected_time_slot.time),
+                        "selected_time_slot_id": selected_time_slot.id,
+                        "is_access": selected_service.is_access
+                    }
+                else:
+                    #return HttpResponseBadRequest("This service cannot be added more than once.")
+                    return redirect("book_spa_service")
 
             request.session["cart"] = cart
             return redirect("view_cart")
@@ -110,6 +127,7 @@ def view_cart(request):
                             #"selected_time": selected_time,
                             "selected_time": details["selected_time"],                    
                             "selected_time_slot_id": details.get("selected_time_slot.id"),
+                            "is_access": details.get("is_access", False)
                         }
             )
         except KeyError as e:

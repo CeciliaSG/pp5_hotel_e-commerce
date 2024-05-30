@@ -4,34 +4,34 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container form-container mt-5">
-    <div class="row justify-content-center">
+<div class="container form-container mt-5 mb-3 mx-4 mx-auto">
+    <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
         <div class="col-md-9 col-lg-6">
             <hr>
             <h1 class="h2 text-center">Checkout & Pay</h1>
             <hr>
             <ul class="list-group">
-                <li>Booking ID: {{ booking_id }}</li>
+                <li class="list-group-item"><strong>Booking ID:</strong> {{ booking_id }}</li>
                 {% for cart_service in cart_services %}
-                <li>
-                    {{ cart_service.service.name }}
+                <li class="list-group-item">
+                    <strong>{{ cart_service.service.name }}</strong>
                 </li>
-                <li>
+                <li class="list-group-item">
                     Date: {{ cart_service.selected_date }},
                 </li>
-                <li>
+                <li class="list-group-item">
                     Time: {{ cart_service.selected_time }},
                 </li>
-                <li>
+                <li class="list-group-item">
                     Quantity: {{ cart_service.quantity }}
                 </li>
                 {% endfor %}
             </ul>
-            <p><strong>Total Price: ${{ total_price }}</strong></p>
+            <p class="mt-3"><strong>Total Price: SEK{{ total_price }}</strong></p>
             <form method="post" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 {{ spa_booking_form | crispy }}
-                <button type="submit">Book Now</button>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Book Now</button>
             </form>
         </div>
     </div>

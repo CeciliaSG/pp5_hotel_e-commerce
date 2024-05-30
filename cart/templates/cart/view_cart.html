@@ -3,100 +3,63 @@
 
 
 {% block content %}
-<div class="container-fluid mt-5 mb-2">
-    <div class="row mx-2 justify-content-center">
-        <div class="col-lg-4 col-sm-12">
+<div class="container-fluid mb-4">
+    <div class="row mx-2">
+        <div class="col-lg-8 offset-lg-2 col-sm-12">
             <hr>
-            <h2 class="logo-font mb-4 text-center">Your Cart</h2>
+            <h2 class="logo-font mb-4">Your Cart</h2>
             <hr>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-lg-4 col-sm-12">
+    <div class="row custom-row pb-5">
+        <div class="col-lg-8 offset-lg-2 col-sm-12">
             {% if services %}
             <div class="table-responsive">
-                <!-- Hidden on large screens, shown on small screens -->
-                <div class="d-block d-lg-none">
-                    {% for service in services %}
-                    <div class="border mb-3 p-2">
-                        <div><strong>Service:</strong> {{ service.spa_service }}</div>
-                        <div><strong>Date & Time:</strong> {{ service.selected_date }} at {{ service.selected_time }}
-                        </div>
-                        <div>
-                            <strong>Quantity:</strong>
-                            <form action="{% url 'update_cart' service.id %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <div class="input-group input-group-sm">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
-                                    <input type="number" name="quantity" value="{{ service.quantity }}" min="1"
-                                        class="form-control form-control-sm" style="max-width: 60px;">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
-                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div><strong>Total:</strong> SEK{{ service.spa_service_total }}</div>
-                        <div>
-                            <a href="{% url 'remove_from_cart' service.id %}" class="btn btn-danger btn-sm">Remove
-                                service</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <!-- Hidden on small screens, shown on large screens -->
-                <div class="d-none d-lg-block">
-                    <table class="table table-sm table-borderless">
-                        <thead class="text-black">
-                            <tr>
-                                <th scope="col">Service</th>
-                                <th scope="col">Date & Time</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for service in services %}
-                            <tr>
-                                <td>{{ service.spa_service }}</td>
-                                <td>{{ service.selected_date }} at {{ service.selected_time }}</td>
-                                <td>
-                                    <form action="{% url 'update_cart' service.id %}" method="post" class="d-inline">
-                                        {% csrf_token %}
-                                        <div class="input-group input-group-sm">
-                                            <button type="button" class="btn mb-2 mb-sm-0 btn-sm"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
-                                            <input type="number" name="quantity" value="{{ service.quantity }}" min="1"
-                                                class="form-control form-control-sm" style="max-width: 60px;">
-                                            <button type="button" class="btn btn-sm"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
-                                            <button type="submit" class="btn btn-sm">Update</button>
-                                        </div>
-                                    </form>
-                                </td>
-                                <td>SEK{{ service.spa_service_total }}</td>
-                                <td>
-                                    <a href="{% url 'remove_from_cart' service.id %}"
-                                        class="btn btn-danger btn-sm">Remove</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-sm table-borderless">
+                    <thead class="text-black">
+                        <tr>
+                            <th scope="col">Service</th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for service in services %}
+                        <tr>
+                            <td>{{ service.spa_service }}</td>
+                            <td>{{ service.selected_date }} at {{ service.selected_time }}</td>
+                            <td>
+                                {% if service.is_access %}
+                                <form action="{% url 'update_cart' service.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" name="quantity" value="{{ service.quantity }}" min="1"
+                                            class="form-control form-control-sm" style="max-width: 60px;">
+                                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                    </div>
+                                </form>
+                                {% else %}
+                                {{ service.quantity }}
+                                {% endif %}
+                            </td>
+                            <td>SEK{{ service.spa_service_total }}</td>
+                            <td>
+                                <a href="{% url 'remove_from_cart' service.id %}"
+                                    class="btn btn-danger btn-sm">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <p>Total Cost: SEK{{ total_cost }}</p>
+            <div class="total-cost mx-2">
+                <p>Total Cost: SEK{{ total_cost }}</p>
+            </div>
             <div class="d-flex flex-column flex-sm-row">
-                <a href="{% url 'clear_cart' %}" class="btn btn-secondary mb-2 mb-sm-0 mx-sm-2 w-100 w-sm-auto">Clear
-                    Cart</a>
-                <a href="{% url 'book_spa_service' %}"
-                    class="btn add-more-button btn-success mb-2 mb-sm-0 mx-sm-0 w-100 w-sm-auto">Add More
-                    Services</a>
-                <a href="{% url 'checkout' %}" class="btn btn-success mb-2 mb-sm-0 mx-sm-2 w-100 w-sm-auto">Proceed to
-                    Checkout</a>
+                <a href="{% url 'clear_cart' %}" class="btn btn-secondary mb-2 mb-sm-0 mx-sm-2">Clear Cart</a>
+                <a href="{% url 'checkout' %}" class="btn btn-success mb-2 mb-sm-0">Proceed to Checkout</a>
             </div>
             {% else %}
             <p>Your cart is empty.</p>
