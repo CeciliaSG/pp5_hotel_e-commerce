@@ -2,14 +2,10 @@
 {% load static %}
 
 {% block content %}
-
 <div class="container-fluid " style="height: 100vh;">
-
   <section class="section bg-landing-section bg-colour-blue" id="home">
     <div class="container">
       <div class="row">
-        <h1>The Spa</h1>
-        <p>Stockholm</p>
       </div>
     </div>
   </section>
@@ -50,28 +46,35 @@
     <div class="container">
       <div class="row">
         <h1 class="section-heading pt-4 pb-5">Prices & Booking</h1>
-        <div>
-          <div class="row">
-            <div class="col-sm-4 col-md-4 col-lg-3 mb-4">
-              <h2 class="h4">Our Spa Services</h2>
-              <div class="card" style="width: 18rem;"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h2 class=" h4 card-title">Our Spa Services</h2>
               <ul class="list-group">
                 {% for service in spa_services %}
                 <li class="list-group-item">
-                  <h3>{{ service.category }}</h3>
+                  <h3 class="h5">{{ service.category }}</h3>
                   {{ service.name }} - {{ service.price }} SEK
-                  <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-                    <button type="submit" name="service_id" value="{{ service.id }}"> Book Now</button>
-                  </form>
                 </li>
                 {% endfor %}
               </ul>
             </div>
           </div>
         </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+          <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
+            <button type="submit" class="book-now-button btn-lg" name="service_id" value="{{ service.id }}"> Book
+              Now</button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
+
+
+
 
   <section class="section bg-section-four bg-colour-blue" id="checkout">
     <div class="container">
