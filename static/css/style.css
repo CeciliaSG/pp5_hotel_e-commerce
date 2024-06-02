@@ -77,6 +77,14 @@ nav {
     text-decoration: none;
 }
 
+.navbar-nav .dropdown-menu{
+    background-color: #2a203d;
+}
+
+.dropdow-item{
+    color: white;
+}
+
 .separator {
     width: 100%;
     height: 1px;
@@ -245,14 +253,12 @@ button.btn.btn-sm {
     top: 20px;
 }
 
-.navbar-button {
-    position: fixed;
-    margin-top: 20px;
-    margin-left: 40px;
-    margin-right: 10px;
-    margin-bottom: 30px;
-    z-index: 1001; 
-}
+  .navbar-button {
+      position: fixed;
+      top: 20px;
+      left: 40px;
+      z-index: 1001; 
+    }
 
 
 

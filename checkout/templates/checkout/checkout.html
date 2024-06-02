@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container form-container mt-5 mb-3 mx-4 mx-auto">
+<div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
     <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
         <div class="col-md-9 col-lg-6">
             <hr>
@@ -27,13 +27,50 @@
                 </li>
                 {% endfor %}
             </ul>
-            <p class="mt-3"><strong>Total Price: SEK{{ total_price }}</strong></p>
-            <form method="post" action="{% url 'checkout' %}">
+            <div class="total-price-checkout">
+                <p class="mt-3"><strong>Total Price: SEK{{ total_price }}</strong></p>
+            </div>
+            <div>
+                <p class="text-muted">Please fill out the form below to complete your booking</p>
+            </div>
+            <form method="post" action="{% url 'checkout' %}" id="payment-form">
                 {% csrf_token %}
                 {{ spa_booking_form | crispy }}
-                <button type="submit" class="btn btn-primary btn-block mt-3">Book Now</button>
+                <div class="form-check form-check-inline float-right mr-0">
+                    {% if user.is_authenticated %}
+                    <label class="form-check-label" for="id-save-info">Save this booking information to my
+                        profile</label>
+                    <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info"
+                        checked>
+                    {% else %}
+                    <label class="form-check-label" for="id-save-info">
+                        <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or
+                        <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+                    </label>
+                    {% endif %}
+                </div>
+                <fieldset class="px-3">
+                    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                    <!-- Stripe -->
+                    <div class="mb-3" id="card-element"></div>
+
+                    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                </fieldset>
+
+                <div class="submit-button text-right mt-5 mb-2">
+                    <a href="{% url 'view_cart' %}" class="btn btn-outline-black rounded-0">
+                        <span class="font-weight-bold">Update cart</span>
+                    </a>
+                    <button id="submit-button" class="btn btn-outline-black rounded-0">
+                        <span class="font-weight-bold">Book now</span>
+                    </button>
+                    <p class="small text-danger my-0">
+                        <span>Your card will be charged <strong>SEK{{ total_price|floatformat:2 }}</strong></span>
+                    </p>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
 {% endblock %}
