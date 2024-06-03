@@ -11,6 +11,7 @@
             <h1 class="h2 text-center">Checkout & Pay</h1>
             <hr>
             <ul class="list-group">
+                <p class="text-muted">Booking Summary ({{ cart_services.count }})</p>
                 <li class="list-group-item"><strong>Booking ID:</strong> {{ booking_id }}</li>
                 {% for cart_service in cart_services %}
                 <li class="list-group-item">
@@ -72,5 +73,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

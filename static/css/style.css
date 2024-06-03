@@ -286,6 +286,13 @@ nav {
     margin-bottom: 10px;
 }  
 
+/* Styling forms */
+
+.booking-id {
+    display: block;
+    width: 100%;
+    overflow-wrap: break-word;
+}
 
 /* Styling buttons */
 
