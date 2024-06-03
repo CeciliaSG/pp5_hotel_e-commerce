@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
+
 
 {% block content %}
 <section class="service-details">
@@ -13,9 +15,9 @@
                 <h2>Service Details</h2>
                 <ul>
                     <li><strong>Category:</strong> {{ service.category }}</li>
-                    <li><strong>Duration:</strong> {{ service.duration }} minutes</li>
+                    <li><strong>Duration:</strong> {{ service.duration|format_duration }}</li>
                     <li><strong>Price:</strong> {{ service.price }} SEK</li>
-                    <li><strong>Employee:</strong> {{ service.employee.name }}</li>
+                    <li><strong>Employee:</strong> {{ service.employee_name }}</li>
                 </ul>
             </div>
         </div>
