@@ -34,7 +34,7 @@
   <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
   <button class="btn navbar-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar"
     aria-expanded="false" aria-controls="collapseNavbar">
-    <i class="bi bi-list">Menu</i>
+    <i class="fa-sharp fa-solid fa-bars"></i>
   </button>
   <div class="collapse collapse-horizontal justify-content-center" id="collapseNavbar">
     <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse"
@@ -89,7 +89,7 @@
           </a>
         </div>
         <div class="col-12 col-lg-4 order-lg-3 text-center text-lg-right">
-          <a class="btn button book-now-button" href="#book">Book Now</a>
+          <a class="btn button book-now-button" href="{% url 'book_spa_service'%}">Make a Booking</a>
         </div>
       </div>
     </div>
@@ -140,6 +140,7 @@
     integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
     crossorigin="anonymous"></script>
   <script src="{% static 'js/script.js' %}"></script>
+  <script src="https://kit.fontawesome.com/b564c0e6b0.js" crossorigin="anonymous"></script>
   {% endblock %}
 </body>
 

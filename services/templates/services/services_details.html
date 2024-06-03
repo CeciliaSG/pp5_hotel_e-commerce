@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="service-details">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-5 service-description">
+                <h1>{{ service.name }}</h1>
+                <p>{{ service.description }}</p>
+            </div>
+            <div class="col-4 service-info">
+                <h2>Service Details</h2>
+                <ul>
+                    <li><strong>Category:</strong> {{ service.category }}</li>
+                    <li><strong>Duration:</strong> {{ service.duration }} minutes</li>
+                    <li><strong>Price:</strong> {{ service.price }} SEK</li>
+                    <li><strong>Employee:</strong> {{ service.employee.name }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

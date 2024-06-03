@@ -20,71 +20,58 @@
 
   <section class="section bg-section-three bg-colour-blue" id="treatments">
     <div class="container services-container px-4">
-      <h1 class="section-heading pb-5 pt-4">Featured Treatments</h1>
+      <h1 class="section-heading pb-5 pt-4">Treatments</h1>
       <div class="row gy-5 gx-3">
         {% for service in spa_services %}
         <div class="col-sm-6 col-md-4 col-lg-3 mb-4 gy-4">
-          <div class="card h-60">
-            <a href="#" class="card-link"></a>
-            <div class="card-image-container">
-              <img class="card-img-top" src=" {{ service.featured_image.url }}" alt="{{ service.image }}">
-            </div>
-            <div class="card-body text-start">
-              <h5 class="card-category">{{ service.category }}</h5>
-              <h5 class="card-title">{{ service.name }}</h5>
-              <p class="card-text">{{ service.description | truncatewords:10 }}</p>
-              </a>
-            </div>
+          <div class="card h-100">
+            <a href="{% url 'service_details' service.id %}" class="card-link">
+              <div class="card-image-container">
+                <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.image }}">
+              </div>
+              <div class="card-body text-start pb-3">
+                <h5 class="card-category">{{ service.category }}</h5>
+                <h5 class="card-title">{{ service.name }}</h5>
+                <p class="card-text">{{ service.description | truncatewords:10 }}</p>
+            </a>
           </div>
         </div>
-        {% endfor %}
       </div>
-    </div>
-  </section>
-
-  <section class="section bg-section-four bg-colour-grey" id="book">
-    <div class="container">
-      <div class="row">
-        <h1 class="section-heading pt-4 pb-5">Prices & Booking</h1>
-      </div>
-      <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h2 class=" h4 card-title">Our Spa Services</h2>
-              <ul class="list-group">
-                {% for service in spa_services %}
-                <li class="list-group-item">
-                  <h3 class="h5">{{ service.category }}</h3>
-                  {{ service.name }} - {{ service.price }} SEK
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
-          <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-            <button type="submit" class="book-now-button btn-lg" name="service_id" value="{{ service.id }}"> Book
-              Now</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-
-  <section class="section bg-section-four bg-colour-blue" id="checkout">
-    <div class="container">
-      <div class="row">
-        <h1>Checkout & Payment</h1>
-      </div>
-
+      {% endfor %}
     </div>
 </div>
 </section>
 
+<section class="section bg-section-four bg-colour-grey" id="book">
+  <div class="container">
+    <div class="row">
+      <h1 class="section-heading pt-4 pb-5">Prices & Booking</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class=" h4 card-title">Our Spa Services</h2>
+            <ul class="list-group">
+              {% for service in spa_services %}
+              <li class="list-group-item">
+                <h3 class="h5">{{ service.category }}</h3>
+                {{ service.name }} - {{ service.price }} SEK
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+        <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
+          <button type="submit" class="btn button book-now-button btn-lg" name="service_id" value="{{ service.id }}">
+            Book
+            Now</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
 {% endblock %}

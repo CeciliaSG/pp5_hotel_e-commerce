@@ -40,3 +40,8 @@ def spa_services(request, context_only=False):
         return context
     else:
         return render(request, "home/index.html", context)
+
+
+def service_details(request, service_id):
+    service = get_object_or_404(SpaService, id=service_id)
+    return render(request, 'services/services_details.html', {'service': service})

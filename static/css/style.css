@@ -49,8 +49,9 @@ main {
 }
 
 
-.bi-list {
+.fa-bars {
     color: #191521;
+    font-size: 20px;
 }
 
 nav {
@@ -141,6 +142,14 @@ nav {
     height: 100%;
 }
 
+.form-container {
+    padding-top: 120px;
+}
+
+.cart-container {
+    padding-top: 120px;
+}
+
 .section {
     min-height: 100vh;
     display: flex;
@@ -185,9 +194,8 @@ nav {
     height: 100%;
     overflow: hidden;
     border-radius: 0;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     border-radius: 0 !important;
-    max-height: 340px;
 }
 
 .card-image-container {
@@ -199,21 +207,22 @@ nav {
     border-radius: 0 !important;
 }
 
-.card-title {
-    margin: 0;
+.card-category{
+    font-size: 14px;
 }
 
-.card-body {
-    padding: 0;
+.card-title {
+    margin: 0;
+    font-size: 16px;
 }
 
 .card .card-body {
-    max-height: 800px;
+    max-height:;
     overflow: hidden;
 }
 
 .card .card-body p {
-    font-size: 16px;
+    font-size: 12px;
     padding: 0;
     color: gray;
 }
@@ -241,6 +250,39 @@ nav {
 .content-wrapper {
     margin-bottom: 100px;
 }
+
+.list-group-item:first-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+/* Styles for details-page */
+.service-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 140px;
+    padding: 50px;
+    }
+
+.service-description {
+    flex: 2;
+    margin-right: 20px;
+}
+        
+.service-info {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.service-info ul {
+    list-style: none;
+    padding: 0;
+}
+        
+.service-info ul li {
+    margin-bottom: 10px;
+}  
 
 /* Styling buttons */
 
@@ -283,6 +325,9 @@ button.btn.btn-sm {
   white-space: nowrap; 
   --bs-gutter-x: 0;
   margin: 0;
+  background-color: #538991 !important;
+  font-size: 14px;
+  border-radius: 0 !important;
 }
 
 
@@ -348,4 +393,16 @@ footer {
   footer {
     position: fixed;
   }
+
+.navbar-button {
+    position: fixed;
+    top: 50px;
+    left: 200px;
+    z-index: 1001;
+}
+
+.fa-bars {
+    color: #191521;
+    font-size: 30px;
+}
 }
