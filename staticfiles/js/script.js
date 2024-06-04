@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let stickyNavbar = document.querySelector('.sticky-navbar');
+    var stickyNavbar = document.querySelector('.sticky-navbar');
 
     if (!stickyNavbar) {
         console.error("Sticky navbar element not found");

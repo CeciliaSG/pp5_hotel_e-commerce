@@ -6,6 +6,8 @@ import uuid
 from booking.models import SpaBookingServices
 from services.models import SpaService,TimeSlot
 from django.core.exceptions import ObjectDoesNotExist
+import stripe
+from django.conf import settings
 import logging
 
 
@@ -13,7 +15,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe_public_key = settings.STRIPE_PUBLIC_KEY
+
+
 def checkout(request):
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+
+
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "There's nothing in your cart")
@@ -48,13 +58,30 @@ def checkout(request):
             'selected_time_slot_id': selected_time_slot_id,
         })
 
+        stripe_total = round(total_price * 100)
+
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+
+        intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+
     spa_booking_form = SpaBookingForm()
+
+    if not stripe_public_key:
+        messages.warning(request, 'Stripe public key is missing. \
+            Did you forget to set it in your environment?')
+
     template = 'checkout/checkout.html'
     context = {
         'booking_id': booking_id,  
         'spa_booking_form': spa_booking_form,
         'cart_services': cart_services,
         'total_price': total_price,
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret,
     }
+    
 
     return render(request, template, context)
