@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import uuid
 from services.models import SpaService
 from django.db.models import Sum
+from django.utils import timezone
 
 # Create your models here.
 
@@ -26,7 +27,6 @@ class SpaBooking(models.Model):
     booking_date = models.DateTimeField(auto_now_add=True)
     booking_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
-
 
 
     def _generate_booking_number(self):
@@ -87,12 +87,13 @@ class SpaBookingServices(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     spa_service_total = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
     spa_booking = models.ForeignKey('SpaBooking', related_name='spa_booking_services', null=False, blank=False, on_delete=models.CASCADE)
-
+    date_and_time = models.DateTimeField()
 
     def save(self, *args, **kwargs):
-
+        if not self.date_and_time:
+            self.date_and_time = timezone.now()
         self.spa_service_total = self.spa_service.price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
-            return f'{self.spa_service.name} x {self.quantity}'
+        return f'{self.spa_service.name} x {self.quantity}'

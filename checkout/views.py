@@ -107,9 +107,9 @@ def checkout(request):
                     quantity=quantity,
                     spa_service_total=spa_service_total,
                     spa_booking=spa_booking,
+                    date_and_time=selected_datetime,
                 )
-                #booking_date_and_time = spa_booking.date_and_time
-
+                selected_datetime = timezone.make_aware(selected_datetime)
 
             #return redirect(reverse('checkout_success'))
     else:
