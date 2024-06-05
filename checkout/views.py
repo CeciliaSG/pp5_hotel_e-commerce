@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from .forms import SpaBookingForm
@@ -111,7 +111,8 @@ def checkout(request):
                 )
                 selected_datetime = timezone.make_aware(selected_datetime)
 
-            #return redirect(reverse('checkout_success'))
+                return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
+
     else:
         spa_booking_form = SpaBookingForm()
 

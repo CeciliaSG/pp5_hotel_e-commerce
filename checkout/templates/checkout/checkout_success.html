@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
+    <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
+        <div class="col-md-9 col-lg-6">
+            <hr>
+            <h1 class="h2 text-center">Booking Confirmation</h1>
+            <hr>
+            <ul class="list-group">
+                <p class="text-muted form-headers">Booking Details</p>
+                <li class="list-group-item"><strong>Booking ID:</strong> {{ booking.booking_number }}</li>
+                <li class="list-group-item"><strong>Customer Name:</strong> {{ booking.customer_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ booking.email }}</li>
+                <li class="list-group-item"><strong>Phone Number:</strong> {{ booking.phone_number }}</li>
+                <li class="list-group-item"><strong>Booking Date and Time:</strong> {{ booking.date_and_time }}</li>
+                <li class="list-group-item"><strong>Total Price:</strong> SEK{{ booking.booking_total }}</li>
+            </ul>
+            <p class="text-center mt-3"><strong>Thank you for your booking!</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
