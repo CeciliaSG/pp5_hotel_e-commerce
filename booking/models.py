@@ -18,7 +18,7 @@ class SpaBooking(models.Model):
     processed through Stripe.
     """
     booking_number = models.CharField(max_length=35, null=False, editable=False)
-    customer_profile = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer_profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     customer_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
@@ -26,6 +26,7 @@ class SpaBooking(models.Model):
     booking_date = models.DateTimeField(auto_now_add=True)
     booking_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
+
 
 
     def _generate_booking_number(self):

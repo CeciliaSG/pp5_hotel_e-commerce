@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from .forms import SpaBookingForm
+from booking.forms import ServiceBookingForm
 import uuid
-from booking.models import SpaBookingServices
+from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService,TimeSlot
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
 import logging
+from datetime import datetime
 
 
 # Create your views here.
@@ -63,7 +65,43 @@ def checkout(request):
         confirm=False,
     )
 
-    spa_booking_form = SpaBookingForm()
+    if request.method == 'POST':
+        spa_booking_form = SpaBookingForm(request.POST)
+        if spa_booking_form.is_valid():
+            customer_name = spa_booking_form.cleaned_data['customer_name']
+            email = spa_booking_form.cleaned_data['email']
+            phone_number = spa_booking_form.cleaned_data['phone_number']
+
+            spa_booking = SpaBooking.objects.create(
+                customer_name=customer_name,
+                email=email,
+                phone_number=phone_number,
+                date_and_time=datetime.now(),
+                booking_total=total_price,
+                stripe_pid=request.POST.get('stripe_pid', '')
+            )
+
+            for cart_service in cart_services:
+                spa_service = cart_service['service']
+                quantity = cart_service['quantity']
+                spa_service_total = cart_service['total_price']
+                selected_date = cart_service['selected_date']
+                selected_time = cart_service['selected_time']
+                selected_time_slot_id = cart_service['selected_time_slot_id']
+
+                spa_booking_service = SpaBookingServices.objects.create(
+                    spa_service=spa_service,
+                    quantity=quantity,
+                    spa_service_total=spa_service_total,
+                    spa_booking=spa_booking,
+                    #selected_date=selected_date,
+                    #selected_time=selected_time,
+                    #selected_time_slot_id=selected_time_slot_id,
+                )
+
+            #return redirect(reverse('checkout_success'))
+    else:
+        spa_booking_form = SpaBookingForm()
 
     if not stripe_public_key:
         messages.warning(request, 'Stripe public key is missing. \
@@ -80,6 +118,7 @@ def checkout(request):
     }
 
     return render(request, template, context)
+
 
 
 def checkout_success(request, booking_number):
