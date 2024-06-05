@@ -11,6 +11,7 @@ import stripe
 from django.conf import settings
 import logging
 from datetime import datetime
+from django.utils import timezone
 
 
 # Create your views here.
@@ -72,11 +73,21 @@ def checkout(request):
             email = spa_booking_form.cleaned_data['email']
             phone_number = spa_booking_form.cleaned_data['phone_number']
 
+
+            if cart_services:
+                first_service = cart_services[0]
+                selected_date = datetime.strptime(first_service['selected_date'], "%B %d, %Y").date()
+                selected_time = datetime.strptime(first_service['selected_time'], "%H:%M").time()
+                date_and_time = datetime.combine(selected_date, selected_time)
+                date_and_time = timezone.make_aware(date_and_time)
+            else:
+                date_and_time = datetime.now()
+
             spa_booking = SpaBooking.objects.create(
                 customer_name=customer_name,
                 email=email,
                 phone_number=phone_number,
-                date_and_time=datetime.now(),
+                date_and_time=date_and_time,
                 booking_total=total_price,
                 stripe_pid=request.POST.get('stripe_pid', '')
             )
@@ -85,19 +96,20 @@ def checkout(request):
                 spa_service = cart_service['service']
                 quantity = cart_service['quantity']
                 spa_service_total = cart_service['total_price']
-                selected_date = cart_service['selected_date']
-                selected_time = cart_service['selected_time']
+                selected_date = datetime.strptime(cart_service['selected_date'], "%B %d, %Y").date()
+                selected_time = datetime.strptime(cart_service['selected_time'], "%H:%M").time()
                 selected_time_slot_id = cart_service['selected_time_slot_id']
+                selected_datetime = datetime.combine(selected_date, selected_time)
+
 
                 spa_booking_service = SpaBookingServices.objects.create(
                     spa_service=spa_service,
                     quantity=quantity,
                     spa_service_total=spa_service_total,
                     spa_booking=spa_booking,
-                    #selected_date=selected_date,
-                    #selected_time=selected_time,
-                    #selected_time_slot_id=selected_time_slot_id,
                 )
+                #booking_date_and_time = spa_booking.date_and_time
+
 
             #return redirect(reverse('checkout_success'))
     else:
