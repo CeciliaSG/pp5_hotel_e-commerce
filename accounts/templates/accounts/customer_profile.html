@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/customer_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
+    <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
+        <div class="col-md-9 col-lg-6">
+            <hr>
+            <h1 class="h2 text-center">Customer Profile</h1>
+            <hr>
+            <div class="container mt-5">
+                <h1 class="mb-4">Customer Profile</h1>
+                <p><strong>Username:</strong> {{ profile.customer.username }}</p>
+                <p><strong>Email:</strong> {{ profile.default_email }}</p>
+                <p><strong>Phone Number:</strong> {{ customer_profile.default_phone_number }}</p>
+            </div>
+
+
+            <ul class="list-group">
+                <p class="text-muted form-headers">Booking Summary ({{ cart_services.count }})</p>
+                {% for cart_service in cart_services %}
+                <li class="list-group-item">
+                    <strong>{{ cart_service.service.name }}</strong>
+                </li>
+                <li class="list-group-item">
+                    Date: {{ cart_service.selected_date }},
+                </li>
+                <li class="list-group-item">
+                    Time: {{ cart_service.selected_time }},
+                </li>
+                <li class="list-group-item">
+                    Quantity: {{ cart_service.quantity }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

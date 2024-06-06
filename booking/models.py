@@ -5,6 +5,7 @@ import uuid
 from services.models import SpaService
 from django.db.models import Sum
 from django.utils import timezone
+from accounts.models import CustomerProfile
 
 # Create your models here.
 
@@ -19,7 +20,8 @@ class SpaBooking(models.Model):
     processed through Stripe.
     """
     booking_number = models.CharField(max_length=35, null=False, editable=False)
-    customer_profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    customer_profile = models.ForeignKey(CustomerProfile, on_delete=models.SET_NULL,
+                                     null=True, blank=True, related_name='SpaBookings')
     customer_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)

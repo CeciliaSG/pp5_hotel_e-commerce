@@ -315,6 +315,16 @@ input, .form-element {
 .form-headers{
     font-size: 14px;
 }
+.form-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.allauth-form{
+    border-radius: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
 /* Styling buttons */
 
@@ -322,8 +332,8 @@ button {
     border: none;
 }
 
-button, .btn {
-    background-color: #538991;
+button.btn {
+    background-color: #538991 !important;
     border-radius: 0;
 }
 
