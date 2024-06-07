@@ -117,10 +117,8 @@ def checkout(request):
                     date_and_time=selected_datetime,
                 )
                 selected_datetime = timezone.make_aware(selected_datetime)
-
-                print(request.session.get('save_info'))
+                
                 request.session['save_info'] = 'save-info' in request.POST
-                print(request.session.get('save_info'))
             else:
                 messages.error(request, 'There was an error with your form. Please double check your information.')
 
@@ -158,17 +156,22 @@ def checkout_success(request, booking_number):
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
 
     if request.user.is_authenticated:
+        user = request.user
         profile = CustomerProfile.objects.get(user=request.user)
         booking.customer_profile = profile
         booking.save()
 
     if save_info:
         profile_data = {
+            'default_email': booking.email,
             'default_phone_number': booking.phone_number,
         }
         customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
         if customer_profile_form.is_valid():
             customer_profile_form.save()
+        
+        user.email = booking.email
+        user.save()
 
     messages.success(request, f'Order successfully processed! \
         Your booking number is {booking_number}. A confirmation \

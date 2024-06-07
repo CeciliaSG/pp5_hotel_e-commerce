@@ -111,7 +111,7 @@ nav {
     top: 0;
     width: 100%;
     z-index: 999;
-    background-color: rgba(25, 21, 33, 0.1) !important;
+    /*background-color: rgba(25, 21, 33, 0.1) !important;*/
     transition: background-color 0.3s;
 }
 
@@ -127,6 +127,9 @@ nav {
     height: 70px;
 }
 
+.opaque {
+    background-color: rgba(25, 21, 33, 0.9) !important;
+}
 
 /*Override Bootstrap's gutter spacing for containers */
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
@@ -151,6 +154,17 @@ nav {
     padding-top: 150px;
 }
 
+.message-container {
+  margin-top: 150px;;
+}
+
+.alert {
+margin-top: 150px;
+background-color: #b3d0d7;
+border-radius: 0;
+max-width: 200px;
+}
+
 .section {
     min-height: 100vh;
     display: flex;
@@ -161,7 +175,7 @@ nav {
 
 .bg-color-section-heading {
     height: 40px;
-    color: #538991 ;
+    color: #538991;
 }
 
 .row {
@@ -218,7 +232,6 @@ nav {
 }
 
 .card .card-body {
-    max-height:;
     overflow: hidden;
 }
 

@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     let stickyNavbar = document.querySelector('.sticky-navbar');
+    let logo = document.querySelector('.logo');
 
     if (!stickyNavbar) {
         console.error("Sticky navbar element not found");
@@ -9,13 +10,12 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("Sticky navbar script loaded");
 
     window.addEventListener('scroll', function() {
-        console.log("Scroll event detected");
         if (window.scrollY > 100) {
             stickyNavbar.style.backgroundColor = 'rgba(25, 21, 33, 1)';
-            console.log("Navbar set to fully opaque");
+            logo.style.color = 'white';
         } else {
-            stickyNavbar.style.backgroundColor = 'rgba(25, 21, 33, 0.5)';
-            console.log("Navbar set to more opaque");
+            stickyNavbar.style.backgroundColor = 'rgba(25, 21, 33, 0.1)';
+            logo.style.color = 'black';
         }
     });
 });

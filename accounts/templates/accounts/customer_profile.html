@@ -3,17 +3,23 @@
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
-<!--<link rel="stylesheet" href="{% static 'accounts/css/customer_profile.css' %}">-->
+<link rel="stylesheet" href="{% static 'accounts/css/customer_profile.css' %}">
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-{{ message.tags }}" role="alert">
-    {{ message }}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
 </div>
-{% endfor %}
-{% endif %}
 <div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
     <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
     </div>
@@ -32,46 +38,46 @@
                     id="profile-update-form">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    <button class="btn btn-white rounded-0 text-uppercase float-right">Update Information</button>
+                    <button class="btn btn-white rounded-0 text-uppercase float-right">Update
+                        Information</button>
                 </form>
             </div>
             <div class="col-12 col-lg-6">
-                <div class="col-12 col-lg-6">
-                    <p class="text-muted">Previous bookings</p>
-                    <div class="booking-history table-responsive">
-                        <table class="table table-sm table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Booking Number</th>
-                                    <th>Date</th>
-                                    <th>Service</th>
-                                    <th>Booking Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for spa_booking in spa_bookings %}
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'booking_history' spa_booking.booking_number %}"
-                                            title="{{ spa_booking.booking_number }}">
-                                            {{ spa_booking.booking_number|truncatechars:6 }}
-                                        </a>
-                                    </td>
-                                    <td>{{ spa_booking.date_and_time }}</td>
-                                    <td>
-                                        <ul class="list-unstyled">
-                                            {% for service in spa_booking.spa_booking_services.all %}
-                                            <li class="small">
-                                                {{ service.spa_service.name }} x{{ service.quantity }}
-                                            </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </td>
-                                    <td>Sek{{ spa_booking.booking_total }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                <p class="text-muted">Previous bookings</p>
+                <div class="booking-history table-responsive">
+                    <table class="table table-sm table-borderless">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;">Booking Number</th>
+                                <th style="width: 25%;">Date</th>
+                                <th style="width: 30%;">Service</th>
+                                <th style="width: 20%;">Booking Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for spa_booking in spa_bookings %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'booking_history' spa_booking.booking_number %}"
+                                        title="{{ spa_booking.booking_number }}">
+                                        {{ spa_booking.booking_number|truncatechars:6 }}
+                                    </a>
+                                </td>
+                                <td>{{ spa_booking.date_and_time }}</td>
+                                <td>
+                                    <ul class="list-unstyled">
+                                        {% for service in spa_booking.spa_booking_services.all %}
+                                        <li>
+                                            {{ service.spa_service.name }} x{{ service.quantity }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>Sek{{ spa_booking.booking_total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                {% endblock %}
+            </div>
+            {% endblock %}

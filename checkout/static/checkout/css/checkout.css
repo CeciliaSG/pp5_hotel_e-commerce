@@ -11,6 +11,8 @@
   box-shadow: 0 1px 3px 0 #e6ebf1;
   -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 .StripeElement--focus,
@@ -36,4 +38,27 @@
 #card-element {
     color: #000;
     border: 1px solid #000;
+}
+
+.message-container {
+  margin-top: 150px;;
+}
+
+.message-container .alert {
+margin-top: 150px;
+}
+
+.element {
+  width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box; 
+}
+
+@media (max-width: 768px) {
+    .element {
+        max-width: 100%;
+        width: 100%; 
+        display: block; 
+    }
 }
