@@ -7,10 +7,17 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
 <div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
     <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
     </div>
-    <div class="container">
+    <div class="container mx-4 px-4">
         <div class="row">
             <div class="col">
                 <hr>
@@ -29,44 +36,42 @@
                 </form>
             </div>
             <div class="col-12 col-lg-6">
-                <p class="text-muted">Previous bookings</p>
-                <div class="booking-history table-responsive">
-                    <table class="table table-sm table-borderless">
-                        <thead>
-                            <tr>
-                                <th>Booking Number</th>
-                                <th>Date</th>
-                                <th>Service</th>
-                                <th>Booking Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for booking in bookings %}
-                            <tr>
-                                <td>
-                                    <a href="{% url 'booking_history' booking.booking_number %}"
-                                        title="{{ booking.booking_number }}">
-                                        {{ booking.booking_number|truncatechars:6 }}
-                                    </a>
-                                </td>
-                                <td>{{ booking.date }}</td>
-                                <td>
-                                    <ul class="list-unstyled">
-                                        {% for service in booking.services.all %}
-                                        <li class="small">
-                                            {{ service.name }} x{{ service.quantity }}
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                                <td>Sek{{ booking.total }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="col-12 col-lg-6">
+                    <p class="text-muted">Previous bookings</p>
+                    <div class="booking-history table-responsive">
+                        <table class="table table-sm table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>Booking Number</th>
+                                    <th>Date</th>
+                                    <th>Service</th>
+                                    <th>Booking Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for spa_booking in spa_bookings %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'booking_history' spa_booking.booking_number %}"
+                                            title="{{ spa_booking.booking_number }}">
+                                            {{ spa_booking.booking_number|truncatechars:6 }}
+                                        </a>
+                                    </td>
+                                    <td>{{ spa_booking.date_and_time }}</td>
+                                    <td>
+                                        <ul class="list-unstyled">
+                                            {% for service in spa_booking.spa_booking_services.all %}
+                                            <li class="small">
+                                                {{ service.spa_service.name }} x{{ service.quantity }}
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td>Sek{{ spa_booking.booking_total }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+                {% endblock %}

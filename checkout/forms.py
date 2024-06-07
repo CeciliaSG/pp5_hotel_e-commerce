@@ -8,6 +8,7 @@ class SpaBookingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         placeholders = {
             'customer_name': 'Customer Name',
             'email': 'Email Address',

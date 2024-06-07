@@ -8,6 +8,14 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
 <div class="container form-container mt-5 mb-5 pb-5 mx-4 mx-auto">
     <div class="row custom-row justify-content-center mx-4 mx-sm-2 mt-5">
         <div class="col-md-9 col-lg-6">
@@ -43,12 +51,11 @@
                 {{ spa_booking_form | crispy }}
                 <div class="form-check form-check-inline float-right mr-0">
                     {% if user.is_authenticated %}
-                    <label class="form-check-label" for="id-save-info">Save this booking information to my
+                    <label class="form-check-label" for="save-info">Save this booking information to my
                         profile</label>
-                    <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info"
-                        checked>
+                    <input class="form-check-input ml-2 mr-0" type="checkbox" id="save-info" name="save-info" checked>
                     {% else %}
-                    <label class="form-check-label" for="id-save-info">
+                    <label class="form-check-label" for="save-info">
                         <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or
                         <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
                     </label>

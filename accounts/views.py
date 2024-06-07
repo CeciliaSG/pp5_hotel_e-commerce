@@ -6,55 +6,54 @@ from .forms import CustomerProfileForm
 from django.contrib import messages
 
 
-# Create your views here.
-
 @login_required
 def profile(request):
-    profile = get_object_or_404(CustomerProfile, customer=request.user)
-    #user = request.user
+    profile = get_object_or_404(CustomerProfile, user=request.user)
+    user = request.user
 
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
 
-            #user = request.user
-            #user.email = profile.default_email
-            #user.phone_number = profile.default_phone_number
+            user.email = profile.default_email
+            user.save()
 
-            #messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile updated successfully')
             return redirect('customer_profile')
         else:
             messages.error(request, 'Please correct the errors below.')
-            print(form.errors)  
-
+            print(form.errors)
     else:
         form = CustomerProfileForm(instance=profile)
 
-    bookings = SpaBooking.objects.filter(customer_profile=profile)
+    spa_bookings = SpaBooking.objects.filter(customer_profile=profile)
     username = request.user.username
-    form = CustomerProfileForm(instance=profile)
 
     context = {
         'form': form,
-        'bookings': bookings,
-        'customer_name': profile.customer.username,
+        'spa_bookings': spa_bookings,
+        'customer_name': profile.user.username,
+        'messages': messages.get_messages(request),
     }
     return render(request, 'accounts/customer_profile.html', context)
 
 
+
 def booking_history(request, booking_number):
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
+    spa_bookings = SpaBooking.objects.all()
 
     messages.info(request, (
-        f'This is a past confirmation for order number {booking_number}. '
+        f'This is a past confirmation for booking number {booking_number}. '
         'A confirmation email was sent on the order date.'
     ))
 
     template = 'checkout/checkout_success.html'
     context = {
         'booking': booking,
-        'from_profile': True,
+        'spa_bookings': spa_bookings,
+        #'from_profile': True,
     }
 
     return render(request, template, context)

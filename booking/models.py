@@ -21,7 +21,7 @@ class SpaBooking(models.Model):
     """
     booking_number = models.CharField(max_length=35, null=False, editable=False)
     customer_profile = models.ForeignKey(CustomerProfile, on_delete=models.SET_NULL,
-                                     null=True, blank=True, related_name='SpaBookings')
+                                     null=True, blank=True, related_name='spa_bookings')
     customer_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)

@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from .forms import SpaBookingForm
+from accounts.forms import CustomerProfileForm
 from booking.forms import ServiceBookingForm
 import uuid
 from booking.models import SpaBooking, SpaBookingServices
+from accounts.models import CustomerProfile
 from services.models import SpaService,TimeSlot
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
@@ -69,10 +71,10 @@ def checkout(request):
     if request.method == 'POST':
         spa_booking_form = SpaBookingForm(request.POST)
         if spa_booking_form.is_valid():
+            spa_booking = spa_booking_form.save(commit=False)
             customer_name = spa_booking_form.cleaned_data['customer_name']
             email = spa_booking_form.cleaned_data['email']
             phone_number = spa_booking_form.cleaned_data['phone_number']
-
 
             if cart_services:
                 first_service = cart_services[0]
@@ -83,14 +85,19 @@ def checkout(request):
             else:
                 date_and_time = datetime.now()
 
-            spa_booking = SpaBooking.objects.create(
-                customer_name=customer_name,
-                email=email,
-                phone_number=phone_number,
-                date_and_time=date_and_time,
-                booking_total=total_price,
-                stripe_pid=request.POST.get('stripe_pid', '')
-            )
+            spa_booking.date_and_time = date_and_time
+            spa_booking.booking_total = total_price
+            spa_booking.stripe_pid = request.POST.get('stripe_pid', '')
+            spa_booking.save()
+
+            #spa_booking = SpaBooking.objects.create(
+                #customer_name=customer_name,
+                #email=email,
+                #phone_number=phone_number,
+                #date_and_time=date_and_time,
+                #booking_total=total_price,
+                #stripe_pid=request.POST.get('stripe_pid', '')
+            #)
 
             for cart_service in cart_services:
                 spa_service = cart_service['service']
@@ -111,6 +118,13 @@ def checkout(request):
                 )
                 selected_datetime = timezone.make_aware(selected_datetime)
 
+                print(request.session.get('save_info'))
+                request.session['save_info'] = 'save-info' in request.POST
+                print(request.session.get('save_info'))
+            else:
+                messages.error(request, 'There was an error with your form. Please double check your information.')
+
+
                 return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
 
     else:
@@ -128,6 +142,7 @@ def checkout(request):
         'total_price': total_price,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
+        'messages': messages.get_messages(request),
     }
 
     return render(request, template, context)
@@ -136,9 +151,25 @@ def checkout(request):
 
 def checkout_success(request, booking_number):
     """
-    Handle successful checkouts
+    From Ado walkthrough. Handle successful checkouts
     """
+
+    save_info = request.session.get('save_info')
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
+
+    if request.user.is_authenticated:
+        profile = CustomerProfile.objects.get(user=request.user)
+        booking.customer_profile = profile
+        booking.save()
+
+    if save_info:
+        profile_data = {
+            'default_phone_number': booking.phone_number,
+        }
+        customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
+        if customer_profile_form.is_valid():
+            customer_profile_form.save()
+
     messages.success(request, f'Order successfully processed! \
         Your booking number is {booking_number}. A confirmation \
         email will be sent to {booking.email}.')
@@ -149,6 +180,7 @@ def checkout_success(request, booking_number):
     template = 'checkout/checkout_success.html'
     context = {
         'booking': booking,
+        'messages': messages.get_messages(request),
     }
 
     return render(request, template, context)    
