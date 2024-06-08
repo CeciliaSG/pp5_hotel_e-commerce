@@ -47,18 +47,3 @@
 .message-container .alert {
 margin-top: 150px;
 }
-
-.element {
-  width: 100%;
-    max-width: 100%;
-    padding: 10px;
-    box-sizing: border-box; 
-}
-
-@media (max-width: 768px) {
-    .element {
-        max-width: 100%;
-        width: 100%; 
-        display: block; 
-    }
-}
