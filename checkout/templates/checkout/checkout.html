@@ -71,11 +71,11 @@
                     <a href="{% url 'view_cart' %}" class="btn btn-outline-black rounded-0">
                         <span class="font-weight-bold">Update cart</span>
                     </a>
-                    <button id="submit-button" class="btn button btn-outline-black rounded-0">
+                    <button id="submit-button" class="btn button btn-outline-black rounded-0 mt-2">
                         <span class="font-weight-bold">Book now</span>
                     </button>
-                    <p class="small text-danger my-0">
-                        <span>Your card will be charged <strong>SEK{{ total_price|floatformat:2 }}</strong></span>
+                    <p class="small text-danger my-2">
+                        <span>Your card will be charged <strong>SEK {{ total_price|floatformat:2 }}</strong></span>
                     </p>
                 </div>
             </form>
