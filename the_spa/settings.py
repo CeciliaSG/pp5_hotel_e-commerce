@@ -227,3 +227,4 @@ LOGGING = {
 
 print(f"Stripe Public Key: {STRIPE_PUBLIC_KEY}")
 print(f"Stripe Secret Key: {STRIPE_SECRET_KEY}")
+print(f"Stripe WHSecret: {STRIPE_WH_SECRET}")

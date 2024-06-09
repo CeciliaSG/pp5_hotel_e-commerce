@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib import messages
 from django.urls import reverse
 from .forms import SpaBookingForm
@@ -14,17 +14,20 @@ from django.conf import settings
 import logging
 from datetime import datetime
 from django.utils import timezone
+import json
+from django.views.decorators.http import require_POST
+
 
 
 # Create your views here.
 
 logger = logging.getLogger(__name__)
 
-
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
+    print("Session data before adding items:", request.session.get('cart', {}))
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "There's nothing in your cart")
@@ -68,10 +71,16 @@ def checkout(request):
         confirm=False,
     )
 
+    spa_booking_form = SpaBookingForm()
     if request.method == 'POST':
         spa_booking_form = SpaBookingForm(request.POST)
         if spa_booking_form.is_valid():
             spa_booking = spa_booking_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            spa_booking.stripe_pid = pid
+            spa_booking.original_cart = json.dumps(cart)
+            #spa_booking.save()
+
             customer_name = spa_booking_form.cleaned_data['customer_name']
             email = spa_booking_form.cleaned_data['email']
             phone_number = spa_booking_form.cleaned_data['phone_number']
@@ -146,6 +155,25 @@ def checkout(request):
     return render(request, template, context)
 
 
+@require_POST
+def cache_checkout_data(request):
+    """
+    From Ado walkthrough. 
+    """
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'cart': json.dumps(request.session.get('cart', {})),
+            'save_info': request.POST.get('save_info'),
+            'username': request.user,
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, "Unfortuately, your payment can't be \
+            processed at the moment. Please try again later.")
+        return HttpResponse(content=e, status=400)
+
 
 def checkout_success(request, booking_number):
     """
@@ -163,7 +191,7 @@ def checkout_success(request, booking_number):
 
     if save_info:
         profile_data = {
-            'default_email': booking.email,
+            'email': booking.email,
             'default_phone_number': booking.phone_number,
         }
         customer_profile_form = CustomerProfileForm(profile_data, instance=profile)

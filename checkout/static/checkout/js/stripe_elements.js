@@ -28,7 +28,7 @@ $(document).ready(function() {
             iconColor: '#dc3545'
         }
     };
-    let card = elements.create('card', {style: style});
+    let card = elements.create('card', { style: style });
     card.mount('#card-element');
 
     card.addEventListener('change', function(event) {
@@ -47,31 +47,47 @@ $(document).ready(function() {
     });
 
     let form = document.getElementById('payment-form');
-
     form.addEventListener('submit', function(ev) {
         ev.preventDefault();
-        card.update({ 'disabled': true});
+        card.update({ 'disabled': true });
         $('#submit-button').attr('disabled', true);
-        stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: card,
-            }
-        }).then(function(result) {
-            if (result.error) {
-                let errorDiv = document.getElementById('card-errors');
-                let html = `
-                    <span class="icon" role="alert">
-                    <i class="fas fa-times"></i>
-                    </span>
-                    <span>${result.error.message}</span>`;
-                $(errorDiv).html(html);
-                card.update({ 'disabled': false});
-                $('#submit-button').attr('disabled', false);
-            } else {
-                if (result.paymentIntent.status === 'succeeded') {
-                    form.submit();
+
+        let saveInfo = Boolean($('#save-info').attr('checked'));
+        let csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+        let postData = {
+            'csrfmiddlewaretoken': csrfToken,
+            'client_secret': clientSecret,
+            'save_info': saveInfo,
+        };
+        let url = '/checkout/cache_checkout_data/';
+
+        $.post(url, postData).done(function() {
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: $.trim(form.customer_name.value),
+                        phone: $.trim(form.phone_number.value),
+                        email: $.trim(form.email.value),
+                    }
                 }
-            }
+            }).then(function(result) {
+                if (result.error) {
+                    let errorDiv = document.getElementById('card-errors');
+                    let html = `
+                        <span class="icon" role="alert">
+                            <i class="fas fa-times"></i>
+                        </span>
+                        <span>${result.error.message}</span>`;
+                    $(errorDiv).html(html);
+                    card.update({ 'disabled': false });
+                    $('#submit-button').attr('disabled', false);
+                } else {
+                    if (result.paymentIntent.status === 'succeeded') {
+                        form.submit();
+                    }
+                }
+            });
         });
     });
 });

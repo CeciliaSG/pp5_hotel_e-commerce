@@ -16,7 +16,7 @@ html, body {
 
 main {
     flex: 1 0 auto;
-    padding-bottom: 120px;
+    padding-bottom: 150px;
 }
 
 .bg-colour-blue {
@@ -29,6 +29,10 @@ main {
 
 .bg-dark{
     background-color: #191521;
+}
+
+.white-text {
+    color: white;
 }
 
 
@@ -151,8 +155,8 @@ nav {
 
 
 .form-container {
-    /* padding-top: 90px; */
-    padding-bottom: 100px;
+    padding-top: 90px;
+    padding-bottom: 130px;
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
@@ -355,11 +359,12 @@ input, .form-element {
 button {
     border: none;
     background-color: #538991 !important;
+    border-color: #538991;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
-    max-width: 120px;
+    height: 40px; 
+    max-width: 200px;
 }
 
 button.btn {
@@ -378,7 +383,7 @@ a.btn {
     align-items: center;
     justify-content: center;
     height: 40px;
-    max-width: 120px;
+    max-width: 200px;
 }
 
 .submit-button .btn span {
@@ -427,12 +432,13 @@ button.btn.btn-sm {
   border-radius: 0 !important;
 }
 
+ 
+
 
 /* Footer */
 
 footer {
     flex-shrink: 0;
-    color: white;
     position: fixed;
     padding: 20px 20px; 
     bottom: 0;
@@ -448,6 +454,10 @@ footer {
 .table {
     min-width: 80%;
     padding: 15px;
+}
+
+.footer-navigation a {
+    color: #538991 !important;
 }
 
 @media (max-width: 576px) {
