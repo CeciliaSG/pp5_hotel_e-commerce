@@ -41,9 +41,11 @@ def webhook(request):
     except ValueError as e:
         logger.error("Invalid payload: %s", e)
         return HttpResponse(status=400)
+
     except stripe.error.SignatureVerificationError as e:
         logger.error("Invalid signature: %s", e)
         return HttpResponse(status=400)
+        
     except Exception as e:
         logger.error("Error constructing event: %s", e)
         return HttpResponse(content=str(e), status=400)

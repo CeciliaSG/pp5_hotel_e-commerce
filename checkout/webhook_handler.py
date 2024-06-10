@@ -1,16 +1,22 @@
 from django.http import HttpResponse
-
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService
 
+import logging
+
+import stripe
 import json
 import time
+
+
+logger = logging.getLogger(__name__)
 
 class StripeWH_Handler:
     """From Boutique Ado walkthrough. Handle Stripe webhooks"""
 
     def __init__(self, request):
         self.request = request
+        
 
     def handle_event(self, event):
         """
@@ -30,8 +36,16 @@ class StripeWH_Handler:
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
 
-        billing_details = intent.charges.data[0].billing_details
-        booking_total = round(intent.charges.data[0].amount / 100, 2)
+        # Fetch the charge using the latest_charge ID
+        stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
+
+        # Retrieve billing details and amount from the charge
+        billing_details = stripe_charge.billing_details
+        booking_total = round(stripe_charge.amount / 100, 2)
+
+
+        #billing_details = intent.charges.data[0].billing_details
+        #booking_total = round(intent.charges.data[0].amount / 100, 2)
 
         booking_exists = False
         attempt = 1
@@ -40,7 +54,8 @@ class StripeWH_Handler:
                 booking = SpaBooking.objects.get(
                     customer_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,
-                    phone_number__iexact=shipping_details.phone,
+                    phone_number__iexact=billing_details.phone,
+                    booking_total=booking_total,
                     original_cart=cart,
                     stripe_pid=pid,
                 )
@@ -80,7 +95,7 @@ class StripeWH_Handler:
         except Exception as e:
             if booking:
                 booking.delete()
-            return JsonResponse({'error': str(e)}, status=500)
+            return HttpResponse({'error': str(e)}, status=500)
 
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',

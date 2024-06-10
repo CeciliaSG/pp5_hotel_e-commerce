@@ -27,15 +27,9 @@
 
 <body>
 
-  {% if messages %}
-  <div class="alert alert-{{ message.tags }}" role="alert">
-    {{ message }}
-  </div>
-  {% endif %}
-
   {% block page_header %}
   <!-- main navbar -->
-  <button class="navbar-button mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar"
+  <button class="navbar-button mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar"
     aria-expanded="false" aria-controls="collapseNavbar">
     <i class="fa-sharp fa-solid fa-bars"></i>
   </button>
@@ -46,7 +40,7 @@
       <div class="row justify-content-center w-100">
         <div class="col text-left">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
+            <a class="nav-link mt-4" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -78,7 +72,7 @@
   </ul>
   </div>
   </nav>
-  <!-- Second Navbar -->
+  <!-- Second/sticky Navbar -->
   <nav class="sticky-navbar navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid justify-content-center">
       <div class="row w-100 justify-content-center">
@@ -99,10 +93,9 @@
   </nav>
   {% endblock %}
 
-
   <div class="navbar-spacer"></div>
-  <!-- Main Content -->
 
+  <!-- Main Content -->
   <main class="flex-fill">
     <div class="content" style="margin: 0;">
       {% block content %}
@@ -112,25 +105,23 @@
 
 
   <!-- Footer -->
-  <footer class="bg-dark py-4 fixed-bottom">
-    <div class="container text-center">
+  <footer class="footer-bg py-4 fixed-bottom">
+    <div class="container text-center mt-3">
       <div class="row custom-row ">
         <div class="col-md-12">
-          <h5 class="white-text">Footer Content</h5>
-          <p class="white-text">Some content</p>
           <ul class="list-unstyled footer-navigation">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
           </ul>
-          <p class="white-text">© 2024 The Spa</p>
+          <p class="white-text copyright mt-3">© 2024 The Spa</p>
         </div>
       </div>
     </div>
   </footer>
 
   {% block postloadjs %}{% endblock %}
-
+  <!-- Script-->
   {% block corejs %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
