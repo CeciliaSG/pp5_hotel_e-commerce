@@ -80,6 +80,7 @@ def add_to_cart(request, service_id=None):
                         "is_access": selected_service.is_access
                     }
                 else:
+                    messages.warning(request, ('A service cannot be added more than once for the same ate and time.'))
                     #return HttpResponseBadRequest("This service cannot be added more than once.")
                     return redirect("book_spa_service")
 

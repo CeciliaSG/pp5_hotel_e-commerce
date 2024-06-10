@@ -58,6 +58,11 @@ main {
     font-size: 20px;
 }
 
+.social-media-symbols i {
+    color: #fff;
+    font-size: 20px;
+}
+
 nav {
     padding: 0;
 }
@@ -115,6 +120,7 @@ nav {
     top: 0;
     width: 100%;
     z-index: 999;
+    height: 200px;
     /*background-color: rgba(25, 21, 33, 0.1) !important;*/
     transition: background-color 0.3s;
 }
@@ -135,6 +141,11 @@ nav {
     background-color: rgba(25, 21, 33, 0.9) !important;
 }
 
+.dropdow-menu.show {
+    border-radius: 0;
+    background-color: #191521;
+}
+
 /*Override Bootstrap's gutter spacing for containers */
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 0 !important;
@@ -153,10 +164,11 @@ nav {
     padding-bottom: 20px;
 }
 
-
 .form-container {
-    padding-top: 90px;
+    margin-top: 120px;
+    padding-top: 120px;
     padding-bottom: 130px;
+    margin-bottom: 100px;
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
@@ -458,7 +470,26 @@ footer {
 
 .footer-navigation a {
     color: #538991 !important;
+    text-decoration: none;
 }
+
+
+.footer-navigation {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.footer-navigation li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.footer-navigation a:hover {
+    text-decoration: underline;
+}
+
+
 
 @media (max-width: 576px) {
     .table-responsive {
@@ -512,4 +543,11 @@ footer {
     color: #191521;
     font-size: 30px;
 }
+
+.form-container {
+    padding-top: 90px;
+    padding-bottom: 130px;
+    margin-bottom: 100px;
+}
+
 }
