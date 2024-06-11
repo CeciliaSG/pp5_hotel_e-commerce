@@ -224,7 +224,7 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
     #DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type
