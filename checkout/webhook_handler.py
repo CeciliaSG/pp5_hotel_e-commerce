@@ -31,10 +31,16 @@ class StripeWH_Handler:
         """
         Handle the payment_intent.succeeded webhook from Stripe
         """
+        logger.info("Handling payment_intent.succeeded webhook: %s", event["id"])
+
+
         intent = event.data.object
         pid = intent.id
         cart = intent.metadata.cart
         save_info = intent.metadata.save_info
+
+        logger.debug("Extracted data: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
+
 
         # Fetch the charge using the latest_charge ID
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
@@ -66,6 +72,8 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if booking_exists:
+            logger.info("Verified booking already exists in the database")
+
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | SUCCESS: Verified booking already in database',
                 status=200)
@@ -89,19 +97,20 @@ class StripeWH_Handler:
                     quantity=quantity,
                     date_and_time=date_and_time,
                 )
-
+            logger.info("Booking creation successful. Booking ID: %s", booking.id)
             return JsonResponse({'success': True}, status=200)
 
         except Exception as e:
             if booking:
                 booking.delete()
+                logger.error("An error occurred during booking creation: %s", e)
             return HttpResponse({'error': str(e)}, status=500)
+
+        logger.info("Completed handling payment_intent.succeeded webhook: %s", event["id"])
 
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
-
-
 
 
     def handle_payment_intent_payment_failed(self, event):
