@@ -147,9 +147,9 @@ else:
         }
     }
 
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # or another backend like 'django.contrib.sessions.backends.db'
-#SESSION_COOKIE_HTTPONLY = True
-#SESSION_COOKIE_SECURE = True
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # or another backend like 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
 
 
 # Password validation
@@ -197,12 +197,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
-}
+#CLOUDINARY_STORAGE = {
+   # 'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
+#}
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+#DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 
 
