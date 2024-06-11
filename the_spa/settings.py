@@ -197,9 +197,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
-#CLOUDINARY_STORAGE = {
-   # 'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
-#}
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
+}
 
 #DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 #STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
