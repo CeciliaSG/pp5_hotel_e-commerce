@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-qh@kz%qqwmu+y+cn4=6*c*_tr@*cpgws$9w)x5q(z2_3v3m3$2"
+SECRET_KEY = "os.getenv('SECRET_KEY', 'your_default_secret_key"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
     "8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "cart",
     "checkout",
     "accounts",
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -190,6 +192,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+
 
 
 STRIPE_CURRENCY = 'sek'
