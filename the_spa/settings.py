@@ -147,6 +147,9 @@ else:
         }
     }
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # or another backend like 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
 
 
 # Password validation
