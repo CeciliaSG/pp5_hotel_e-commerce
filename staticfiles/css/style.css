@@ -16,7 +16,7 @@ html, body {
 
 main {
     flex: 1 0 auto;
-    padding-bottom: 120px;
+    padding-bottom: 150px;
 }
 
 .bg-colour-blue {
@@ -29,6 +29,10 @@ main {
 
 .bg-dark{
     background-color: #191521;
+}
+
+.white-text {
+    color: white;
 }
 
 
@@ -51,6 +55,11 @@ main {
 
 .fa-bars {
     color: #191521;
+    font-size: 20px;
+}
+
+.social-media-symbols i {
+    color: #fff;
     font-size: 20px;
 }
 
@@ -82,10 +91,6 @@ nav {
     background-color: #2a203d;
 }
 
-.dropdow-item{
-    color: white;
-}
-
 .separator {
     width: 100%;
     height: 1px;
@@ -104,6 +109,20 @@ nav {
     color: #538991; 
 }
 
+.dropdown-menu {
+    border-radius: 0 !important;
+    background-color: #201a2c !important;
+}
+
+.dropdown-item {
+    padding: 0 !important;
+}
+
+.btn-close {
+    border-radius: 0 !important;
+    padding-right: 10px;
+}
+
 /* Sticky Navbar Styles */
 
 .sticky-navbar {
@@ -111,7 +130,8 @@ nav {
     top: 0;
     width: 100%;
     z-index: 999;
-    background-color: rgba(25, 21, 33, 0.1) !important;
+    /*height: 150px;*/
+    /*background-color: rgba(25, 21, 33, 0.1) !important;*/
     transition: background-color 0.3s;
 }
 
@@ -127,6 +147,10 @@ nav {
     height: 70px;
 }
 
+.opaque {
+    background-color: rgba(25, 21, 33, 0.9) !important;
+}
+
 
 /*Override Bootstrap's gutter spacing for containers */
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
@@ -140,15 +164,45 @@ nav {
 }
 
 .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
     height: 100%;
+    padding-bottom: 20px;
 }
 
 .form-container {
-    padding-top: 150px;
+    margin-top: 120px;
+    padding-top: 120px;
+    padding-bottom: 130px;
+    margin-bottom: 100px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.checkout-container {
+    padding-top: 100px;
+}
+
+.container.form-container,
+.container.form-container form,
+.container.form-container input,
+.container.form-container select{
+    border-radius: 0;
 }
 
 .cart-container {
-    padding-top: 150px;
+    padding-top: 110px;
+}
+
+.message-container {
+  margin-top: 150px;;
+}
+
+.alert {
+margin-top: 150px;
+background-color: #b3d0d7;
+border-radius: 0;
+max-width: 200px;
 }
 
 .section {
@@ -161,7 +215,7 @@ nav {
 
 .bg-color-section-heading {
     height: 40px;
-    color: #538991 ;
+    color: #538991;
 }
 
 .row {
@@ -218,7 +272,6 @@ nav {
 }
 
 .card .card-body {
-    max-height:;
     overflow: hidden;
 }
 
@@ -234,13 +287,6 @@ nav {
 
 }
 
-.container-fluid {
-    padding-left: 0;
-    padding-right: 0;
-    height: 100%;
-    padding-bottom: 20px;
-}
-
 .table-responsive {
     overflow-x: auto;
 }
@@ -250,15 +296,19 @@ nav {
     font-size: 0.9rem;
 }
 
+.list-group,
+.list-group-item {
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
 
 .content-wrapper {
     margin-bottom: 100px;
 }
 
-.list-group-item:first-child {
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-}
 
 /* Styles for details-page */
 
@@ -316,23 +366,59 @@ input, .form-element {
     font-size: 14px;
 }
 
+.allauth-form{
+    border-radius: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 /* Styling buttons */
 
 button {
     border: none;
+    background-color: #538991 !important;
+    border-color: #538991;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; 
+    max-width: 200px;
 }
 
-button, .btn {
-    background-color: #538991;
+button.btn {
+    background-color: #538991 !important;
     border-radius: 0;
 }
 
 a.btn {
     background-color: #538991;
     border-radius: 0;
-    border: none;
+    max-width: 200px;
 }
 
+.submit-button .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    max-width: 200px;
+}
+
+.submit-button .btn span {
+    display: flex;
+    align-items: center;
+}
+
+
+/*
+a {
+    color: #538991 !important;
+}
+    */
+
+a.text-info {
+    color: #538991 !important;
+}
 
 button.btn.btn-sm {
     background-color: #538991;
@@ -352,23 +438,27 @@ button.btn.btn-sm {
     top: 20px;
     left: 30px;
     z-index: 1001; 
+    background-color: transparent !important;
 }
 
 .book-now-button {
   white-space: nowrap; 
   --bs-gutter-x: 0;
-  margin: 0;
+  /*margin-top: 15px;*/
   background-color: #538991 !important;
-  font-size: 14px;
+  font-size: 14px !important;
   border-radius: 0 !important;
+  height: auto;
+  border-color: #538991;
 }
+
+ 
 
 
 /* Footer */
 
 footer {
     flex-shrink: 0;
-    color: white;
     position: fixed;
     padding: 20px 20px; 
     bottom: 0;
@@ -385,6 +475,36 @@ footer {
     min-width: 80%;
     padding: 15px;
 }
+
+.footer-navigation a {
+    color: #538991 !important;
+    text-decoration: none;
+}
+
+
+.footer-navigation {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.footer-navigation li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.footer-navigation a:hover {
+    text-decoration: underline;
+}
+
+.footer-bg {
+    background-color: #191521;
+}
+
+.copyright {
+    font-size: 12px;
+}
+
 
 @media (max-width: 576px) {
     .table-responsive {
@@ -415,7 +535,7 @@ footer {
   }
 
   .book-now-button {
-    margin-top: 40px;
+    margin-top: 50px;
   }
 
   main {
@@ -438,4 +558,11 @@ footer {
     color: #191521;
     font-size: 30px;
 }
+
+.form-container {
+    padding-top: 90px;
+    padding-bottom: 130px;
+    margin-bottom: 100px;
+}
+
 }

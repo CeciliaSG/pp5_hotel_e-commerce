@@ -1,4 +1,4 @@
-/* From Boutique Ado walkthrough*/
+/* From Boutique Ado walkthrough */
 
 .StripeElement,
 .stripe-style-input {
@@ -11,6 +11,8 @@
   box-shadow: 0 1px 3px 0 #e6ebf1;
   -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 .StripeElement--focus,
@@ -36,4 +38,12 @@
 #card-element {
     color: #000;
     border: 1px solid #000;
+}
+
+.message-container {
+  margin-top: 150px;;
+}
+
+.message-container .alert {
+margin-top: 150px;
 }
