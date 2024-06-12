@@ -1,6 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from booking.models import SpaBooking, SpaBookingServices
-from services.models import SpaService
+from services.models import SpaService, TimeSlot
+from datetime import datetime
+from django.contrib import messages
+from django.utils.timezone import make_aware
 
 import logging
 
@@ -36,10 +39,38 @@ class StripeWH_Handler:
 
         intent = event.data.object
         pid = intent.id
-        cart = intent.metadata.cart
-        save_info = intent.metadata.save_info
+        metadata = intent.metadata
+        #cart = intent.metadata.cart
+        cart = json.loads(metadata.cart)
+        #cart_data = metadata.get('cart')
+        save_info = metadata.get('save_info', 'false').lower() == 'true'
 
-        logger.debug("Extracted data: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
+        
+        date_and_time = None
+        logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
+
+        for unique_key, service_data in cart.items():
+            try:    
+                service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
+                selected_time = time_slot.time.strftime("%H:%M")
+                date_and_time_str = f"{selected_date} {selected_time}"
+                date_and_time = datetime.strptime(date_and_time_str, "%B %d, %Y %H:%M")
+                date_and_time = make_aware(date_and_time)
+                break
+            except Exception as e:
+                logger.error("Error processing cart item %s: %s", unique_key, e)
+                pass
+
+        if not date_and_time:
+            logger.error("Failed to set date_and_time from cart")
+            return HttpResponse(
+                content=f'Webhook received: {event["type"]} | ERROR: Failed to set date_and_time from cart',
+                status=500
+            )
+
+        logger.debug("Finalized date and time: %s", date_and_time)
+        logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
 
 
         # Fetch the charge using the latest_charge ID
@@ -49,9 +80,7 @@ class StripeWH_Handler:
         billing_details = stripe_charge.billing_details
         booking_total = round(stripe_charge.amount / 100, 2)
 
-
-        #billing_details = intent.charges.data[0].billing_details
-        #booking_total = round(intent.charges.data[0].amount / 100, 2)
+        cart_json = json.dumps(cart)
 
         booking_exists = False
         attempt = 1
@@ -61,8 +90,8 @@ class StripeWH_Handler:
                     customer_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,
                     phone_number__iexact=billing_details.phone,
-                    booking_total=booking_total,
-                    original_cart=cart,
+                    #booking_total=booking_total,
+                    original_cart=cart_json,
                     stripe_pid=pid,
                 )
                 booking_exists = True
@@ -72,7 +101,7 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if booking_exists:
-            #self._send_confirmation_email(order)
+            self._send_confirmation_email(order)
             logger.info("Verified booking already exists in the database")
 
             return HttpResponse(
@@ -81,17 +110,29 @@ class StripeWH_Handler:
 
         booking = None
         try:
+
             booking = SpaBooking.objects.create(
                 customer_name=billing_details.name,
                 email=billing_details.email,
                 phone_number=billing_details.phone,
-                original_cart=cart,
+                original_cart=cart_json,                    
                 stripe_pid=pid,
+                date_and_time=date_and_time,
             )
-            for service_id, service_data in json.loads(cart).items():
+            for service_id, service_data in cart.items():
+                service_id = int(unique_key.split('_')[0])
+            #for service_id, service_data in json.loads(cart).items():
+                logger.debug("Service ID: %s, Service Data: %s", service_id, service_data)
                 service = SpaService.objects.get(pk=service_id)
                 quantity = service_data.get('quantity', 1)
                 date_and_time = service_data.get('date_and_time', None)
+                date_and_time_str = f"{selected_date} {selected_time}"
+                date_and_time = datetime.strptime(date_and_time_str, "%B %d, %Y %H:%M")
+                date_and_time = make_aware(date_and_time)
+
+                if date_and_time is None:
+                    logger.warning("No date_and_time found in service_data for service ID: %s", service_id)
+
                 spa_booking_service = SpaBookingServices.objects.create(
                     spa_booking=booking,
                     spa_service=service,
@@ -100,16 +141,19 @@ class StripeWH_Handler:
                 )
             logger.info("Booking creation successful. Booking ID: %s", booking.id)
             return JsonResponse({'success': True}, status=200)
+            logger.debug("Extracted data_3: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
 
         except Exception as e:
+            logger.error(f'An error occurred during booking creation: {e}')
+            logger.error('Data used for booking creation: %s', {e})
             if booking:
                 booking.delete()
-                logger.error("An error occurred during booking creation: %s", e)
+                logger.error("An error occurred during booking creation_2: %s", e)
             return HttpResponse({'error': str(e)}, status=500)
 
         logger.info("Completed handling payment_intent.succeeded webhook: %s", event["id"])
 
-        #self._send_confirmation_email(order)
+        self._send_confirmation_email(order)
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',
             status=200)

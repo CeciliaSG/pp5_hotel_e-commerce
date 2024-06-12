@@ -28,6 +28,7 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     print("Session data before adding items:", request.session.get('cart', {}))
+
     cart = request.session.get('cart', {})
     if not cart:
         messages.error(request, "There's nothing in your cart")
@@ -64,11 +65,15 @@ def checkout(request):
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
+    logger.debug("Cart data: %s", cart)
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         confirm=False,
+        metadata={
+        'cart': json.dumps(cart),
+        }
     )
 
     spa_booking_form = SpaBookingForm()
@@ -150,6 +155,7 @@ def checkout(request):
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
         'messages': messages.get_messages(request),
+        'cart':cart,
     }
 
     return render(request, template, context)
@@ -191,7 +197,7 @@ def checkout_success(request, booking_number):
 
     if save_info:
         profile_data = {
-            'email': booking.email,
+            'deafailt_email': booking.email,
             'default_phone_number': booking.phone_number,
         }
         customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
