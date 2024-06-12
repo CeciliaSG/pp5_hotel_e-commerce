@@ -23,18 +23,42 @@ from django.views.decorators.http import require_POST
 
 logger = logging.getLogger(__name__)
 
+
+@require_POST
+def cache_checkout_data(request):
+    """
+    From Ado walkthrough. 
+    """
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'cart': json.dumps(request.session.get('cart', {})),
+            'save_info': request.POST.get('save_info'),
+            'username': request.user,
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, "Unfortuately, your payment can't be \
+            processed at the moment. Please try again later.")
+        return HttpResponse(content=e, status=400)
+
+
 def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    print("Session data before adding items:", request.session.get('cart', {}))
-
+    # print("Session data before adding items:", request.session.get('cart', {}))
     cart = request.session.get('cart', {})
-    if not cart:
-        messages.error(request, "There's nothing in your cart")
-        return redirect(reverse('home'))
+    if request.method == 'POST':
+       
+        if not cart:
+            messages.error(request, "There's nothing in your cart")
+            return redirect(reverse('home'))
 
     booking_id = uuid.uuid4().hex.upper()
+
+    # logger.debug("Checkout view accessed")
 
     cart_services = []
     total_price = 0
@@ -62,10 +86,11 @@ def checkout(request):
             'selected_time': selected_time,
             'selected_time_slot_id': selected_time_slot_id,
         })
+  
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
-    logger.debug("Cart data: %s", cart)
+    # logger.debug("Cart data: %s", cart)
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
@@ -82,9 +107,9 @@ def checkout(request):
         if spa_booking_form.is_valid():
             spa_booking = spa_booking_form.save(commit=False)
             pid = request.POST.get('client_secret').split('_secret')[0]
+            print('pid in POST handler from script is ', pid, '!!!')
             spa_booking.stripe_pid = pid
             spa_booking.original_cart = json.dumps(cart)
-            #spa_booking.save()
 
             customer_name = spa_booking_form.cleaned_data['customer_name']
             email = spa_booking_form.cleaned_data['email']
@@ -101,7 +126,7 @@ def checkout(request):
 
             spa_booking.date_and_time = date_and_time
             spa_booking.booking_total = total_price
-            spa_booking.stripe_pid = request.POST.get('stripe_pid', '')
+            #spa_booking.stripe_pid = request.POST.get('stripe_pid', '')
             spa_booking.save()
 
             #spa_booking = SpaBooking.objects.create(
@@ -122,7 +147,6 @@ def checkout(request):
                 selected_time_slot_id = cart_service['selected_time_slot_id']
                 selected_datetime = datetime.combine(selected_date, selected_time)
 
-
                 spa_booking_service = SpaBookingServices.objects.create(
                     spa_service=spa_service,
                     quantity=quantity,
@@ -138,6 +162,10 @@ def checkout(request):
 
 
                 return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
+        else:
+            print('********************')
+            print('form not valid')
+            print('********************')
 
     else:
         spa_booking_form = SpaBookingForm()
@@ -159,26 +187,6 @@ def checkout(request):
     }
 
     return render(request, template, context)
-
-
-@require_POST
-def cache_checkout_data(request):
-    """
-    From Ado walkthrough. 
-    """
-    try:
-        pid = request.POST.get('client_secret').split('_secret')[0]
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe.PaymentIntent.modify(pid, metadata={
-            'cart': json.dumps(request.session.get('cart', {})),
-            'save_info': request.POST.get('save_info'),
-            'username': request.user,
-        })
-        return HttpResponse(status=200)
-    except Exception as e:
-        messages.error(request, "Unfortuately, your payment can't be \
-            processed at the moment. Please try again later.")
-        return HttpResponse(content=e, status=400)
 
 
 def checkout_success(request, booking_number):

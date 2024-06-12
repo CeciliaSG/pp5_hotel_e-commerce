@@ -49,6 +49,8 @@ $(document).ready(function() {
     let form = document.getElementById('payment-form');
     form.addEventListener('submit', function(ev) {
         ev.preventDefault();
+        console.log('submitting booking form')
+        
         card.update({ 'disabled': true });
         $('#submit-button').attr('disabled', true);
 

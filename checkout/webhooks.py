@@ -28,7 +28,7 @@ def webhook(request):
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
     event = None
 
-    logger.debug("Received webhook: %s", payload)
+    # logger.debug("Received webhook: %s", payload)
 
     if not sig_header:
         logger.error("Missing Stripe signature header.")
@@ -50,7 +50,7 @@ def webhook(request):
         logger.error("Error constructing event: %s", e)
         return HttpResponse(content=str(e), status=400)
 
-    logger.debug("Event constructed successfully: %s", event)
+    # logger.debug("Event constructed successfully: %s", event)
 
     handler = StripeWH_Handler(request)
 
@@ -62,7 +62,7 @@ def webhook(request):
     event_type = event['type']
     event_handler = event_map.get(event_type, handler.handle_event)
 
-    logger.debug("Handling event type: %s", event_type)
+    # logger.debug("Handling event type: %s", event_type)
 
     response = event_handler(event)
     logger.debug("Response from handler: %s", response)

@@ -34,7 +34,7 @@ class StripeWH_Handler:
         """
         Handle the payment_intent.succeeded webhook from Stripe
         """
-        logger.info("Handling payment_intent.succeeded webhook: %s", event["id"])
+        #logger.info("Handling payment_intent.succeeded webhook: %s", event["id"])
 
 
         intent = event.data.object
@@ -47,9 +47,11 @@ class StripeWH_Handler:
 
         
         date_and_time = None
-        logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
+        # logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
 
         for unique_key, service_data in cart.items():
+            # logger.debug("Processing unique_key: %s", unique_key)
+
             try:    
                 service_id, selected_date, selected_time_slot_id = unique_key.split('_')
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
@@ -63,14 +65,14 @@ class StripeWH_Handler:
                 pass
 
         if not date_and_time:
-            logger.error("Failed to set date_and_time from cart")
+            # logger.error("Failed to set date_and_time from cart")
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | ERROR: Failed to set date_and_time from cart',
                 status=500
             )
 
-        logger.debug("Finalized date and time: %s", date_and_time)
-        logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
+        # logger.debug("Finalized date and time: %s", date_and_time)
+        # logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
 
 
         # Fetch the charge using the latest_charge ID
@@ -84,6 +86,11 @@ class StripeWH_Handler:
 
         booking_exists = False
         attempt = 1
+        print('billing_details.name', billing_details.name)
+        print('billing_details.email', billing_details.email)
+        print('billing_details.phone', billing_details.phone)
+        print('cart_json', cart_json)
+        print('pid', pid)
         while attempt <= 5:
             try:
                 booking = SpaBooking.objects.get(
@@ -101,7 +108,7 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if booking_exists:
-            self._send_confirmation_email(order)
+           #self._send_confirmation_email(order)
             logger.info("Verified booking already exists in the database")
 
             return HttpResponse(
@@ -110,7 +117,7 @@ class StripeWH_Handler:
 
         booking = None
         try:
-
+            print('Booking does not exist **********************************')
             booking = SpaBooking.objects.create(
                 customer_name=billing_details.name,
                 email=billing_details.email,
@@ -122,7 +129,7 @@ class StripeWH_Handler:
             for service_id, service_data in cart.items():
                 service_id = int(unique_key.split('_')[0])
             #for service_id, service_data in json.loads(cart).items():
-                logger.debug("Service ID: %s, Service Data: %s", service_id, service_data)
+                #logger.debug("Service ID: %s, Service Data: %s", service_id, service_data)
                 service = SpaService.objects.get(pk=service_id)
                 quantity = service_data.get('quantity', 1)
                 date_and_time = service_data.get('date_and_time', None)
@@ -153,7 +160,7 @@ class StripeWH_Handler:
 
         logger.info("Completed handling payment_intent.succeeded webhook: %s", event["id"])
 
-        self._send_confirmation_email(order)
+        #self._send_confirmation_email(order)
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
