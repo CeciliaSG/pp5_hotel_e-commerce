@@ -157,9 +157,11 @@ def checkout(request):
                 selected_datetime = timezone.make_aware(selected_datetime)
                 
                 request.session['save_info'] = 'save-info' in request.POST
-                return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
+                
         else:
             messages.error(request, 'There was an error with your form. Please double check your information.')
+
+            return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
 
     else:
         spa_booking_form = SpaBookingForm()
