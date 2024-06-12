@@ -1,0 +1,14 @@
+.table {
+    font-size: 14px;
+}
+
+#profile-update-form input[type="text"],
+#profile-update-form input[type="email"],
+#profile-update-form textarea,
+#profile-update-form select {
+    border-radius: 0;
+}
+
+a {
+    color: #538991;
+}
