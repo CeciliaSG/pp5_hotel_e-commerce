@@ -93,6 +93,7 @@ def add_to_cart(request, service_id=None):
                     return redirect("book_spa_service")
 
             request.session["cart"] = cart
+            logger.info(f"Received price from form: {cart}")
             logger.info(f"Received price from form: {price}")
             return redirect("view_cart")
 
