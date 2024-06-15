@@ -28,7 +28,7 @@ def webhook(request):
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
     event = None
 
-    # logger.debug("Received webhook: %s", payload)
+    logger.debug("Received webhook: %s", payload)
 
     if not sig_header:
         logger.error("Missing Stripe signature header.")

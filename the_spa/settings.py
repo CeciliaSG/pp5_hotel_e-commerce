@@ -257,6 +257,17 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+          'handle_event': {  
+            'handlers': ['console'],  
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+          'webhook': {  
+            'handlers': ['console'],  
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+
     },
 }
 
