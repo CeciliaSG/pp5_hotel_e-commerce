@@ -90,23 +90,16 @@ def checkout(request):
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
-    logger.debug("Cart data: %s", cart)
-
-    try:   
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
-            payment_method_types=['card'],
-            confirm=False,
-            metadata={
-            'cart': json.dumps(cart),
-            }
-        )
-
-        request.session['client_secret'] = intent.client_secret
-    except stripe.error.StripeError as e:
-        messages.error(request, f"Stripe error: {e}")
-        return redirect(reverse('checkout'))
+    # logger.debug("Cart data: %s", cart)
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+        payment_method_types=['card'],
+        confirm=False,
+        metadata={
+        'cart': json.dumps(cart),
+        }
+    )
 
     spa_booking_form = SpaBookingForm()
     if request.method == 'POST':
@@ -135,8 +128,6 @@ def checkout(request):
             spa_booking.booking_total = total_price
             #spa_booking.stripe_pid = request.POST.get('stripe_pid', '')
             spa_booking.save()
-
-            logger.info(f"Total price calculated: {total_price}")
 
             #spa_booking = SpaBooking.objects.create(
                 #customer_name=customer_name,
@@ -211,7 +202,7 @@ def checkout_success(request, booking_number):
 
     if save_info:
         profile_data = {
-            'default_email': booking.email,
+            'deafailt_email': booking.email,
             'default_phone_number': booking.phone_number,
         }
         customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
