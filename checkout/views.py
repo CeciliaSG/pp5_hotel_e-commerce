@@ -48,7 +48,7 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    # print("Session data before adding items:", request.session.get('cart', {}))
+    print("Session data before adding items:", request.session.get('cart', {}))
     cart = request.session.get('cart', {})
     if request.method == 'POST':
        
@@ -90,15 +90,15 @@ def checkout(request):
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
-    # logger.debug("Cart data: %s", cart)
+    logger.debug("Cart data: %s", cart)
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         confirm=False,
-        metadata={
-        'cart': json.dumps(cart),
-        }
+        #metadata={
+        #'cart': json.dumps(cart),
+        #}
     )
 
     spa_booking_form = SpaBookingForm()
