@@ -21,38 +21,38 @@ class StripeWH_Handler:
         self.request = request
 
 
-def handle_event(self, event):
-    """
-    From Boutique Ado walkthrough. Handle a generic/unknown/unexpected webhook event
-    """
+    def handle_event(self, event):
+        """
+        From Boutique Ado walkthrough. Handle a generic/unknown/unexpected webhook event
+        """
 
-    logger.info('Webhook received')
-    try:
-        payload = request.body
-        event = None
-
+        logger.info('Webhook received')
         try:
-            event = json.loads(payload)
-            logger.info(f'Webhook event: {event}')
-        except ValueError as e:
-            logger.error(f'Webhook error while parsing payload: {e}')
-            return HttpResponse(status=400)
+            payload = request.body
+            event = None
 
-        if event['type'] == 'payment_intent.succeeded':
-            handle_payment_intent_succeeded(event)
-            return HttpResponse(status=200)
-        else:
-            logger.warning(f'Unhandled event type {event["type"]}')
-            return HttpResponse(status=200)
+            try:
+                event = json.loads(payload)
+                logger.info(f'Webhook event: {event}')
+            except ValueError as e:
+                logger.error(f'Webhook error while parsing payload: {e}')
+                return HttpResponse(status=400)
 
-    except Exception as e:
-        logger.error(f'Error handling webhook: {e}', exc_info=True)
-        return HttpResponse(status=500)
+            if event['type'] == 'payment_intent.succeeded':
+                handle_payment_intent_succeeded(event)
+                return HttpResponse(status=200)
+            else:
+                logger.warning(f'Unhandled event type {event["type"]}')
+                return HttpResponse(status=200)
 
-    return HttpResponse(
-        content=f'Unhandled webhook received: {event["type"]}',
-        status=200
-    )
+        except Exception as e:
+            logger.error(f'Error handling webhook: {e}', exc_info=True)
+            return HttpResponse(status=500)
+
+        return HttpResponse(
+            content=f'Unhandled webhook received: {event["type"]}',
+            status=200
+        )
 
 
     def handle_payment_intent_succeeded(self, event):
