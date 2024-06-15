@@ -1,3 +1,4 @@
+// Sticky Navbar//
 document.addEventListener("DOMContentLoaded", function() {
     let stickyNavbar = document.querySelector('.sticky-navbar');
     let logo = document.querySelector('.logo');
@@ -40,3 +41,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// Messages //
+ document.addEventListener("DOMContentLoaded", function() {
+            const messages = document.querySelectorAll('#messages .alert');
+            messages.forEach(message => {
+                setTimeout(() => {
+                    message.style.opacity = 1;
+                }, 100);
+                setTimeout(() => {
+                    message.style.opacity = 0;
+                    setTimeout(() => {
+                        message.remove();
+                    }, 500); 
+                }, 5000);
+            });
+        });

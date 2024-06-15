@@ -194,16 +194,28 @@ nav {
     padding-top: 110px;
 }
 
-.message-container {
-  margin-top: 150px;;
+
+.messages {
+    margin-top: 170px;
 }
 
-.alert {
-margin-top: 150px;
-background-color: #b3d0d7;
-border-radius: 0;
+.alert-success {
+color: black !important;
+background-color: #538991 !important;
+border-radius: 0 !important;
 max-width: 200px;
+padding: 15px;
+padding-bottom: 20px;
+border: 1px solid transparent;
+border-color: #191521 !important;
+position: fixed;
+top: 10px;
+z-index: 2000;
+opacity: 0;
+transition: opacity 0.5s ease-in-out;
+pointer-events: auto;
 }
+
 
 .section {
     min-height: 100vh;
