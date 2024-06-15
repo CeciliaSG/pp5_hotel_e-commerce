@@ -142,7 +142,6 @@ class StripeWH_Handler:
 
         booking = None
         try:
-            print('Booking does not exist **********************************')
             booking = SpaBooking.objects.create(
                 customer_name=billing_details.name,
                 email=billing_details.email,
