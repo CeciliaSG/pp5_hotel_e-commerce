@@ -203,7 +203,7 @@ nav {
 color: black !important;
 background-color: #538991 !important;
 border-radius: 0 !important;
-max-width: 200px;
+max-width: 400px;
 padding: 15px;
 padding-bottom: 20px;
 border: 1px solid transparent;
@@ -383,6 +383,7 @@ input, .form-element {
     margin-left: 20px;
     margin-right: 20px;
 }
+
 
 /* Styling buttons */
 

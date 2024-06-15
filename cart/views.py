@@ -10,6 +10,8 @@ import logging
 
 # Create your views here.
 
+logger = logging.getLogger(__name__)
+
 def add_to_cart(request, service_id=None):
 
     if service_id is None:
@@ -31,9 +33,6 @@ def add_to_cart(request, service_id=None):
             quantity = request.POST.get("quantity")
             price = request.POST.get("price")
 
-            if not selected_date:
-                return HttpResponseBadRequest("Date is required")
-
             if not quantity:
                 return HttpResponseBadRequest("Quantity is required")
 
@@ -42,10 +41,19 @@ def add_to_cart(request, service_id=None):
             except ValueError:
                 return HttpResponseBadRequest("Quantity must be an integer")
 
+
+            try:
+                price = float(price)
+            except ValueError:
+                return HttpResponseBadRequest("Price must be a valid number")
+
             try:
                 spa_service_total = float(price) * quantity
             except ValueError:
                 return HttpResponseBadRequest("Price must be a valid number")
+
+            if selected_service.price is None:
+                return HttpResponseBadRequest("Price for selected service is not defined")
 
             spa_service_total = selected_service.price if selected_service.price else 0
 
@@ -80,11 +88,12 @@ def add_to_cart(request, service_id=None):
                         "is_access": selected_service.is_access
                     }
                 else:
-                    messages.warning(request, ('A service cannot be added more than once for the same ate and time.'))
+                    messages.warning(request, ('A service cannot be added more than once for the same date and time.'))
                     #return HttpResponseBadRequest("This service cannot be added more than once.")
                     return redirect("book_spa_service")
 
             request.session["cart"] = cart
+            logger.info(f"Received price from form: {price}")
             return redirect("view_cart")
 
     return HttpResponseBadRequest("Invalid request, problem at the start")

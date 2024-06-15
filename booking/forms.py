@@ -23,7 +23,8 @@ class ServiceBookingForm(forms.ModelForm):
         }
 
     service = forms.ModelChoiceField(
-        queryset=SpaService.objects.all(), empty_label="Select a service"
+        queryset=SpaService.objects.all(), empty_label="Select a service",
+        widget=forms.Select(attrs={"class": "form-control service-select"})
     )
     date = forms.DateField(
         widget=DateInput(
