@@ -86,10 +86,15 @@ def checkout(request):
             'selected_time': selected_time,
             'selected_time_slot_id': selected_time_slot_id,
         })
+
+    if not cart_services:
+            messages.error(request, "There's nothing in your cart")
+            return redirect(reverse('home'))
   
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
+    
     logger.debug("Cart data: %s", cart)
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
