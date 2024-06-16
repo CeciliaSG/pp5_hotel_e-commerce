@@ -6,6 +6,7 @@ from services.models import TimeSlot
 from decimal import Decimal
 from booking.forms import TimeSlotSelectionForm
 import logging
+import json 
 
 
 # Create your views here.
@@ -96,6 +97,7 @@ def add_to_cart(request, service_id=None):
             logger.info(f"Updated cart: {cart}")
             logger.info(f"Received price from form: {cart}")
             logger.info(f"Received price from form: {price}")
+            logger.info(f"Updated cart: {json.dumps(cart, indent=2)}")
             return redirect("view_cart")
 
     return HttpResponseBadRequest("Invalid request, problem at the start")
