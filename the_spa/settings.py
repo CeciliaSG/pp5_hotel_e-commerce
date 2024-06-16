@@ -146,6 +146,9 @@ else:
     }
 
 
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
+
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
