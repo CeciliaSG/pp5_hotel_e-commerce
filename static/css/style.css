@@ -396,6 +396,12 @@ button {
     justify-content: center;
     height: 40px; 
     max-width: 200px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #375d66 !important; 
+    color: #fff !important;
 }
 
 button.btn {
@@ -407,20 +413,33 @@ a.btn {
     background-color: #538991;
     border-radius: 0;
     max-width: 200px;
+    transition: background-color 0.3s ease;
 }
 
-.submit-button .btn {
+a.btn:hover {
+    background-color: #375d66 !important; 
+    color: #fff !important;
+}
+
+.submit-button.btn {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 40px;
     max-width: 200px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button.btn:hover {
+    background-color: #375d66 !important; 
+    color: #fff !important;
 }
 
 .submit-button .btn span {
     display: flex;
     align-items: center;
 }
+
 
 
 /*
@@ -437,6 +456,30 @@ button.btn.btn-sm {
     background-color: #538991;
     border-radius: 0;
     border: none;
+    padding: 5px 10px; 
+    transition: background-color 0.3s ease;
+}
+
+
+button {
+    background-color: #538991;
+    border-radius: 0;
+    border: none;
+    padding: 5px 10px; 
+    transition: background-color 0.3s ease;
+}
+
+
+button.btn.btn-sm:hover {
+    background-color: #375d66 !important; 
+    color: #191521 !important;
+    color: #fff
+}
+
+
+button {
+    background-color: #375d66 !important; 
+    color: #191521 !important;
 }
 
 .btn-close {
@@ -463,6 +506,11 @@ button.btn.btn-sm {
   border-radius: 0 !important;
   height: auto;
   border-color: #538991;
+}
+
+.book-now-button:hover {
+    background-color: #375d66 !important; 
+    color: #191521 !important;
 }
 
  
