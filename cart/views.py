@@ -28,7 +28,6 @@ def add_to_cart(request, service_id=None):
 
         if time_slot_form.is_valid():
             selected_time_slot = time_slot_form.cleaned_data["selected_time_slot"]
-            #timeslot_id, timeslot_time = selected_time_slot.split("-")
             selected_date = request.POST.get("selected_date")
             quantity = request.POST.get("quantity")
             price = request.POST.get("price")
@@ -71,7 +70,7 @@ def add_to_cart(request, service_id=None):
                         "spa_service_total": str(spa_service_total),
                         "selected_date": selected_date,
                         "selected_time": str(selected_time_slot.time),
-                        "selected_time": selected_time_slot.id,
+                         "selected_time_slot_id": selected_time_slot.id,
                         "is_access": selected_service.is_access
                     }
 
@@ -105,10 +104,16 @@ def add_to_cart(request, service_id=None):
 def update_cart(request, service_id):
     if request.method == "POST":
         cart = request.session.get("cart", {})
-        if str(service_id) in cart:
-            new_quantity = int(request.POST.get("quantity", 1))
-            cart[str(service_id)]["quantity"] = new_quantity
-            request.session["cart"] = cart
+        for key in cart.keys():
+            if str(service_id) in key:
+                new_quantity = int(request.POST.get("quantity", 1))
+                cart[key]["quantity"] = new_quantity
+                cart[key]["spa_service_total"] = str(float(cart[key]["spa_service_total"]) / cart[key]["quantity"] * new_quantity)
+                request.session["cart"] = cart
+                request.session.modified = True
+                break
+        else:
+            return HttpResponseBadRequest("Service not found in cart")
     return redirect("view_cart")
 
 
@@ -130,7 +135,7 @@ def view_cart(request):
                             "spa_service_total": service_total,
                             "selected_date": details["selected_date"],
                             "selected_time": details["selected_time"],                    
-                            "selected_time_slot_id": details.get("selected_time_slot.id"),
+                            "selected_time_slot_id": details.get("selected_time_slot_id"),
                             "is_access": details.get("is_access", False)
                         }
             )
