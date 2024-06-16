@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
-    "https://yourapp.herokuapp.com",
+    "https://the-spa-df1f22d5aa6e.herokuapp.com/",
 ]
 
 
@@ -146,21 +146,9 @@ else:
     }
 
 
-redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
