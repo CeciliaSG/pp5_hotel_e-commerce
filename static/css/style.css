@@ -12,6 +12,9 @@ html, body {
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
+    font-family: "Crimson Text", serif !important;
+    font-weight: 400;
+    font-style: normal;
 }
 
 main {
@@ -90,6 +93,22 @@ nav {
 .navbar-nav .dropdown-menu{
     background-color: #2a203d;
 }
+
+.logo {
+    margin-top: 30px;
+    font-size: 45px;
+    margin-bottom: 0;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  p.logo-text {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+  }
+
 
 .separator {
     width: 100%;
@@ -389,7 +408,7 @@ input, .form-element {
 
 button {
     border: none;
-    background-color: #538991 !important;
+    background-color: #538991;
     border-color: #538991;
     display: flex;
     align-items: center;
@@ -397,6 +416,7 @@ button {
     height: 40px; 
     max-width: 200px;
     transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
 button:hover {
@@ -407,6 +427,7 @@ button:hover {
 button.btn {
     background-color: #538991 !important;
     border-radius: 0;
+    font-weight: 600;
 }
 
 a.btn {
@@ -414,6 +435,7 @@ a.btn {
     border-radius: 0;
     max-width: 200px;
     transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
 a.btn:hover {
@@ -439,7 +461,6 @@ a.btn:hover {
     display: flex;
     align-items: center;
 }
-
 
 
 /*
@@ -478,7 +499,7 @@ button.btn.btn-sm:hover {
 
 
 button {
-    background-color: #375d66 !important; 
+    background-color:#538991; !important; 
     color: #191521 !important;
 }
 
@@ -502,18 +523,20 @@ button {
   --bs-gutter-x: 0;
   /*margin-top: 15px;*/
   background-color: #538991 !important;
-  font-size: 14px !important;
+  font-size: 18px !important;
   border-radius: 0 !important;
   height: auto;
   border-color: #538991;
 }
 
+button.btn.book-now-button {
+}
+
+
 .book-now-button:hover {
     background-color: #375d66 !important; 
     color: #191521 !important;
 }
-
- 
 
 
 /* Footer */
@@ -541,7 +564,6 @@ footer {
     color: #538991 !important;
     text-decoration: none;
 }
-
 
 .footer-navigation {
     padding: 0;
@@ -591,9 +613,10 @@ footer {
     transform: none;
   }
 
-  .logo {
+  /*.logo {
     margin-top: 30px;
   }
+    */
 
   .book-now-button {
     margin-top: 50px;
