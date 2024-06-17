@@ -29,3 +29,6 @@ urlpatterns = [
     path('', include('checkout.urls')),
     path('customer_profile/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+from .views import handler404
+
