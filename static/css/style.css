@@ -531,7 +531,9 @@ button {
   border-color: #538991;
 }
 
-button.btn.book-now-button {
+.book-now-button-404 {
+    width: auto;
+    height: auto;
 }
 
 
