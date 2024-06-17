@@ -439,7 +439,7 @@ a.btn {
     background-color: #538991;
     border-color: #538991;
     border-radius: 0;
-    max-width: 200px;
+    max-width: 300px;
     transition: background-color 0.3s ease;
     font-weight: 600;
     height: 40px; 
