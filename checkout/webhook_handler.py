@@ -205,7 +205,7 @@ class StripeWH_Handler:
 
         logger.info("Completed handling payment_intent.succeeded webhook: %s", event["id"])
 
-        #self._send_confirmation_email(booking)
+        self._send_confirmation_email(booking)
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
