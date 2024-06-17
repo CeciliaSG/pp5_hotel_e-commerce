@@ -1,0 +1,19 @@
+Hi {{ booking.customer_name }}!
+
+This is a confirmation of your booking at The Spa on {{ booking.date_and_time }} . Your booking information is below:
+
+Booking Number: {{ booking.booking_number }}
+
+{{ spa_service.service.name }}
+
+Booking Total: ${{ booking.booking_total }}
+
+We've got your phone number on file as {{ booking.phone_number }}.
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+Thank you for your booking!
+
+Sincerely,
+
+The Spa

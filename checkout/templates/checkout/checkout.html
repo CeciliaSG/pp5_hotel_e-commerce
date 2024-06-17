@@ -59,13 +59,12 @@
                     <div class="mb-3" id="card-element"></div>
                     <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                     <input type="hidden" value="{{ client_secret }}" name="client_secret">
-
                 </fieldset>
-                <div class="submit-button btn button text-right mt-5 mb-2">
-                    <a href="{% url 'view_cart' %}" class="btn btn-outline-black rounded-0">
+                <div class="text-right mt-5 mb-0">
+                    <a href="{% url 'view_cart' %}" class="btn button">
                         <span class="font-weight-bold">Update cart</span>
                     </a>
-                    <button id="submit-button" class="btn button btn-outline-black rounded-0 mt-2">
+                    <button class="btn button mt-0">
                         <span class="font-weight-bold">Book now</span>
                     </button>
                     <p class="small text-danger my-2">

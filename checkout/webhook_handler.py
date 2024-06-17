@@ -1,15 +1,20 @@
-from django.http import HttpResponse, JsonResponse
-from booking.models import SpaBooking, SpaBookingServices
-from services.models import SpaService, TimeSlot
-from datetime import datetime
-from django.contrib import messages
-from django.utils.timezone import make_aware
-
+import json
 import logging
+import time
+from datetime import datetime
 
 import stripe
-import json
-import time
+
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import render_to_string
+from django.utils.timezone import make_aware
+
+from booking.models import SpaBooking, SpaBookingServices
+from services.models import SpaService, TimeSlot
+
 
 
 logger = logging.getLogger(__name__)
@@ -19,6 +24,24 @@ class StripeWH_Handler:
 
     def __init__(self, request):
         self.request = request
+
+
+    def _send_confirmation_email(self, spa_booking):
+            """Send the user a confirmation email. From Boutique Ado walkthrough."""
+            cust_email = spa_booking.email
+            subject = render_to_string(
+                'checkout/confirmation_emails/confirmation_email_subject.txt',
+                {'booking': spa_booking})
+            body = render_to_string(
+                'checkout/confirmation_emails/confirmation_email_body.txt',
+                {'spa_booking': spa_booking, 'contact_email': settings.DEFAULT_FROM_EMAIL})
+            
+            send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [cust_email]
+            ) 
 
 
     def handle_event(self, event):
@@ -133,7 +156,7 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if booking_exists:
-            self._send_confirmation_email(order)
+            self._send_confirmation_email(booking)
             logger.info("Verified booking already exists in the database")
 
             return HttpResponse(
@@ -184,7 +207,7 @@ class StripeWH_Handler:
 
         logger.info("Completed handling payment_intent.succeeded webhook: %s", event["id"])
 
-        self._send_confirmation_email(order)
+        self._send_confirmation_email(booking)
         return HttpResponse(
             content=f'Webhook received: {event["type"]} | SUCCESS: Created booking in webhook',
             status=200)

@@ -407,7 +407,6 @@ input, .form-element {
 /* Styling buttons */
 
 button {
-    border: none;
     background-color: #538991;
     border-color: #538991;
     display: flex;
@@ -428,14 +427,17 @@ button.btn {
     background-color: #538991 !important;
     border-radius: 0;
     font-weight: 600;
+    height: 40px; 
 }
 
 a.btn {
     background-color: #538991;
+    border-color: #538991;
     border-radius: 0;
     max-width: 200px;
     transition: background-color 0.3s ease;
     font-weight: 600;
+    height: 40px; 
 }
 
 a.btn:hover {
@@ -499,7 +501,7 @@ button.btn.btn-sm:hover {
 
 
 button {
-    background-color:#538991; !important; 
+    background-color:#538991 !important; 
     color: #191521 !important;
 }
 
