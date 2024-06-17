@@ -28,6 +28,8 @@ class StripeWH_Handler:
 
     def _send_confirmation_email(self, spa_booking):
         """Send the user a confirmation email."""
+
+        cust_email = None
         try:
             cust_email = spa_booking.email
             subject = render_to_string(
