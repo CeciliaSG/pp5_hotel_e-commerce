@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, get_current_timezone
 
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
@@ -27,7 +27,8 @@ class StripeWH_Handler:
 
 
     def _send_confirmation_email(self, spa_booking):
-            """Send the user a confirmation email. From Boutique Ado walkthrough."""
+        """Send the user a confirmation email."""
+        try:
             cust_email = spa_booking.email
             subject = render_to_string(
                 'checkout/confirmation_emails/confirmation_email_subject.txt',
@@ -41,7 +42,11 @@ class StripeWH_Handler:
                 body,
                 settings.DEFAULT_FROM_EMAIL,
                 [cust_email]
-            ) 
+            )
+            logger.info("Confirmation email sent successfully to %s", cust_email)
+        except Exception as e:
+            logger.error("Failed to send confirmation email to %s: %s", cust_email, str(e))
+            raise
 
 
     def handle_event(self, event):
@@ -88,17 +93,12 @@ class StripeWH_Handler:
         intent = event.data.object
         pid = intent.id
         metadata = intent.metadata
-        #cart = intent.metadata.cart
         cart = json.loads(metadata.cart)
-        #cart_data = metadata.get('cart')
         save_info = metadata.get('save_info', 'false').lower() == 'true'
 
-        
         date_and_time = None
-        # logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
 
         for unique_key, service_data in cart.items():
-            # logger.debug("Processing unique_key: %s", unique_key)
 
             try:    
                 service_id, selected_date, selected_time_slot_id = unique_key.split('_')
@@ -106,22 +106,20 @@ class StripeWH_Handler:
                 selected_time = time_slot.time.strftime("%H:%M")
                 date_and_time_str = f"{selected_date} {selected_time}"
                 date_and_time = datetime.strptime(date_and_time_str, "%B %d, %Y %H:%M")
-                date_and_time = make_aware(date_and_time)
+                date_and_time = make_aware(date_and_time, get_current_timezone())
+                logger.debug(f"selected_date: {selected_date}, selected_time: {selected_time}")
+                logger.debug(f"date_and_time_str: {date_and_time_str}, date_and_time: {date_and_time}")
+
                 break
             except Exception as e:
                 logger.error("Error processing cart item %s: %s", unique_key, e)
                 pass
 
         if not date_and_time:
-            # logger.error("Failed to set date_and_time from cart")
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} | ERROR: Failed to set date_and_time from cart',
                 status=500
             )
-
-        # logger.debug("Finalized date and time: %s", date_and_time)
-        # logger.debug("Extracted data_1: pid=%s, cart=%s, save_info=%s", pid, cart, save_info)
-
 
         # Fetch the charge using the latest_charge ID
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
@@ -129,7 +127,6 @@ class StripeWH_Handler:
         # Retrieve billing details and amount from the charge
         billing_details = stripe_charge.billing_details
         booking_total = round(stripe_charge.amount / 100, 2)
-
         cart_json = json.dumps(cart)
 
         booking_exists = False
@@ -175,14 +172,13 @@ class StripeWH_Handler:
             )
             for service_id, service_data in cart.items():
                 service_id = int(unique_key.split('_')[0])
-            #for service_id, service_data in json.loads(cart).items():
-                #logger.debug("Service ID: %s, Service Data: %s", service_id, service_data)
                 service = SpaService.objects.get(pk=service_id)
                 quantity = service_data.get('quantity', 1)
-                date_and_time = service_data.get('date_and_time', None)
+                #date_and_time = service_data.get('date_and_time', None)
                 date_and_time_str = f"{selected_date} {selected_time}"
                 date_and_time = datetime.strptime(date_and_time_str, "%B %d, %Y %H:%M")
-                date_and_time = make_aware(date_and_time)
+                date_and_time = make_aware(date_and_time, get_current_timezone())
+
 
                 if date_and_time is None:
                     logger.warning("No date_and_time found in service_data for service ID: %s", service_id)

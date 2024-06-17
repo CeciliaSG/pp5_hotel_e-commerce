@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 import uuid
 from services.models import SpaService
 from django.db.models import Sum
-from django.utils import timezone
 from accounts.models import CustomerProfile
+from django.utils import timezone
+from django.utils.timezone import make_aware 
 
 # Create your models here.
 
@@ -95,8 +96,12 @@ class SpaBookingServices(models.Model):
     def save(self, *args, **kwargs):
         if not self.date_and_time:
             self.date_and_time = timezone.now()
+        elif timezone.is_naive(self.date_and_time):
+            self.date_and_time = make_aware(self.date_and_time)
+
         self.spa_service_total = self.spa_service.price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.spa_service.name} x {self.quantity}'
+     
