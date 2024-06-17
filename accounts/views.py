@@ -29,7 +29,7 @@ def profile(request):
 
     spa_bookings = SpaBooking.objects.filter(customer_profile=profile)
     username = request.user.username
-    customer_name = profile.user.get_full_name() or profile.user.username
+    #customer_name = profile.user.get_full_name() or profile.user.username
 
     context = {
         'form': form,
