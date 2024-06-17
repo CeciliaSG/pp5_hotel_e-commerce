@@ -47,7 +47,7 @@ def booking_history(request, booking_number):
 
     messages.info(request, (
         f'This is a past confirmation for booking number {booking_number}. '
-        'A confirmation email was sent on the order date.'
+        'A confirmation email was sent on the booking date.'
     ))
 
     template = 'checkout/checkout_success.html'
