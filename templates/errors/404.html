@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<div class="container form-container header-container">
+<div class="container container-404 header-container">
     <div class="row">
         <div class="col"></div>
     </div>
@@ -15,12 +15,12 @@
             <h1 class="display-4 logo-font">
                 The page you are looking for isn't available
             </h1>
-            <div class="my-5 text-center">
+            <div class="my-5">
                 <h4>
-                    <a href="{% url 'book_spa_service' %}" class="book-now-button-404 btn">
+                    <a href="{% url 'book_spa_service' %}" class="book-now-button-404 btn text-uppercase mt-3">
                         Return to book a service
                     </a>
-                    <a href="{% url 'home' %}" class="book-now-button-404 btn uppercase-text">
+                    <a href="{% url 'home' %}" class="book-now-button-404 btn text-uppercase mt-3">
                         Return to home page
                     </a>
                 </h4>
