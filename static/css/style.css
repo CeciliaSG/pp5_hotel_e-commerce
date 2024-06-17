@@ -669,4 +669,12 @@ footer {
     margin-bottom: 100px;
 }
 
+.table-responsive {
+        overflow-x: auto;
+}
+
+.col-lg-6 {
+        margin-bottom: 20px;
+}
+
 }
