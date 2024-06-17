@@ -8,7 +8,7 @@ import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.template.loader import render_to_string
 from django.utils.timezone import make_aware, get_current_timezone
 
