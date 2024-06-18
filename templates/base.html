@@ -46,7 +46,7 @@
       <div class="row justify-content-center w-100">
         <div class="col text-left">
           <li class="nav-item">
-            <a class="nav-link mt-4" href="{% url 'home' %}">Home</a>
+            <a class="nav-link mt-4" href="{% url 'home' %}#home">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -55,8 +55,9 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <!--<li><a class="dropdown-item" href="#about">About the Spa</a></li>-->
-              <li><a class="dropdown-item" href="{% url 'spa_services' %}">Treatments</a></li>
-              <li class="nav-item"><a class="nav-link" href="#book">Prices & Booking</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#treatments">Treatments</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#prices-booking">Prices &
+                  Booking</a></li>
             </ul>
           </li>
           <li class="nav-item"><a href="{% url 'view_cart' %}" class="nav-link">Cart</a></li>
@@ -73,11 +74,13 @@
         {% endif %}
       </div>
       <div class="separator"></div>
-      <div class="social-media-symbols"><i class="fa-brands fa-facebook"></i></div>
+      <div class="social-media-symbols"><a href="https://www.facebook.com/profile.php?id=61561061374321"
+          target="_blank"><i class="fa-brands fa-facebook"></i></a></div>
   </div>
   </ul>
   </div>
   </nav>
+
   <!-- Second/sticky Navbar -->
   <nav class="sticky-navbar navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid justify-content-center">

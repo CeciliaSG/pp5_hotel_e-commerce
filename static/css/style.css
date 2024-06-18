@@ -38,6 +38,10 @@ main {
     color: white;
 }
 
+.spa-blue {
+    color: #191521 !important;
+}
+
 
 /* navbar */
 
@@ -135,6 +139,7 @@ nav {
 
 .dropdown-item {
     padding: 0 !important;
+    background-color: #191521;
 }
 
 .btn-close {

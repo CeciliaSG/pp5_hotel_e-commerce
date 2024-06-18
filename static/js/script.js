@@ -57,3 +57,26 @@ document.addEventListener("DOMContentLoaded", function() {
                 }, 5000);
             });
         });
+
+// Scroll to section with navbar//
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.location.hash) {
+      const element = document.querySelector(window.location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          history.pushState(null, null, targetId);
+        }
+      });
+    });
+  });
