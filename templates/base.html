@@ -54,63 +54,82 @@
     aria-expanded="false" aria-controls="collapseNavbar">
     <i class="fa-sharp fa-solid fa-bars"></i>
   </button>
-  <div class="collapse collapse-horizontal justify-content-center" id="collapseNavbar">
+  <div class="collapse collapse-horizontal" id="collapseNavbar">
     <button type="button" class="btn-close" aria-label="Close" data-bs-toggle="collapse"
       data-bs-target="#collapseNavbar"></button>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
-      <div class="row justify-content-center w-100">
-        <div class="col text-left">
-          <li class="nav-item">
-            <a class="nav-link mt-4" href="{% url 'home' %}#home">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Services
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <!--<li><a class="dropdown-item" href="#about">About the Spa</a></li>-->
-              <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#treatments">Treatments</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#prices-booking">Prices &
-                  Booking</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a href="{% url 'view_cart' %}" class="nav-link">Cart</a></li>
-          <li class="nav-item"><a href="{% url 'checkout' %}" class="nav-link">Checkout</a></li>
+    <nav class="navbar-nav mb-lg-0">
+      <div class="row">
+        <div class="col">
+          <ul>
+            <li class="nav-item">
+              <a class="nav-link mt-4" href="{% url 'home' %}#home" aria-label="Home">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Services
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#treatments"
+                    aria-label="View spa treatments">Treatments</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'spa_services' %}#prices-booking"
+                    aria-label="View prices and Booking">Prices &
+                    Booking</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a href="{% url 'view_cart' %}" class="nav-link" aria-label="View Cart">Cart</a></li>
+            <li class="nav-item"><a href="{% url 'checkout' %}" class="nav-link"
+                aria-label="Go to Checkout">Checkout</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            {% if not request.user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link"
+                aria-label="For for registering">Register</a>
+            </li>
+            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-label="Login page">Login</a>
+            </li>
+            {% else %}
+            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link"
+                aria-label="Logout pge">Logout</a>
+            </li>
+            <li class="nav-item"><a href="{% url 'customer_profile' %}" class="nav-link"
+                aria-label="View your profile">Profile</a>
+            </li>
+            {% endif %}
+          </ul>
+          <div>
+            <hr class="separator">
+          </div>
+          <ul class="social-media-symbols">
+            <li class="nav-item"><a href="https://www.facebook.com/profile.php?id=61561061374321" target="_blank"
+                rel="noopener" aria-label="Visit our facebook-page (opens in new tab)"><i
+                  class="fa-brands fa-facebook"></i></a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="col text-left">
-        {% if not request.user.is_authenticated %}
-        <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Register</a></li>
-        <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Login</a></li>
-        {% else %}
-        <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Logout</a></li>
-        <li class="nav-item"><a href="{% url 'customer_profile' %}" class="nav-link">Profile</a></li>
-        {% endif %}
-      </div>
-      <div class="separator"></div>
-      <div class="social-media-symbols"><a href="https://www.facebook.com/profile.php?id=61561061374321"
-          target="_blank"><i class="fa-brands fa-facebook"></i></a></div>
+    </nav>
   </div>
-  </ul>
-  </div>
-  </nav>
+
 
   <!-- Second/sticky Navbar -->
   <nav class="sticky-navbar navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid justify-content-center">
       <div class="row w-100 justify-content-center">
         <div class="col-12 col-lg-4 order-lg-1">
-
         </div>
         <div class="col-12 col-lg-4 order-lg-2 text-center mt-sm-2">
-          <a class="navbar-brand" href="{% url 'home' %}">
+          <a class="navbar-brand" href="{% url 'home' %}" aria-label="Home">
             <h1 class="logo">The Spa</h1>
             <p class="logo-text">Stockholm</p>
           </a>
         </div>
         <div class="col-12 col-lg-4 order-lg-3 text-center text-lg-right">
-          <a class="btn button book-now-button" href="{% url 'book_spa_service'%}">Make a Booking</a>
+          <a class="btn button book-now-button" href="{% url 'book_spa_service'%}" aria-label="Make a Booking">Make a
+            Booking</a>
         </div>
       </div>
     </div>
@@ -149,9 +168,9 @@
       <div class="row custom-row ">
         <div class="col-md-12">
           <ul class="list-unstyled footer-navigation">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'home' %}" aria-label="Home">Home</a></li>
+            <li><a href="#" aria-label="About the Spa">About The Spa</a></li>
+            <li><a href="{% url 'contact' %}" aria-label="Contact">Contact</a></li>
           </ul>
           <p class="white-text copyright mt-3">© 2024 The Spa</p>
         </div>

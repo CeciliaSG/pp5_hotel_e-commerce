@@ -17,7 +17,7 @@
             {% if service_id and available_time_slots %}
             <form method="post" action="{% url 'add_to_cart' service_id=service_id %}">
                 {% csrf_token %}
-                <h2>Available Time Slots:</h2>
+                <h2 class="h4">Available Time Slots:</h2>
                 <ul>
                     {% for time_slot in available_time_slots %}
                     <li>
