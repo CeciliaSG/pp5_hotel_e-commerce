@@ -1,17 +1,20 @@
+import json
+import logging
+from decimal import Decimal
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
+
 from booking.models import SpaBookingServices, SpaBooking, SpaService
 from services.models import TimeSlot
-from decimal import Decimal
 from booking.forms import TimeSlotSelectionForm
-import logging
-import json 
+
 
 
 # Create your views here.
 
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 def add_to_cart(request, service_id=None):
 
@@ -24,14 +27,21 @@ def add_to_cart(request, service_id=None):
 
         time_slot_form = TimeSlotSelectionForm(request.POST)
         if not time_slot_form.is_valid():
-            logger.error("Form errors: %s", time_slot_form.errors)
-            return HttpResponseBadRequest("Form errors: %s" % time_slot_form.errors)
+            errors = time_slot_form.errors.as_data()
+            for field, error_list in errors.items():
+                for error in error_list:
+                    messages.error(request, f"Error in {field}: {error}", extra_tags='alert alert-danger')
+            return redirect('book_spa_service')
 
         if time_slot_form.is_valid():
             selected_time_slot = time_slot_form.cleaned_data["selected_time_slot"]
             selected_date = request.POST.get("selected_date")
             quantity = request.POST.get("quantity")
             price = request.POST.get("price")
+
+            if not selected_time_slot:
+                messages.error(request, "You must select a time slot.", extra_tags='alert alert-danger')
+                return redirect('book_spa_service')
 
             if not quantity:
                 return HttpResponseBadRequest("Quantity is required")
@@ -40,7 +50,6 @@ def add_to_cart(request, service_id=None):
                 quantity = int(quantity)
             except ValueError:
                 return HttpResponseBadRequest("Quantity must be an integer")
-
 
             try:
                 price = float(price)
@@ -89,15 +98,10 @@ def add_to_cart(request, service_id=None):
                     }
                 else:
                     messages.warning(request, ('A service cannot be added more than once for the same date and time.'))
-                    #return HttpResponseBadRequest("This service cannot be added more than once.")
                     return redirect("book_spa_service")
 
             request.session["cart"] = cart
             request.session.modified = True
-            logger.info(f"Updated cart: {cart}")
-            logger.info(f"Received price from form: {cart}")
-            logger.info(f"Received price from form: {price}")
-            logger.info(f"Updated cart: {json.dumps(cart, indent=2)}")
             return redirect("view_cart")
 
     return HttpResponseBadRequest("Invalid request, problem at the start")

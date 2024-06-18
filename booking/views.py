@@ -20,7 +20,6 @@ def book_spa_service(request):
             selected_service = form.cleaned_data.get("spa_service")
             selected_date = form.cleaned_data.get("date")
             quantity = form.cleaned_data.get("quantity")
-            #price = selected_service.price
             selected_service_id = request.POST.get('service')
             selected_service = get_object_or_404(SpaService, pk=selected_service_id)
 

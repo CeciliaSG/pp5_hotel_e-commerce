@@ -228,7 +228,7 @@ nav {
     margin-top: 170px;
 }
 
-.alert-success {
+.alert-success, .alert-danger {
 color: black !important;
 background-color: #538991 !important;
 border-radius: 0 !important;
