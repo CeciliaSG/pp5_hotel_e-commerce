@@ -391,7 +391,7 @@ pointer-events: auto;
 .form-control {
     color: #191521;
     border: 1px solid #191521;
-    border-radius: 0;
+    border-radius: 0 !important;
 }
 
 input, .form-element {

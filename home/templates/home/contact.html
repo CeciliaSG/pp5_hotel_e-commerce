@@ -1,39 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Contact Us - The Spa{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container form-container">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <h2 class="mb-4">Contact Us</h2>
-            <form method="POST" action="{% url 'contact' %}" class="needs-validation" novalidate>
+        <div class="col-md-9 col-lg-6">
+            <hr>
+            <h1 class="text-center">Contact Us</h1>
+            <hr>
+            <form method="post">
                 {% csrf_token %}
-                <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                    <div class="invalid-feedback">
-                        Please enter your name.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Your Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                    <div class="invalid-feedback">
-                        Please enter a valid email address.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Your Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                    <div class="invalid-feedback">
-                        Please enter your message.
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form|crispy }}
+                <button type="submit" class="btn button submit-button">Send</button>
             </form>
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
