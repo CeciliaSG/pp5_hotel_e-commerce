@@ -146,7 +146,6 @@ else:
     }
 
 
-
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_CACHE_ALIAS = 'default'
@@ -214,6 +213,8 @@ STRIPE_CURRENCY = 'sek'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
+MAILCHIMP_API_KEY = os.getenv('MAILCHIMP_API_KEY')
 
 
 if 'DEVELOPMENT' in os.environ:

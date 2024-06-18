@@ -29,10 +29,15 @@
 
   <title>The Spa {% block extra_title %}{% endblock %}</title>
 
+  <!-- Mail Chimp -->
+  <script id="mcjs">
+    !function (c, h, i, m, p) {
+      m = c.createElement(h), p = c.getElementsByTagName(h)[0], m.async = 1, m.src = i, p.parentNode.insertBefore(m, p)
+    }(document, "script", "https://chimpstatic.com/mcjs-connected/js/users/44177e437240e3da8b4c06fe8/e49930d116965750fdb178019.js");
+  </script>
 </head>
 
 <body>
-
   {% block page_header %}
   <!-- main navbar -->
   <button class="navbar-button mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar"
@@ -167,12 +172,5 @@
   <!-- Stripe-->
   <script src="https://js.stripe.com/v3/"></script>
 
-  <!-- Mail Chimp -->
-  <script>
-    id = "mcjs" > !function (c, h, i, m, p) {
-      m = c.createElement(h), p = c.getElementsByTagName(h)[0], m.async = 1, m.src =
-        i, p.parentNode.insertBefore(m, p)
-    }(document, "script",
-      "https://chimpstatic.com/mcjs-connected/js/users/44177e437240e3da8b4c06fe8/f43ac1314d7d3e2fa645e6802.js");</script>
   {% endblock %}
 </body>
