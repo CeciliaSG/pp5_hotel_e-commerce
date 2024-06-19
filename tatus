@@ -1,0 +1,79 @@
+[1mdiff --git a/README.md b/README.md[m
+[1mindex f8bca1c..5e43bac 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -134,22 +134,24 @@[m [mThe e-commerce model for The Spa Stockholm will enhance the customer experience[m
+ [m
+ 1. [Bootstrap 5:](https://getbootstrap.com/docs/4.4/getting-started/introduction/)[m
+     - Bootstrap was used to assist with the responsiveness and styling of the website.[m
+[31m-1. [Hover.css:](https://ianlunn.github.io/Hover/)[m
+[32m+[m[32m2. [Hover.css:](https://ianlunn.github.io/Hover/)[m
+     - Hover.css was used on the Social Media icons in the footer to add the float transition while being hovered over.[m
+[31m-1. [Google Fonts:](https://fonts.google.com/)[m
+[32m+[m[32m3. [Google Fonts:](https://fonts.google.com/)[m
+     - Google fonts were used to import the 'Titillium Web' font into the style.css file which is used on all pages throughout the project.[m
+[31m-1. [Font Awesome:](https://fontawesome.com/)[m
+[32m+[m[32m5. [Font Awesome:](https://fontawesome.com/)[m
+     - Font Awesome was used on all pages throughout the website to add icons for aesthetic and UX purposes.[m
+[31m-1. [jQuery:](https://jquery.com/)[m
+[32m+[m[32m6. [jQuery:](https://jquery.com/)[m
+     - jQuery came with Bootstrap to make the navbar responsive but was also used for the smooth scroll function in JavaScript.[m
+[31m-1. [Git](https://git-scm.com/)[m
+[32m+[m[32m7. [Git](https://git-scm.com/)[m
+     - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitHub.[m
+[31m-1. [GitHub:](https://github.com/)[m
+[32m+[m[32m8. [GitHub:](https://github.com/)[m
+     - GitHub is used to store the projects code after being pushed from Git.[m
+[31m-1. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)[m
+[32m+[m[32m9. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)[m
+     - Photoshop was used to create the logo, resizing images and editing photos for the website.[m
+[31m-1. [Canva:](https://www.canva.com/)[m
+[32m+[m[32m10. [Canva:](https://www.canva.com/)[m
+     - Canva was used to create the [wireframes](https://github.com/) during the design process.[m
+[32m+[m[32m11. [realfavicongenerator](realfavicongenerator.net)[m
+[32m+[m[32m    - Realfavicongenerator was used to generate a favicon.[m
+ [m
+ ## Testing[m
+ [m
+[1mdiff --git a/checkout/views.py b/checkout/views.py[m
+[1mindex 92bafeb..dda6fa0 100644[m
+[1m--- a/checkout/views.py[m
+[1m+++ b/checkout/views.py[m
+[36m@@ -61,7 +61,7 @@[m [mdef checkout(request):[m
+ [m
+     booking_id = uuid.uuid4().hex.upper()[m
+ [m
+[31m-    # logger.debug("Checkout view accessed")[m
+[32m+[m[32m    logger.debug("Checkout view accessed")[m
+ [m
+     cart_services = [][m
+     total_price = 0[m
+[1mdiff --git a/checkout/webhook_handler.py b/checkout/webhook_handler.py[m
+[1mindex b6b10f7..8740b1f 100644[m
+[1m--- a/checkout/webhook_handler.py[m
+[1m+++ b/checkout/webhook_handler.py[m
+[36m@@ -57,14 +57,12 @@[m [mclass StripeWH_Handler:[m
+         From Boutique Ado walkthrough. Handle a generic/unknown/unexpected webhook event[m
+         """[m
+ [m
+[31m-        logger.info('Webhook received')[m
+         try:[m
+             payload = request.body[m
+             event = None[m
+ [m
+             try:[m
+                 event = json.loads(payload)[m
+[31m-                logger.info(f'Webhook event: {event}')[m
+             except ValueError as e:[m
+                 logger.error(f'Webhook error while parsing payload: {e}')[m
+                 return HttpResponse(status=400)[m
+[36m@@ -90,7 +88,7 @@[m [mclass StripeWH_Handler:[m
+         """[m
+         Handle the payment_intent.succeeded webhook from Stripe[m
+         """[m
+[31m-        #logger.info("Handling payment_intent.succeeded webhook: %s", event["id"])[m
+[32m+[m[32m        logger.info("Handling payment_intent.succeeded webhook: %s", event["id"])[m
+ [m
+ [m
+         intent = event.data.object[m
+[36m@@ -124,10 +122,10 @@[m [mclass StripeWH_Handler:[m
