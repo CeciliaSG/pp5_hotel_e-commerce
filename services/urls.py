@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
-from .views import spa_services, services_by_category, service_details
+from .views import (
+    spa_services, 
+    services_by_category, 
+    service_details)
 
 
 urlpatterns = [

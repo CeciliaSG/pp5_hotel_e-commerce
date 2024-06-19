@@ -17,7 +17,6 @@ STATUS = (
     (1, "Published"),
 )
 
-
 class SpaService(models.Model):
     name = models.CharField(max_length=300)
     description = models.TextField()

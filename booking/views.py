@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
 from .forms import ServiceBookingForm, TimeSlotSelectionForm
 from services.models import SpaService, Availability, TimeSlot
+
+
 #from django.forms.widgets import DateInput
 
 def book_spa_service(request):

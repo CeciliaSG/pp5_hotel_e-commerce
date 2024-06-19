@@ -1,21 +1,24 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from datetime import datetime
+import json
+import logging
+
+import stripe
+from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+
 from .forms import SpaBookingForm
 from accounts.forms import CustomerProfileForm
 from booking.forms import ServiceBookingForm
-import uuid
-from booking.models import SpaBooking, SpaBookingServices
 from accounts.models import CustomerProfile
-from services.models import SpaService,TimeSlot
-from django.core.exceptions import ObjectDoesNotExist
-import stripe
-from django.conf import settings
-import logging
-from datetime import datetime
-from django.utils import timezone
-import json
-from django.views.decorators.http import require_POST
+from booking.models import SpaBooking, SpaBookingServices
+from services.models import SpaService, TimeSlot
+import uuid
+
 
 
 

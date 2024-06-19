@@ -1,12 +1,15 @@
-from django.db import models
-from decimal import Decimal
-from django.contrib.auth.models import User
 import uuid
-from services.models import SpaService
+from decimal import Decimal
+
+from django.db import models
+from django.contrib.auth.models import User
 from django.db.models import Sum
-from accounts.models import CustomerProfile
 from django.utils import timezone
-from django.utils.timezone import make_aware 
+from django.utils.timezone import make_aware
+
+from services.models import SpaService
+from accounts.models import CustomerProfile
+
 
 # Create your models here.
 

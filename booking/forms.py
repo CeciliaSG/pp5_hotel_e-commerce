@@ -1,6 +1,9 @@
 from django import forms
+from django.db import models
+
 from .models import SpaBooking
 from services.models import SpaService, TimeSlot
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
