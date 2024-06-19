@@ -4,16 +4,16 @@
 
 
 {% block content %}
-<section class="service-details">
-    <div class="container">
+<section class="service-details mt-4 mb-5">
+    <div class="container form-container">
         <div class="row justify-content-center">
-            <div class="col-5 service-description">
+            <div class="col-lg-5 col-md-8 col-sm-10 mb-4">
                 <h1>{{ service.name }}</h1>
                 <p>{{ service.description }}</p>
             </div>
-            <div class="col-4 service-info">
+            <div class="col-lg-4 col-md-8 col-sm-10">
                 <h2>Service Details</h2>
-                <ul>
+                <ul class="list-unstyled">
                     <li><strong>Category:</strong> {{ service.category }}</li>
                     <li><strong>Duration:</strong> {{ service.duration|format_duration }}</li>
                     <li><strong>Price:</strong> {{ service.price }} SEK</li>
