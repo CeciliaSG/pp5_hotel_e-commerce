@@ -23,10 +23,10 @@ def webhook(request):
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
     event = None
 
-    logger.debug("Received webhook: %s", payload)
+    #logger.debug("Received webhook: %s", payload)
 
     if not sig_header:
-        logger.error("Missing Stripe signature header.")
+        #logger.error("Missing Stripe signature header.")
         return HttpResponse(status=400)
 
     try:
@@ -34,15 +34,15 @@ def webhook(request):
             payload, sig_header, wh_secret
         )
     except ValueError as e:
-        logger.error("Invalid payload: %s", e)
+        #logger.error("Invalid payload: %s", e)
         return HttpResponse(status=400)
 
     except stripe.error.SignatureVerificationError as e:
-        logger.error("Invalid signature: %s", e)
+        #logger.error("Invalid signature: %s", e)
         return HttpResponse(status=400)
         
     except Exception as e:
-        logger.error("Error constructing event: %s", e)
+        #logger.error("Error constructing event: %s", e)
         return HttpResponse(content=str(e), status=400)
 
     # logger.debug("Event constructed successfully: %s", event)
@@ -57,8 +57,8 @@ def webhook(request):
     event_type = event['type']
     event_handler = event_map.get(event_type, handler.handle_event)
 
-    # logger.debug("Handling event type: %s", event_type)
+    #logger.debug("Handling event type: %s", event_type)
 
     response = event_handler(event)
-    logger.debug("Response from handler: %s", response)
+    #logger.debug("Response from handler: %s", response)
     return response

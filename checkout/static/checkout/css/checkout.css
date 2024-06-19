@@ -1,5 +1,6 @@
 /* From Boutique Ado walkthrough */
 
+/* General styling for Stripe element and custom input */
 .StripeElement,
 .stripe-style-input {
   box-sizing: border-box;
@@ -15,35 +16,79 @@
   max-width: 100%;
 }
 
+/* Focus styles */
 .StripeElement--focus,
 .stripe-style-input:focus,
 .stripe-style-input:active {
   box-shadow: 0 1px 3px 0 #cfd7df;
 }
 
+/* Autofill styles */
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
 }
 
+/* Placeholder styling */
 .stripe-style-input::placeholder {
     color: #aab7c4;
 }
 
+/* Fieldset styling */
+fieldset {
+  max-width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+/* Label styling */
 .fieldset-label {
-    position: relative;
     right: .5rem;
 }
 
+/* Form control and card element styling */
 #payment-form .form-control,
 #card-element {
-    color: #000;
-    border: 1px solid #000;
+    color: #191521;
+    border: 1px solid #191521;
 }
 
+/* Card element specific styling */
+
+#card-element {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  background-color: #f8f8f8;
+}
+
+/* Message container styling */
 .message-container {
   margin-top: 150px;;
 }
 
 .message-container .alert {
 margin-top: 150px;
+}
+
+.CardField-number .CardField-number-fakeNumber,
+.CardField-number input {
+  -webkit-transform: scale(1) !important;
+  -ms-transform: scale(1) !important;
+  transform: scale(1) !important;
+}
+
+
+/* Additional styling for small screens */
+@media (max-width: 600px) {
+  fieldset {
+    padding: 0 10px;
+  }
+   form {
+    width: 80vw;
+    min-width: initial;
+  } 
+
+  #card-element {
+    font-size: 14px !important;
+  }
 }
