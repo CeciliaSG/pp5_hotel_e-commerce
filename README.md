@@ -134,22 +134,24 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 1. [Bootstrap 5:](https://getbootstrap.com/docs/4.4/getting-started/introduction/)
     - Bootstrap was used to assist with the responsiveness and styling of the website.
-1. [Hover.css:](https://ianlunn.github.io/Hover/)
+2. [Hover.css:](https://ianlunn.github.io/Hover/)
     - Hover.css was used on the Social Media icons in the footer to add the float transition while being hovered over.
-1. [Google Fonts:](https://fonts.google.com/)
+3. [Google Fonts:](https://fonts.google.com/)
     - Google fonts were used to import the 'Titillium Web' font into the style.css file which is used on all pages throughout the project.
-1. [Font Awesome:](https://fontawesome.com/)
+5. [Font Awesome:](https://fontawesome.com/)
     - Font Awesome was used on all pages throughout the website to add icons for aesthetic and UX purposes.
-1. [jQuery:](https://jquery.com/)
+6. [jQuery:](https://jquery.com/)
     - jQuery came with Bootstrap to make the navbar responsive but was also used for the smooth scroll function in JavaScript.
-1. [Git](https://git-scm.com/)
+7. [Git](https://git-scm.com/)
     - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitHub.
-1. [GitHub:](https://github.com/)
+8. [GitHub:](https://github.com/)
     - GitHub is used to store the projects code after being pushed from Git.
-1. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)
+9. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)
     - Photoshop was used to create the logo, resizing images and editing photos for the website.
-1. [Canva:](https://www.canva.com/)
+10. [Canva:](https://www.canva.com/)
     - Canva was used to create the [wireframes](https://github.com/) during the design process.
+11. [realfavicongenerator](realfavicongenerator.net)
+    - Realfavicongenerator was used to generate a favicon.
 
 ## Testing
 
