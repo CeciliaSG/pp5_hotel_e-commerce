@@ -109,14 +109,22 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 *   ### Wireframes
 
-    -   Home Page Wireframe - [View](https://github.com/)
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_1.png">
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_2.png">
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_3.png">
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_4.png">
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_5.png">
+-  [View] <img src="assets_readme/wireframes/wireframe_homepage_6.png">
 
-    -   Mobile Wireframe - [View](https://github.com/)
-
-    -   Contact Us Page Wireframe - [View](https://github.com/)
 
 ### Models/ERDs
-    -  [View](https://github.com/)
+
+-  [View](assets_readme/wireframes/wireframe_homepage_1.png)
+
+ - **Kanban Board**
+ <img src="">
+
+
 
 ## Features
 
@@ -130,30 +138,36 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 -   [HTML5](https://en.wikipedia.org/wiki/HTML5)
 -   [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
--   [Javascript]
+-   [Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework))
+-   [Django](https://en.wikipedia.org/wiki/Django)
+-   [Javascript](https://en.wikipedia.org/wiki/JavaScript)
 -   [Python]
 
 ### Frameworks, Libraries & Programs Used
 
 1. [Bootstrap 5:](https://getbootstrap.com/docs/4.4/getting-started/introduction/)
     - Bootstrap was used to assist with the responsiveness and styling of the website.
-2. [Hover.css:](https://ianlunn.github.io/Hover/)
-    - Hover.css was used on the Social Media icons in the footer to add the float transition while being hovered over.
-3. [Google Fonts:](https://fonts.google.com/)
+2. [Google Fonts:](https://fonts.google.com/)
     - Google fonts were used to import the 'Titillium Web' font into the style.css file which is used on all pages throughout the project.
-5. [Font Awesome:](https://fontawesome.com/)
+3. [Font Awesome:](https://fontawesome.com/)
     - Font Awesome was used on all pages throughout the website to add icons for aesthetic and UX purposes.
-6. [jQuery:](https://jquery.com/)
+4. [jQuery:](https://jquery.com/)
     - jQuery came with Bootstrap to make the navbar responsive but was also used for the smooth scroll function in JavaScript.
-7. [Git](https://git-scm.com/)
-    - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitHub.
-8. [GitHub:](https://github.com/)
+5. [Git](https://git-scm.com/)
+    - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitPod.
+6. [GitHub:](https://github.com/)
     - GitHub is used to store the projects code after being pushed from Git.
-9. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)
-    - Photoshop was used to create the logo, resizing images and editing photos for the website.
-10. [Canva:](https://www.canva.com/)
-    - Canva was used to create the [wireframes](https://github.com/) during the design process.
-11. [realfavicongenerator](realfavicongenerator.net)
+7. [Photoshop:](https://www.adobe.com/ie/products/photoshop.html)
+    - Photoshop was used to create the logo.
+7. [Canva:](https://canva.com/)
+    - Canva was used to create the [wireframes](https://github.com/) during the design process and [ERD-Tables](https://github.com/)
+9. [Tiny PNG](https://tinypng.com/)
+- Tiny PNG was used to compress the images
+10. [cloudconvert][https://cloudconvert.com/jpg-to-webp]
+- Cloudconvert was used to convert the images to webp.
+11. [cloudinary]
+- Cloudinary was used to serve the event and post images uploaded via the admin panel.
+12. [realfavicongenerator](realfavicongenerator.net)
     - Realfavicongenerator was used to generate a favicon.
 
 ## Testing
@@ -227,6 +241,30 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 -   The website was viewed on a variety of devices such as Desktop, Laptop, iPhone7, iPhone 8 & iPhoneX.
 -   A large amount of testing was done to ensure that all pages were linking correctly.
 -   Friends and family members were asked to review the site and documentation to point out any bugs and/or user experience issues.
+
+### Validator Testing 
+ <br>
+
+<br>
+
+- No other errors were returned when passing through the official [W3C validator](https://validator.w3.org/)
+- No errors were found when passing through the official (Jigsaw) validator [https://jigsaw.w3.org/]
+- CI Python Linter [(https://pep8ci.herokuapp.com/)]
+- JS Hint [(https://jshint.com/)] No error were found when passing the code through JSHint.
+
+<br>
+
+### Features Left to Implement
+
+
+<br>
+
+### Unfixed Bugs
+
+- See above for issues with Summernote.
+- Not a bug as such, but images need better handling. Better handling hasn't been possible due to lack of knowledge and time. So this is something I would like to look into.
+
+<br>
 
 ### Known Bugs
 
