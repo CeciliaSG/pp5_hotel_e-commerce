@@ -17,7 +17,7 @@ Purpose: Streamline the appointment scheduling process, allowing clients to book
 Real-time availability of treatments.
 Easy rescheduling and cancellation options (to be added).
 Automated confirmation of booking (also add automated reminders of appointments via email or/and sms).
-##### E-commerce Store for Products (to be added):
+##### E-commerce Store for Products (products are not yet a feature):
 Purpose: Expand the spa's revenue streams by selling premium skincare products and wellness items online.
 ###### Features:
 Wide range of products from leading skincare brands.
@@ -40,6 +40,7 @@ Purpose: Build trust and credibility by showcasing positive client experiences.
 ##### Features:
 Section for customers to leave reviews and ratings.
 Display of testimonials on the homepage and relevant service pages.
+
 ### Marketing Strategies
 #### Search Engine Optimisation (SEO):
 Optimise the website for search engines to improve visibility and attract organic traffic.
@@ -47,6 +48,8 @@ Focus on keywords related to spa treatments, wellness products, and luxury relax
 #### Social Media Marketing:
 Leverage platforms like Instagram (to be added), Facebook, and Pinterest (to be added) to showcase the spa's serene environment, treatments, and products.
 Use influencer partnerships within the beauty sector to reach a broader audience.
+-  [View] <img src="assets_readme/images/image_FB_page.png">
+
 #### Email Marketing:
 Build a mailing list to send newsletters, special offers, and updates.
 Personalised email campaigns based on customer preferences and purchase history.
@@ -56,9 +59,10 @@ Use high-quality images and videos to engage visitors.
 #### Online Advertisements:
 Run targeted ads on Google and social media platforms to reach potential clients.
 Retargeting ads to convert visitors who have previously shown interest in the spa.
-##### Partnerships and Collaborations:
+#### Partnerships and Collaborations:
 Collaborate with hotels, travel agencies, and wellness influencers to create exclusive offers.
 Partner with local businesses for cross-promotional opportunities.
+
 ### Implementation Plan
 #### Website Development:
 - Design a user-friendly and aesthetically pleasing website that reflects the spa's luxurious brand.
@@ -109,21 +113,23 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 *   ### Wireframes
 
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_1.png">
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_2.png">
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_3.png">
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_4.png">
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_5.png">
--  [View] <img src="assets_readme/wireframes/wireframe_homepage_6.png">
+<img src="assets_readme/wireframes/wireframe_homepage_1.png">
+<img src="assets_readme/wireframes/wireframe_homepage_2.png">
+<img src="assets_readme/wireframes/wireframe_homepage_3.png">
+<img src="assets_readme/wireframes/wireframe_homepage_4.png">
+<img src="assets_readme/wireframes/wireframe_homepage_5.png">
+<img src="assets_readme/wireframes/wireframe_homepage_6.png">
 
 
 ### Models/ERDs
+ <img src="assets_readme/images/spa_erds_page_1.png">
+ <img src="assets_readme/images/spa_erds_page_2.png">
 
--  [View](assets_readme/wireframes/wireframe_homepage_1.png)
+
 
  - **Kanban Board**
+-  [View](assets_readme/images/spa_erds.pdf)
  <img src="">
-
 
 
 ## Features
@@ -176,8 +182,18 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 -   [W3C Markup Validator](https://jigsaw.w3.org/css-validator/#validate_by_input) - [Results](https://github.com/)
 -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input) - [Results](https://github.com/)
--   []
--   []
+-   [CI Python Linter](https://pep8ci.herokuapp.com/)
+-   [JS Hint](https://jshint.com/) No error were found when passing the code through JSHint.
+
+### Validator Testing 
+ <br>
+
+<br>
+
+- No other errors were returned when passing through the official [W3C validator](https://validator.w3.org/)
+- No errors were found when passing through the official (Jigsaw) validator [https://jigsaw.w3.org/]
+
+<br>
 
 ### Testing User Stories from User Experience (UX) Section
 
@@ -242,17 +258,6 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 -   A large amount of testing was done to ensure that all pages were linking correctly.
 -   Friends and family members were asked to review the site and documentation to point out any bugs and/or user experience issues.
 
-### Validator Testing 
- <br>
-
-<br>
-
-- No other errors were returned when passing through the official [W3C validator](https://validator.w3.org/)
-- No errors were found when passing through the official (Jigsaw) validator [https://jigsaw.w3.org/]
-- CI Python Linter [(https://pep8ci.herokuapp.com/)]
-- JS Hint [(https://jshint.com/)] No error were found when passing the code through JSHint.
-
-<br>
 
 ### Features Left to Implement
 

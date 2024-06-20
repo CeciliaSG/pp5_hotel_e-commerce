@@ -98,19 +98,18 @@ nav {
 
 .logo {
     margin-top: 30px;
-    font-size: 45px;
+    font-size: 85px;
     margin-bottom: 0;
-    font-weight: 600;
+    font-weight: 400;
     font-style: normal;
   }
 
   p.logo-text {
     margin: 0;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 400;
     font-style: normal;
   }
-
 
 .separator {
     width: 100%;
@@ -221,7 +220,6 @@ nav {
     padding-top: 110px;
 }
 
-
 .messages {
     margin-top: 170px;
 }
@@ -309,12 +307,17 @@ pointer-events: auto;
     font-size: 16px;
 }
 
+.card-text {
+    color: #191521 !important;
+    font-size: 14px;
+}
+
 .card .card-body {
     overflow: hidden;
 }
 
 .card .card-body p {
-    font-size: 12px;
+    font-size: 14px;
     padding: 0;
     color: gray;
 }

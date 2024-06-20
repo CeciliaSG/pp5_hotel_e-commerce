@@ -70,11 +70,14 @@ fieldset {
 margin-top: 150px;
 }
 
-.CardField-number .CardField-number-fakeNumber,
-.CardField-number input {
-  -webkit-transform: scale(1) !important;
-  -ms-transform: scale(1) !important;
-  transform: scale(1) !important;
+
+/* Additional styling for better appearance and responsiveness */
+#card-element iframe, 
+div#stripe-cvc-element iframe, 
+div#stripe-exp-element iframe {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
 }
 
 

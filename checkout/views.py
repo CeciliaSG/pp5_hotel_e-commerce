@@ -20,17 +20,38 @@ from services.models import SpaService, TimeSlot
 import uuid
 
 
-
-
 # Create your views here.
-
-logger = logging.getLogger(__name__)
-
 
 @require_POST
 def cache_checkout_data(request):
     """
     From Ado walkthrough. 
+
+    Caches checkout data in Stripe PaymentIntent metadata.
+
+    This view function is responsible for updating the Stripe PaymentIntent 
+    with additional metadata before the payment is processed. The metadata 
+    includes the user's cart contents, whether the user wants to save their 
+    information for future use, and the username of the user making the 
+    purchase. 
+
+    The function retrieves the PaymentIntent ID from the 'client_secret' 
+    in the POST data, extracts the cart data from the session, and updates 
+    the PaymentIntent with this metadata. If an error occurs during this 
+    process, an error message is displayed to the user.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing the 
+        POST data.
+
+    Returns:
+        HttpResponse: A response with HTTP status 200 if the metadata is 
+        successfully cached, or an error response with HTTP status 400 
+        if an exception occurs.
+
+    Raises:
+        Exception: Any exception that occurs during the modification of 
+        the PaymentIntent is caught and results in an error response.
     """
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
@@ -48,6 +69,30 @@ def cache_checkout_data(request):
 
 
 def checkout(request):
+    """
+    Handle the checkout process for spa services, including payment via Stripe.
+
+    Retrieves Stripe public and secret keys from Django settings.
+    Validates the cart contents and calculates total price based on selected services.
+    Creates a Stripe PaymentIntent for the total amount.
+    Processes the spa booking form submission, associating it with Stripe payment details.
+    Redirects to checkout success page upon successful booking submission.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: Rendered template with checkout form, services details, and Stripe payment information.
+
+    Raises:
+        ObjectDoesNotExist: If a service or time slot referenced in the cart does not exist.
+        ValueError: If there is an invalid format in the cart item key.
+
+    Notes:
+        - If there are no services in the cart, redirects to the home page with an error message.
+        - Handles form validation errors and displays appropriate error messages.
+    """
+
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -61,8 +106,6 @@ def checkout(request):
 
     booking_id = uuid.uuid4().hex.upper()
 
-    # logger.debug("Checkout view accessed")
-
     cart_services = []
     total_price = 0
     for unique_key, service_data in cart.items():
@@ -75,7 +118,6 @@ def checkout(request):
             messages.error(request, f"The service with ID {service_id} does not exist.")
             continue
         except ValueError as e:
-            logger.error(f"Error processing cart item: {e}")
             messages.error(request, f"Invalid format for cart item key: {e}")
             continue
 
@@ -98,15 +140,11 @@ def checkout(request):
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
     
-    logger.debug("Cart data: %s", cart)
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         confirm=False,
-        #metadata={
-        #'cart': json.dumps(cart),
-        #}
     )
 
     spa_booking_form = SpaBookingForm()
@@ -134,17 +172,7 @@ def checkout(request):
 
             spa_booking.date_and_time = date_and_time
             spa_booking.booking_total = total_price
-            #spa_booking.stripe_pid = request.POST.get('stripe_pid', '')
             spa_booking.save()
-
-            #spa_booking = SpaBooking.objects.create(
-                #customer_name=customer_name,
-                #email=email,
-                #phone_number=phone_number,
-                #date_and_time=date_and_time,
-                #booking_total=total_price,
-                #stripe_pid=request.POST.get('stripe_pid', '')
-            #)
 
             for cart_service in cart_services:
                 spa_service = cart_service['service']
@@ -190,7 +218,6 @@ def checkout(request):
         'cart':cart,
     }
 
-    logger.info(f"Received total_price from form: {total_price}")
     return render(request, template, context)
 
 
