@@ -223,7 +223,24 @@ def checkout(request):
 
 def checkout_success(request, booking_number):
     """
-    From Ado walkthrough. Handle successful checkouts
+    From Ado walkthrough.
+    Handle successful checkout completion and display the checkout success page.
+
+    Retrieves booking details based on the provided `booking_number`.
+    If the user is authenticated, associates the booking with the user's customer profile.
+    If 'save_info' is set in session, updates user and customer profile information with booking details.
+    Displays a success message with the booking number and email.
+    Clears the 'cart' from session after successful checkout.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        booking_number (str): The unique booking number identifying the completed booking.
+
+    Returns:
+        HttpResponse: Rendered template with booking details and success message.
+
+    Raises:
+        Http404: If no booking exists with the provided `booking_number`.
     """
 
     save_info = request.session.get('save_info')
