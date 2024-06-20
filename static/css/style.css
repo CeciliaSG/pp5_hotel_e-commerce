@@ -151,7 +151,7 @@ nav {
     top: 0;
     width: 100%;
     z-index: 999;
-    /*height: 150px;*/
+    height: 170px;
     /*background-color: rgba(25, 21, 33, 0.1) !important;*/
     transition: background-color 0.3s;
 }
@@ -224,7 +224,7 @@ nav {
     margin-top: 170px;
 }
 
-.alert-success, .alert-danger {
+.alert, .alert-success, .alert-danger, .alert-info, .alert-warning {
 color: black !important;
 background-color: #538991 !important;
 border-radius: 0 !important;
@@ -269,7 +269,7 @@ pointer-events: auto;
 }
 
 .bg-landing-section {
-    background-image: url('../images/image_spa-view.jpg');
+    background-image: url('../images/image_spa-view.webp');
     background-size: cover;
     background-position: center;
     margin: 0;
