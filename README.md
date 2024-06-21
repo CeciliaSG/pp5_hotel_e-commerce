@@ -266,8 +266,7 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 ### Unfixed Bugs
 
-- See above for issues with Summernote.
-- Not a bug as such, but images need better handling. Better handling hasn't been possible due to lack of knowledge and time. So this is something I would like to look into.
+
 
 <br>
 
@@ -329,7 +328,7 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 
 ### Code
 
--   [Bootstrap4](https://getbootstrap.com/docs/4.4/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
+-   [Bootstrap5](https://getbootstrap.com/docs/5.3/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
 
 -   [Stack Overflow]() : 
 https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory
@@ -355,6 +354,7 @@ https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker
 ### Media
 
 -   [Unsplash](https://unsplash.com/) All Images were downloaded from Unsplash.
+-   [Realfavicongenerator](realfavicongenerator.net) The Favicon was created with realfavicongenerator.net
 
 ### Acknowledgements
 

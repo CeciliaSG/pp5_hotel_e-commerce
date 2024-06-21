@@ -81,7 +81,7 @@ class SpaBookingServices(models.Model):
     Represents an individual service or service booked within a spa booking.
 
     Each booking service includes a reference to the spa service booked, the quantity,
-    and the total cost for that particular service.
+    and the total cost for that service.
 
     Attributes:
         spa_service (SpaService): The spa service booked.

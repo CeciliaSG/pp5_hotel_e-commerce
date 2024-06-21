@@ -9,6 +9,33 @@ from .models import CustomerProfile
 
 @login_required
 def profile(request):
+    """
+
+    From Boutique Ado walkthrough.
+    
+    Display and update the user's profile information.
+
+    This view retrieves the CustomerProfile for the currently logged-in user.
+    It handles both GET and POST requests:
+    - For GET requests, it displays the profile form pre-filled with the user's information.
+    - For POST requests, it updates the profile with the submitted data if the form is valid.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object with the rendered profile page.
+
+    Raises:
+        Http404: If the CustomerProfile does not exist for the current user.
+
+    Context:
+        form (CustomerProfileForm): The form for displaying and updating the user's profile.
+        spa_bookings (QuerySet): The set of SpaBooking objects associated with the user's profile.
+        customer_name (str): The username of the current user.
+        messages (Message): The messages to display to the user.
+    """
+
     profile = get_object_or_404(CustomerProfile, user=request.user)
     #user = request.user
 
@@ -16,13 +43,6 @@ def profile(request):
         form = CustomerProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-
-            #if 'default_email' in form.cleaned_data:
-                #user.email = form.cleaned_data['default_email']
-                #user.save()
-
-            #user.email = profile.default_email
-            #user.save()
 
             messages.success(request, 'Profile updated successfully')
             return redirect('customer_profile')
@@ -34,7 +54,6 @@ def profile(request):
 
     spa_bookings = SpaBooking.objects.filter(customer_profile=profile)
     username = request.user.username
-    #customer_name = profile.user.get_full_name() or profile.user.username
 
     context = {
         'form': form,
@@ -57,7 +76,6 @@ def booking_history(request, booking_number):
     context = {
         'booking': booking,
         'spa_bookings': spa_bookings,
-        #'from_profile': True,
     }
 
     return render(request, template, context)

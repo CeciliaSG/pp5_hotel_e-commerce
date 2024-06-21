@@ -18,6 +18,37 @@ from booking.forms import TimeSlotSelectionForm
 
 def add_to_cart(request, service_id=None):
 
+
+    """
+    Adds a selected spa service to the cart.
+
+    This view handles the addition of a spa service to the user's shopping cart.
+    It verifies that a valid service ID is provided, checks the validity of the 
+    submitted time slot form, and calculates the total price based on the selected 
+    quantity and price. The service is then added to the session-based cart, which 
+    can be viewed and modified by the user.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing form data.
+        service_id (int or None): The ID of the spa service to add to the cart.
+
+    Returns:
+        HttpResponse: A redirection to the 'view_cart' page upon successful addition,
+                      or a redirection back to the booking page with error messages if 
+                      the form is invalid.
+        HttpResponseBadRequest: If required data is missing or invalid.
+
+    Context:
+        cart (dict): A dictionary stored in the session representing the cart.
+        service_key (str): A unique key combining the service ID, selected date, and 
+                           time slot ID to uniquely identify a cart item.
+
+    Raises:
+        HttpResponseBadRequest: If the service ID is not provided, the quantity is 
+                                not an integer, the price is not a valid number, or 
+                                other required fields are missing.
+    """
+
     if service_id is None:
         return HttpResponseBadRequest("Service ID is required")
 
@@ -108,6 +139,32 @@ def add_to_cart(request, service_id=None):
     
 
 def update_cart(request, service_id):
+    """
+        Updates the quantity of a specified spa service in the cart.
+
+        This view handles the update of the quantity of a spa service in the user's 
+        session-based cart. It finds the service in the cart by its ID, updates 
+        the quantity, recalculates the total price for that service, and saves the updated 
+        cart back to the session.
+
+        Args:
+            request (HttpRequest): The HTTP request object containing form data.
+            service_id (int): The ID of the spa service to update in the cart.
+
+        Returns:
+            HttpResponse: A redirection to the 'view_cart' page upon successful update.
+            HttpResponseBadRequest: If the service is not found in the cart or the request 
+                                    method is not POST.
+
+        Context:
+            cart (dict): A dictionary stored in the session representing the shopping cart.
+            service_key (str): A unique key combining the service ID, selected date, and 
+                            time slot ID to uniquely identify a cart item.
+
+        Raises:
+            HttpResponseBadRequest: If the service is not found in the cart.
+    """
+
     if request.method == "POST":
         cart = request.session.get("cart", {})
         for key in cart.keys():
@@ -124,6 +181,37 @@ def update_cart(request, service_id):
 
 
 def view_cart(request):
+    """
+    Displays the contents of the cart.
+
+    This view retrieves the user's session-based shopping cart, calculates the 
+    total cost of the services in the cart, and renders the cart contents on the 
+    'view_cart.html' template. It handles the session data for the cart, ensuring 
+    that each service's details and total cost are correctly computed and passed 
+    to the template.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object with the rendered 'view_cart.html' 
+                      template displaying the cart contents and total cost.
+
+    Context:
+        services (list): A list of dictionaries representing the services in the cart. 
+                         Each dictionary contains:
+                         - id (str): The unique identifier for the cart item.
+                         - spa_service (str): The name of the spa service.
+                         - quantity (int): The quantity of the service.
+                         - spa_service_total (Decimal): The total cost for the service.
+                         - selected_date (str): The selected date for the service.
+                         - selected_time (str): The selected time for the service.
+                         - selected_time_slot_id (int): The ID of the selected time slot.
+                         - is_access (bool): Indicates if the service is an accessibility 
+                                             service.
+        total_cost (Decimal): The total cost of all services in the cart.
+    """
+
     cart = request.session.get("cart", {})
     services = []
     total_cost = Decimal("0.00")
@@ -160,7 +248,23 @@ def view_cart(request):
 def remove_from_cart(request, service_id):
     """
     Remove a specific service from the cart.
+
+    This view handles the removal of a service from the user's session-based shopping cart. 
+    If the specified service ID exists in the cart, it will be removed. If the service ID 
+    does not exist, an error message will be displayed. After attempting to remove the 
+    service, the user is redirected to the 'view_cart' page, with a success or error 
+    message depending on the outcome.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        service_id (int or str): The unique identifier of the service to be removed from 
+                                 the cart.
+
+    Returns:
+        HttpResponse: A redirect to the 'view_cart' page with a success or error message.
+
     """
+
     cart = request.session.get("cart", {})
     try:
         if str(service_id) in cart:

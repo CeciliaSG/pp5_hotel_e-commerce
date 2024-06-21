@@ -25,7 +25,7 @@ import uuid
 @require_POST
 def cache_checkout_data(request):
     """
-    From Ado walkthrough. 
+    From Boutique Ado walkthrough. 
 
     Caches checkout data in Stripe PaymentIntent metadata.
 
@@ -223,7 +223,7 @@ def checkout(request):
 
 def checkout_success(request, booking_number):
     """
-    From Ado walkthrough.
+    From Boutique Ado walkthrough.
     Handle successful checkout completion and display the checkout success page.
 
     Retrieves booking details based on the provided `booking_number`.
