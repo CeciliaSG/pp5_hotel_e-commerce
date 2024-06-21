@@ -48,7 +48,7 @@ Focus on keywords related to spa treatments, wellness products, and luxury relax
 #### Social Media Marketing:
 Leverage platforms like Instagram (to be added), Facebook, and Pinterest (to be added) to showcase the spa's serene environment, treatments, and products.
 Use influencer partnerships within the beauty sector to reach a broader audience.
--  [View] <img src="assets_readme/images/image_FB_page.png">
+<img src="assets_readme/images/image_FB_page.png">
 
 #### Email Marketing:
 Build a mailing list to send newsletters, special offers, and updates.
@@ -111,7 +111,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
     -   #### Imagery
         -   Imagery is important. The large, background hero image is designed to be striking and catch the user's attention. It also has a modern, energetic aesthetic.
 
-*   ### Wireframes
+### Wireframes
 
 <img src="assets_readme/wireframes/wireframe_homepage_1.png">
 <img src="assets_readme/wireframes/wireframe_homepage_2.png">
@@ -124,7 +124,6 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 ### Models/ERDs
  <img src="assets_readme/images/spa_erds_page_1.png">
  <img src="assets_readme/images/spa_erds_page_2.png">
-
 
 
  - **Kanban Board**
@@ -147,7 +146,6 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 -   [Bootstrap](https://en.wikipedia.org/wiki/Bootstrap_(front-end_framework))
 -   [Django](https://en.wikipedia.org/wiki/Django)
 -   [Javascript](https://en.wikipedia.org/wiki/JavaScript)
--   [Python]
 
 ### Frameworks, Libraries & Programs Used
 
@@ -194,6 +192,11 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 - No errors were found when passing through the official (Jigsaw) validator [https://jigsaw.w3.org/]
 
 <br>
+
+### Lighthouse testing
+
+- Mobile
+- Desktop
 
 ### Testing User Stories from User Experience (UX) Section
 
@@ -324,26 +327,60 @@ $ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
 
 Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository#cloning-a-repository-to-github-desktop) to retrieve pictures for some of the buttons and more detailed explanations of the above process.
 
+## Creating the Heroku app, deploying to Heroku
+
+Steps to follow for deployment to Heroku:
+
+### In GitHub.
+1. Navigate to the repository for the project. 
+
+### In Heroku
+
+1.  Go to Heroku, create account, if you don't have one, and log in.
+2.  Go to the dashboard and click New after which you click Create new app
+3.  Choose name and region. Click Create app
+4.  Go to Settings, under the "Config Vars" set your Key/Value Pairs.
+    You must then create a _Config Var_ called `PORT`. Set this to `8000`
+    If you have credentials, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+    When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+    1. `heroku/python`
+    2. `heroku/nodejs`
+
+5.  In the Buildpacks section, add buildpacks. Note order in which you add buildpacks: Python first and nodejs.
+6.  No go to Deployment. In deployment method click on "GitHub"(for repository)
+7.  The connect to GitHub, find your repository and click  connect.
+8.  Under connect to GitHub-section, you can either chose automatic deploys with Enable Automatic Deploys or Manual Deploy, to deploy manually.
+    
+    **Now you can view the deployed app.**
+
+
+
 ## Credits
 
 ### Code
 
 -   [Bootstrap5](https://getbootstrap.com/docs/5.3/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
 
--   [Stack Overflow]() : 
-https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory
+-   [Stack Overflow](https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory)
 
-https://stackoverflow.com/questions/3367741/inlineformset-factory-composed-of-modelform
+-   [Stack Overflow](https://stackoverflow.com/questions/3367741/inlineformset-factory-composed-of-modelform)
 
-https://stackoverflow.com/questions/68382186/django-add-form-validation-to-inlineformset-factory
+-   [Stack Overflow](https://stackoverflow.com/questions/68382186/django-add-form-validation-to-inlineformset-factory)
 
-https://stackoverflow.com/questions/62315482/django-day-and-time-picker/62316055#62316055
+-   [Stack Overflow](https://stackoverflow.com/questions/62315482/django-day-and-time-picker/62316055#62316055)
 
-https://stackoverflow.com/questions/54825483/combine-django-filter-datetimefromtorangefilter-and-datetimeinputdatepicker
+-   [Stack Overflow](https://stackoverflow.com/questions/54825483/combine-django-filter-datetimefromtorangefilter-and-datetimeinputdatepicker)
 
-https://nancylin.xyz/how-to-implement-date-time-picker-in-django-without-javascript/
+-   [Stack Overflow](https://nancylin.xyz/how-to-implement-date-time-picker-in-django-without-javascript/)
 
-https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html
+
+-   [Stack Overflow](https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html)
+
+-   [Stack Overflow](https://stackoverflow.com/questions/23706003/changing-nav-bar-color-after-scrolling)
+
+- [Stack Overflow](https://stackoverflow.com/questions/57694951/using-scrollintoview-function-to-specific-html-tag)
+
+- [Stack Overflow](https://stackoverflow.com/questions/23506975/scrollspy-navigate-to-different-page-and-back-at-same-position)
 
 ### Content
 
