@@ -37,7 +37,6 @@ def profile(request):
     """
 
     profile = get_object_or_404(CustomerProfile, user=request.user)
-    #user = request.user
 
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=profile)
@@ -63,7 +62,29 @@ def profile(request):
     }
     return render(request, 'accounts/customer_profile.html', context)
 
+
 def booking_history(request, booking_number):
+    """
+    Display the booking history and details of a specific SpaBooking identified by its booking number.
+
+    This view retrieves a specific SpaBooking object using the provided booking_number. If the booking
+    exists, it renders a template ('checkout/checkout_success.html') with details of the booking and
+    a list of all SpaBooking objects for reference.
+
+    Parameters:
+    - request: HttpRequest object representing the request made by the user.
+    - booking_number: str, the unique booking number of the SpaBooking to display.
+
+    Raises:
+    - Http404: If no SpaBooking object exists with the provided booking_number.
+
+    Returns:
+    - HttpResponse: Renders 'checkout/checkout_success.html' template with the following context:
+      {
+          'booking': SpaBooking object with the specified booking_number,
+          'spa_bookings': QuerySet of all SpaBooking objects,
+      }
+    """
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
     spa_bookings = SpaBooking.objects.all()
 
@@ -79,3 +100,21 @@ def booking_history(request, booking_number):
     }
 
     return render(request, template, context)
+
+
+def delete_profile(request):
+
+    profile = get_object_or_404(CustomerProfile, user=request.user)
+
+    if request.method == 'POST':
+        try:
+            SpaBooking.objects.filter(customer_profile=profile).delete()
+            profile.delete()
+
+            messages.success(request, 'Your profile and related data have been deleted.')
+            return redirect('home')
+
+        except Exception as e:
+            messages.error(request, f'Failed to delete profile: {str(e)}')
+
+    return render(request, 'accounts/delete_profile.html')

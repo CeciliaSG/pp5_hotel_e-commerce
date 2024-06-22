@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/customer_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container form-container">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <h2>Delete Profile</h2>
+            <p>Are you sure you want to delete your profile?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit">Delete Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
