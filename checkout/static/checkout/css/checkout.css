@@ -16,6 +16,10 @@
   max-width: 100%;
 }
 
+.ElementsApp, .ElementsApp .InputElement {
+    font-size: 14px !important; 
+}
+
 /* Focus styles */
 .StripeElement--focus,
 .stripe-style-input:focus,
@@ -68,30 +72,4 @@ fieldset {
 
 .message-container .alert {
 margin-top: 150px;
-}
-
-
-/* Additional styling for better appearance and responsiveness */
-#card-element iframe, 
-div#stripe-cvc-element iframe, 
-div#stripe-exp-element iframe {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-}
-
-
-/* Additional styling for small screens */
-@media (max-width: 600px) {
-  fieldset {
-    padding: 0 10px;
-  }
-   form {
-    width: 80vw;
-    min-width: initial;
-  } 
-
-  #card-element {
-    font-size: 14px !important;
-  }
 }

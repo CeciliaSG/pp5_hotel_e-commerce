@@ -3,19 +3,19 @@
 
 
 {% block content %}
-<div class="container-fluid cart-container mb-4 mx-2 mt-5">
+<div class="container-fluid cart-container form-container mb-4 mx-2">
     <div class="row mx-2">
         <div class="col-lg-8 offset-lg-2 col-sm-12">
             <hr>
-            <h2 class="logo-font mb-4">Your Cart</h2>
+            <h2 class="logo-font mb-4 px-5">Your Cart</h2>
             <hr>
         </div>
     </div>
-    <div class="row custom-row pb-5">
+    <div class="row custom-row pb-5 px-5">
         <div class="col-lg-8 offset-lg-2 col-sm-12">
             {% if services %}
             <div class="table-responsive">
-                <table class="table table-sm table-borderless">
+                <table class="table table-sm table-borderless mx-2">
                     <thead class="text-black">
                         <tr>
                             <th scope="col">Service</th>
@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                         {% for service in services %}
-                        <tr>
+                        <tr class="mt-4">
                             <td>{{ service.spa_service }}</td>
                             <td>{{ service.selected_date }} at {{ service.selected_time }}</td>
                             <td>
@@ -46,7 +46,7 @@
                             </td>
                             <td>SEK{{ service.spa_service_total }}</td>
                             <td>
-                                <a href="{% url 'remove_from_cart' service.id %}" class="button btn btn-sm">Remove</a>
+                                <a href="{% url 'remove_from_cart' service.id %}" class="btn-sm">Remove</a>
                             </td>
                         </tr>
                         {% endfor %}

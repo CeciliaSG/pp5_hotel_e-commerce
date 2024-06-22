@@ -495,12 +495,26 @@ button {
     padding: 5px 10px; 
     transition: background-color 0.3s ease;
 }
+.btn-sm {
+    background-color: #538991;
+    border-radius: 0;
+    border: none;
+    padding: 5px 10px; 
+    transition: background-color 0.3s ease;
+    color: #191521;
+    text-decoration: none;
+}
+
+.btn-sm:hover {
+    background-color: #375d66 !important; 
+    color: #fff !important;
+}
 
 
 button.btn.btn-sm:hover {
     background-color: #375d66 !important; 
-    color: #191521 !important;
-    color: #fff
+    color: #fff !important;
+    /*color: #fff*/
 }
 
 
@@ -629,46 +643,73 @@ footer {
     font-size: 12px;
 }
 
+/* Styling tables */
 
-@media (max-width: 576px) {
-    .table-responsive {
+.cart-container table {
+        width: auto; 
+   }
+
+.cart-container table thead {
+    display: none;
+}
+
+
+.table-responsive {
         border: 0;
     }
 
-    .table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .table thead, .table tbody, .table tr, .table td, .table th {
-        display: block; 
-    }
+.table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 }
+
+.table thead, .table tbody, .table tr, .table td, .table th {
+    display: block; 
+}
+
 
 /* Media Screens */
 
 @media (min-width: 768px) {
-  .sticky-navbar .navbar-brand {
-    position: static;
-    transform: none;
-  }
+.sticky-navbar .navbar-brand {
+position: static;
+transform: none;
+}
+
+.cart-container table {
+     width: 100%;
+ }
+
+.cart-container table thead,
+.cart-container table tbody,
+.cart-container table tr {
+     display: table-row;
+ }
+
+.cart-container table th,
+.cart-container table td {
+        display: table-cell;
+        text-align: center;
+        padding: 10px;
+}
+
 
   /*.logo {
     margin-top: 30px;
   }
     */
 
-  .book-now-button {
+.book-now-button {
     margin-top: 50px;
   }
 
-  main {
+main {
     flex: 1 0 auto;
     padding-bottom: 100px; 
   }
 
-  footer {
+footer {
     position: fixed;
   }
 
@@ -690,12 +731,9 @@ footer {
     margin-bottom: 100px;
 }
 
-.table-responsive {
-        overflow-x: auto;
-}
+
 
 .col-lg-6 {
         margin-bottom: 20px;
 }
-
 }
