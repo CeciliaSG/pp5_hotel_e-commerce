@@ -1,10 +1,29 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 
 from booking.models import SpaBooking
 from .forms import CustomerProfileForm
+from django.urls import reverse
+from allauth.account.views import LoginView
 from .models import CustomerProfile
+
+
+class CustomLoginView(LoginView):
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.request.user
+
+        try:
+            profile = user.customerprofile
+        except CustomerProfile.DoesNotExist:
+            messages.warning(self.request, "No profile found for this user.")
+            redirect_url = reverse('account/signup')
+            return redirect(redirect_url)
+
+        return response
 
 
 @login_required
@@ -36,7 +55,11 @@ def profile(request):
         messages (Message): The messages to display to the user.
     """
 
-    profile = get_object_or_404(CustomerProfile, user=request.user)
+    try:
+        profile = CustomerProfile.objects.get(user=request.user)
+    except CustomerProfile.DoesNotExist:
+        messages.warning(request, "No profile found for this user.")
+        return redirect('account/signup.html')
 
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=profile)
@@ -109,7 +132,13 @@ def delete_profile(request):
     if request.method == 'POST':
         try:
             SpaBooking.objects.filter(customer_profile=profile).delete()
+            
+
+            user = request.user
             profile.delete()
+            request.user.delete()
+            logout(request)
+         
 
             messages.success(request, 'Your profile and related data have been deleted.')
             return redirect('home')
