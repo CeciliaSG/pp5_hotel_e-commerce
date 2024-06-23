@@ -254,7 +254,7 @@ def checkout_success(request, booking_number):
 
     if save_info:
         profile_data = {
-            'deafailt_email': booking.email,
+            'email': booking.email,
             'default_phone_number': booking.phone_number,
         }
         customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
