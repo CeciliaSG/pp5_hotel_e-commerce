@@ -6,9 +6,9 @@ Booking Number: {{ spa_booking.booking_number }}
 
 {{ spa_service.service.name }}
 
-Booking Total: ${{ spa_booking.booking_total }}
+Booking Total: SEK{{ spa_booking.booking_total }}
 
-We've got your phone number on file as {{ booking.phone_number }}.
+We've got your phone number on file as {{ boking.phone_number }}.
 
 If you have any questions, feel free to contact us at {{ contact_email }}.
 

@@ -46,9 +46,7 @@ class StripeWH_Handler:
                 settings.DEFAULT_FROM_EMAIL,
                 [cust_email]
             )
-            #logger.info("Confirmation email sent successfully to %s", cust_email)
         except Exception as e:
-            #logger.error("Failed to send confirmation email to %s: %s", cust_email, str(e))
             raise
 
 

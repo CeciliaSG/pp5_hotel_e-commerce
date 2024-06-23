@@ -10,22 +10,6 @@ from allauth.account.views import LoginView
 from .models import CustomerProfile
 
 
-class CustomLoginView(LoginView):
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        user = self.request.user
-
-        try:
-            profile = user.customerprofile
-        except CustomerProfile.DoesNotExist:
-            messages.warning(self.request, "No profile found for this user.")
-            redirect_url = reverse('account/signup')
-            return redirect(redirect_url)
-
-        return response
-
-
 @login_required
 def profile(request):
     """

@@ -16,7 +16,8 @@
   max-width: 100%;
 }
 
-.ElementsApp, .ElementsApp .InputElement {
+.StripeElement,
+.stripe-style-input.ElementsApp, .ElementsApp .InputElement {
     font-size: 14px !important; 
 }
 
