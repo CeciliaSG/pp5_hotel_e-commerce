@@ -115,9 +115,11 @@ function isInViewport(element) {
 }
 
 document.getElementById('scrollToAboutBtn').addEventListener('click', function() {
-  const aboutSection = document.getElementById('about');
-  aboutSection.scrollIntoView({
-      behavior: 'smooth'
+  const aboutH1 = document.querySelector('#about h1');
+  const offsetTop = aboutH1.offsetTop;
+  window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth',
   });
 });
 
