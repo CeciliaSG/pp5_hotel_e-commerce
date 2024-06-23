@@ -102,34 +102,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Function to check if an element is in viewport
- function isInViewport(element) {
-            const rect = element.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+);
+}
 
-  // JavaScript to handle the scroll behavior
-  document.getElementById('scrollToAboutBtn').addEventListener('click', function() {
-    const aboutSection = document.getElementById('about');
-      aboutSection.scrollIntoView({
+document.getElementById('scrollToAboutBtn').addEventListener('click', function() {
+  const aboutSection = document.getElementById('about');
+  aboutSection.scrollIntoView({
       behavior: 'smooth'
   });
-  });
+});
 
-  // JavaScript to hide the button after scrolling to the about section
- window.addEventListener('scroll', function() {
-    const homeSection = document.getElementById('home');
-    const aboutSection = document.getElementById('about');
-    const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
+window.addEventListener('scroll', function() {
+  const homeSection = document.getElementById('home');
+  const aboutSection = document.getElementById('about');
+  const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
 
-    if (isInViewport(aboutSection)) {
-        scrollToAboutBtn.style.display = 'none';
+  if (isInViewport(aboutSection) || !isInViewport(homeSection)) {
+      scrollToAboutBtn.style.display = 'none';
     } else if (isInViewport(homeSection)) {
         scrollToAboutBtn.style.display = 'block';
-    }
+}
 });
