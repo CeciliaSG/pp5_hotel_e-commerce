@@ -1,4 +1,4 @@
-// Sticky Navbar//
+// Sticky Navbar
 document.addEventListener("DOMContentLoaded", function() {
     let stickyNavbar = document.querySelector('.sticky-navbar');
     let logo = document.querySelector('.logo');
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// Messages //
+// Messages
  document.addEventListener("DOMContentLoaded", function() {
             const messages = document.querySelectorAll('#messages .alert');
             messages.forEach(message => {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-// Scroll to section with navbar//
+// Scroll to section with navbar
 
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.hash) {
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-//Scroll to top button//
+//Scroll to top button
 
 document.addEventListener('DOMContentLoaded', function() {
   const scrollToTopBtn = document.getElementById('scrollToTopBtn');
@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+//Scroll to about button
 
 function isInViewport(element) {
   const rect = element.getBoundingClientRect();

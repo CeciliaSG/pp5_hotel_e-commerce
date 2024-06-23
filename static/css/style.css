@@ -594,10 +594,15 @@ button {
 #scrollToAboutBtn {
     display: block;
     position: fixed;
-    top: 520px;
+    top: 650px;
     padding: 10px 10px;
     cursor: pointer;
     width: 120px;
+}
+
+.fa-solid.fa-chevron-down:hover {
+   color: #fff;
+
 }
 
 #scrollToAboutBtn:hover {
