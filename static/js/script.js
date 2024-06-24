@@ -104,33 +104,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //Scroll to about button
 
-function isInViewport(element) {
-  const rect = element.getBoundingClientRect();
-  return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-);
-}
+document.addEventListener('DOMContentLoaded', function() {
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
 
-document.getElementById('scrollToAboutBtn').addEventListener('click', function() {
-  const aboutH1 = document.querySelector('#about h1');
-  const offsetTop = aboutH1.offsetTop;
-  window.scrollTo({
-      top: offsetTop,
-      behavior: 'smooth',
-  });
+    const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
+
+   if (scrollToAboutBtn) {
+        scrollToAboutBtn.addEventListener('click', function() {
+            const aboutH1 = document.querySelector('#about h1');
+
+            if (aboutH1) {
+                const offsetTop = aboutH1.offsetTop;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth',
+                });
+            }
+        }, { passive: true });
+
+        window.addEventListener('scroll', function() {
+            const homeSection = document.getElementById('home');
+            const aboutSection = document.getElementById('about');
+
+            if (aboutSection && homeSection) {
+                if (isInViewport(aboutSection) || !isInViewport(homeSection)) {
+                    scrollToAboutBtn.style.display = 'none';
+                } else if (isInViewport(homeSection)) {
+                    scrollToAboutBtn.style.display = 'block';
+                }
+            }
+        });
+    }
 });
 
-window.addEventListener('scroll', function() {
-  const homeSection = document.getElementById('home');
-  const aboutSection = document.getElementById('about');
-  const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
 
-  if (isInViewport(aboutSection) || !isInViewport(homeSection)) {
-      scrollToAboutBtn.style.display = 'none';
-    } else if (isInViewport(homeSection)) {
-        scrollToAboutBtn.style.display = 'block';
-}
-});
