@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import ServiceCategory, SpaService, SpecificDate, TimeSlot, Availability
+from .models import ServiceCategory, SpaService, SpecificDate
+from .models import TimeSlot, Availability
 
 
 class ServiceCategoryAdmin(admin.ModelAdmin):
