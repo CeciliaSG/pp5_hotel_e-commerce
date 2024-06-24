@@ -163,7 +163,6 @@ def checkout(request):
         if spa_booking_form.is_valid():
             spa_booking = spa_booking_form.save(commit=False)
             pid = request.POST.get('client_secret').split('_secret')[0]
-            print('pid in POST handler from script is ', pid, '!!!')
             spa_booking.stripe_pid = pid
             spa_booking.original_cart = json.dumps(cart)
 
@@ -177,8 +176,10 @@ def checkout(request):
                     first_service['selected_date'], "%B %d, %Y").date()
                 selected_time = datetime.strptime(
                     first_service['selected_time'], "%H:%M").time()
-                date_and_time = datetime.combine(selected_date, selected_time)
-                date_and_time = timezone.make_aware(date_and_time)
+                date_and_time = datetime.combine(
+                    selected_date, selected_time)
+                date_and_time = timezone.make_aware(
+                    date_and_time)
             else:
                 date_and_time = datetime.now()
 
