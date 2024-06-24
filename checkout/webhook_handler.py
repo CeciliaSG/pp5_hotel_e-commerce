@@ -1,5 +1,4 @@
 import json
-import logging
 import time
 from datetime import datetime
 
@@ -140,14 +139,13 @@ class StripeWH_Handler:
 
 
                 if date_and_time is None:
-                    logger.warning("No date_and_time found in service_data for service ID: %s", service_id)
-
-                spa_booking_service = SpaBookingServices.objects.create(
-                    spa_booking=booking,
-                    spa_service=service,
-                    quantity=quantity,
-                    date_and_time=date_and_time,
-                )
+                    
+                    spa_booking_service = SpaBookingServices.objects.create(
+                        spa_booking=booking,
+                        spa_service=service,
+                        quantity=quantity,
+                        date_and_time=date_and_time,
+                    )
             return JsonResponse({'success': True}, status=200)
 
         except Exception as e:

@@ -62,8 +62,8 @@ def cache_checkout_data(request):
         })
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, "Unfortunately, your payment can't be "
-                        "processed at the moment. Please try again later.")
+        messages.error(request, "Unfortunately, your payment can't be \
+                        processed at the moment. Please try again later.")
 
         return HttpResponse(content=e, status=400)
 
