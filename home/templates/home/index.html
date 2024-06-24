@@ -16,7 +16,7 @@
 
   <section class="section-home bg-section-two bg-colour-grey" id="about">
     <div class="container px-4">
-      <div class="row pt-5 justify-content-center">
+      <div class="row pt-5 justify-content-center mb-5">
         <div class="col-md-7">
           <h1><strong>The Spa Stockholm</strong></h1>
           <div class="about-text mt-3">
@@ -105,9 +105,9 @@
       <div class="text-center">
         <h2 class="section-heading pb-5 pt-5"><strong>Spa Treatments & Therapies</strong></h2>
       </div>
-      <div class="row gy-5 gx-3">
+      <div class="row gy-5 gx-5">
         {% for service in spa_services %}
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4 gy-4">
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-5 gy-4">
           <a href="{% url 'service_details' service.id %}" class="card-link">
             <div class="card h-100">
               <div class="card-image-container">
