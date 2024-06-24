@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    console.log("Sticky navbar script loaded");
 
     window.addEventListener('scroll', function() {
         if (window.scrollY > 100) {
@@ -57,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }, 5000);
             });
         });
+        
 
 // Scroll to section with navbar
 

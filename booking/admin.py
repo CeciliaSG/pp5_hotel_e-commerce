@@ -21,8 +21,6 @@ class SpaBookingAdmin(admin.ModelAdmin):
     list_display = ('booking_number', 'booking_date', 'customer_name', 
                      'email', 'phone_number', 'date_and_time', 'booking_total',)
     
-    #ordering = ('-booking_date',)
-    
     list_filter = ('booking_date',)
 
 admin.site.register(SpaBooking, SpaBookingAdmin)

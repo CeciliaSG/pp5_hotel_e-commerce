@@ -8,8 +8,6 @@ Booking Number: {{ spa_booking.booking_number }}
 
 Booking Total: SEK{{ spa_booking.booking_total }}
 
-We've got your phone number on file as {{ booking.phone_number }}.
-
 If you have any questions, feel free to contact us at {{ contact_email }}.
 
 Thank you for your booking!

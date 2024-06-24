@@ -387,6 +387,7 @@ Steps to follow for deployment to Heroku:
 - [Stack Overflow](https://stackoverflow.com/questions/57694951/using-scrollintoview-function-to-specific-html-tag)
 
 - [Stack Overflow](https://stackoverflow.com/questions/23506975/scrollspy-navigate-to-different-page-and-back-at-same-position)
+https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page/11715670#11715670
 
 ### Content
 
