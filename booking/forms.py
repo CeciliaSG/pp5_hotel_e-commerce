@@ -8,6 +8,7 @@ from services.models import SpaService, TimeSlot
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class ServiceBookingForm(forms.ModelForm):
     class Meta:
         model = SpaBooking
@@ -47,9 +48,12 @@ class ServiceBookingForm(forms.ModelForm):
         ),
     )
 
+
 class TimeSlotSelectionForm(forms.Form):
     selected_time_slot = forms.ModelChoiceField(
-        queryset=TimeSlot.objects.all(), empty_label=None, widget=forms.RadioSelect
+        queryset=TimeSlot.objects.all(),
+        empty_label=None, widget=forms.RadioSelect
     )
+
     def __str__(self):
         return "TimeSlotSelectionForm"
