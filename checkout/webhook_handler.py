@@ -69,12 +69,15 @@ class StripeWH_Handler:
 
         for unique_key, service_data in cart.items():
             try:
-                service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                service_id, selected_date, selected_time_slot_id = \
+                    unique_key.split('_')
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
                 selected_time = time_slot.time.strftime("%H:%M")
                 date_and_time_str = f"{selected_date} {selected_time}"
-                date_and_time = datetime.strptime(date_and_time_str, "%B %d, %Y %H:%M")
-                date_and_time = make_aware(date_and_time, get_current_timezone())
+                date_and_time = datetime.strptime(
+                    date_and_time_str, "%B %d, %Y %H:%M")
+                date_and_time = make_aware(
+                    date_and_time, get_current_timezone())
 
                 break
             except Exception as e:

@@ -1,5 +1,3 @@
-import logging
-
 import stripe
 
 from django.conf import settings
@@ -9,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from checkout.webhook_handler import StripeWH_Handler
 
+
 @require_POST
 @csrf_exempt
 def webhook(request):
@@ -17,7 +16,8 @@ def webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
+    sig_header = request.META.get(
+        'HTTP_STRIPE_SIGNATURE', None)
     event = None
 
     if not sig_header:
@@ -32,7 +32,7 @@ def webhook(request):
 
     except stripe.error.SignatureVerificationError as e:
         return HttpResponse(status=400)
-        
+
     except Exception as e:
         return HttpResponse(content=str(e), status=400)
 
@@ -40,7 +40,8 @@ def webhook(request):
 
     event_map = {
         'payment_intent.succeeded': handler.handle_payment_intent_succeeded,
-        'payment_intent.payment_failed': handler.handle_payment_intent_payment_failed,
+        'payment_intent.payment_failed': 
+            handler.handle_payment_intent_payment_failed,
     }
 
     event_type = event['type']
