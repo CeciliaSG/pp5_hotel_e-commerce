@@ -50,23 +50,6 @@ class StripeWH_Handler:
         """
         From Boutique Ado walkthrough. Handle a generic/unknown/unexpected webhook event
         """
-        try:
-            payload = request.body
-            event = None
-
-            try:
-                event = json.loads(payload)
-            except ValueError as e:
-                return HttpResponse(status=400)
-
-            if event['type'] == 'payment_intent.succeeded':
-                handle_payment_intent_succeeded(event)
-                return HttpResponse(status=200)
-            else:
-                return HttpResponse(status=200)
-
-        except Exception as e:
-            return HttpResponse(status=500)
 
         return HttpResponse(
             content=f'Unhandled webhook received: {event["type"]}',

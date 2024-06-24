@@ -28,15 +28,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'your_default_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = [
     "8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
+    "8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     ".herokuapp.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
+    "https://8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     "https://the-spa-df1f22d5aa6e.herokuapp.com/",
 ]
 
@@ -236,41 +238,43 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'cart': { 
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'checkout': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-          'handle_event': {  
-            'handlers': ['console'],  
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-          'webhook': {  
-            'handlers': ['console'],  
-            'level': 'DEBUG',
-            'propagate': False,
-        },
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'cart': { 
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         'checkout': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#           'handle_event': {  
+#             'handlers': ['console'],  
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#           'webhook': {  
+#             'handlers': ['console'],  
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
 
-    },
-}
+#     },
+# }
+
+

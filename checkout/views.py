@@ -62,8 +62,9 @@ def cache_checkout_data(request):
         })
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, "Unfortuately, your payment can't be \
-            processed at the moment. Please try again later.")
+        messages.error(request, "Unfortunately, your payment can't be "
+                        "processed at the moment. Please try again later.")
+
         return HttpResponse(content=e, status=400)
 
 
@@ -95,7 +96,6 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    print("Session data before adding items:", request.session.get('cart', {}))
     cart = request.session.get('cart', {})
     if request.method == 'POST':
        
