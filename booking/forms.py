@@ -35,7 +35,7 @@ class ServiceBookingForm(forms.ModelForm):
             attrs={
                 'type': 'date',
                 "class": "form-control",
-                "placeholder": "Select date",
+                "label": "Select date",
                 "required": True
             }
         )
