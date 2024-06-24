@@ -1,6 +1,7 @@
 from django import forms
 from .models import CustomerProfile
 
+
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = CustomerProfile
@@ -20,5 +21,6 @@ class CustomerProfileForm(forms.ModelForm):
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black-rounded-o customer-profile-form-input'
-            self.fields[field].label = False 
+            self.fields[field].widget.attrs['class'] = \
+                'border-black-rounded-o customer-profile-form-input'
+            self.fields[field].label = False

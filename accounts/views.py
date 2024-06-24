@@ -15,26 +15,33 @@ def profile(request):
     """
 
     From Boutique Ado walkthrough.
-    
+
     Display and update the user's profile information.
 
-    This view retrieves the CustomerProfile for the currently logged-in user.
+    This view retrieves the CustomerProfile for the
+    currently logged-in user.
     It handles both GET and POST requests:
-    - For GET requests, it displays the profile form pre-filled with the user's information.
-    - For POST requests, it updates the profile with the submitted data if the form is valid.
+    - For GET requests, it displays the profile form pre-filled
+    with the user's information.
+    - For POST requests, it updates the profile with the submitted
+    data if the form is valid.
 
     Args:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        HttpResponse: The HTTP response object with the rendered profile page.
+        HttpResponse: The HTTP response object with the
+        rendered profile page.
 
     Raises:
-        Http404: If the CustomerProfile does not exist for the current user.
+        Http404: If the CustomerProfile does not exist for
+        the current user.
 
     Context:
-        form (CustomerProfileForm): The form for displaying and updating the user's profile.
-        spa_bookings (QuerySet): The set of SpaBooking objects associated with the user's profile.
+        form (CustomerProfileForm): The form for displaying and
+        updating the user's profile.
+        spa_bookings (QuerySet): The set of SpaBooking objects
+        associated with the user's profile.
         customer_name (str): The username of the current user.
         messages (Message): The messages to display to the user.
     """
@@ -72,21 +79,28 @@ def profile(request):
 
 def booking_history(request, booking_number):
     """
-    Display the booking history and details of a specific SpaBooking identified by its booking number.
+    Display the booking history and details of a
+    specific SpaBooking identified by its booking number.
 
-    This view retrieves a specific SpaBooking object using the provided booking_number. If the booking
-    exists, it renders a template ('checkout/checkout_success.html') with details of the booking and
+    This view retrieves a specific SpaBooking object using
+    the provided booking_number. If the booking
+    exists, it renders a template ('checkout/checkout_success.html')
+    with details of the booking and
     a list of all SpaBooking objects for reference.
 
     Parameters:
-    - request: HttpRequest object representing the request made by the user.
-    - booking_number: str, the unique booking number of the SpaBooking to display.
+    - request: HttpRequest object representing the request made
+    by the user.
+    - booking_number: str, the unique booking number of
+    the SpaBooking to display.
 
     Raises:
-    - Http404: If no SpaBooking object exists with the provided booking_number.
+    - Http404: If no SpaBooking object exists with the
+    provided booking_number.
 
     Returns:
-    - HttpResponse: Renders 'checkout/checkout_success.html' template with the following context:
+    - HttpResponse: Renders 'checkout/checkout_success.html'
+    template with the following context:
       {
           'booking': SpaBooking object with the specified booking_number,
           'spa_bookings': QuerySet of all SpaBooking objects,
@@ -116,15 +130,14 @@ def delete_profile(request):
     if request.method == 'POST':
         try:
             SpaBooking.objects.filter(customer_profile=profile).delete()
-            
 
             user = request.user
             profile.delete()
             request.user.delete()
             logout(request)
-         
 
-            messages.success(request, 'Your profile and related data have been deleted.')
+            messages.success(
+                request, 'Your profile and related data have been deleted.')
             return redirect('home')
 
         except Exception as e:
