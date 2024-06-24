@@ -1,10 +1,12 @@
 from django import forms
 from booking.models import SpaBooking
 
+
 class SpaBookingForm(forms.ModelForm):
     class Meta:
         model = SpaBooking
-        fields = ['customer_name', 'email', 'phone_number']
+        fields = ['customer_name', 'email',
+                  'phone_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -15,7 +17,8 @@ class SpaBookingForm(forms.ModelForm):
             'phone_number': 'Phone Number',
         }
 
-        self.fields['customer_name'].widget.attrs['autofocus'] = True
+        self.fields['customer_name'].widget.attrs[
+            'autofocus'] = True
 
         for field in self.fields:
             if self.fields[field].required:
@@ -24,5 +27,4 @@ class SpaBookingForm(forms.ModelForm):
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
-            self.fields[field].label = False 
-
+            self.fields[field].label = False

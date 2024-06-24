@@ -5,7 +5,12 @@ import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+    HttpResponse
+)
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -24,32 +29,32 @@ import uuid
 @require_POST
 def cache_checkout_data(request):
     """
-    From Boutique Ado walkthrough. 
+    From Boutique Ado walkthrough.
 
     Caches checkout data in Stripe PaymentIntent metadata.
 
-    This view function is responsible for updating the Stripe PaymentIntent 
-    with additional metadata before the payment is processed. The metadata 
-    includes the user's cart contents, whether the user wants to save their 
-    information for future use, and the username of the user making the 
-    purchase. 
+    This view function is responsible for updating the Stripe PaymentIntent
+    with additional metadata before the payment is processed. The metadata
+    includes the user's cart contents, whether the user wants to save their
+    information for future use, and the username of the user making the
+    purchase.
 
-    The function retrieves the PaymentIntent ID from the 'client_secret' 
-    in the POST data, extracts the cart data from the session, and updates 
-    the PaymentIntent with this metadata. If an error occurs during this 
+    The function retrieves the PaymentIntent ID from the 'client_secret'
+    in the POST data, extracts the cart data from the session, and updates
+    the PaymentIntent with this metadata. If an error occurs during this
     process, an error message is displayed to the user.
 
     Args:
-        request (HttpRequest): The HTTP request object containing the 
+        request (HttpRequest): The HTTP request object containing the
         POST data.
 
     Returns:
-        HttpResponse: A response with HTTP status 200 if the metadata is 
-        successfully cached, or an error response with HTTP status 400 
+        HttpResponse: A response with HTTP status 200 if the metadata is
+        successfully cached, or an error response with HTTP status 400
         if an exception occurs.
 
     Raises:
-        Exception: Any exception that occurs during the modification of 
+        Exception: Any exception that occurs during the modification of
         the PaymentIntent is caught and results in an error response.
     """
     try:
@@ -63,10 +68,9 @@ def cache_checkout_data(request):
         return HttpResponse(status=200)
     except Exception as e:
         messages.error(request, "Unfortunately, your payment can't be "
-                        "processed at the moment. Please try again later.")
+                       "processed at the moment. Please try again later.")
 
         return HttpResponse(content=e, status=400)
-
 
 
 def checkout(request):
@@ -74,24 +78,29 @@ def checkout(request):
     Handle the checkout process for spa services, including payment via Stripe.
 
     Retrieves Stripe public and secret keys from Django settings.
-    Validates the cart contents and calculates total price based on selected services.
-    Creates a Stripe PaymentIntent for the total amount.
-    Processes the spa booking form submission, associating it with Stripe payment details.
-    Redirects to checkout success page upon successful booking submission.
+    Validates the cart contents and calculates total price based
+    on selected services. Creates a Stripe PaymentIntent for the
+    total amount. Processes the spa booking form submission, associating
+    it with Stripe payment details. Redirects to checkout success page upon
+    successful booking submission.
 
     Args:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        HttpResponse: Rendered template with checkout form, services details, and Stripe payment information.
+        HttpResponse: Rendered template with checkout form, services details,
+        and Stripe payment information.
 
     Raises:
-        ObjectDoesNotExist: If a service or time slot referenced in the cart does not exist.
+        ObjectDoesNotExist: If a service or time slot referenced in the
+        cart does not exist.
         ValueError: If there is an invalid format in the cart item key.
 
     Notes:
-        - If there are no services in the cart, redirects to the home page with an error message.
-        - Handles form validation errors and displays appropriate error messages.
+        - If there are no services in the cart, redirects to the home
+        page with an error message.
+        - Handles form validation errors and displays appropriate
+        error messages.
     """
 
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -99,7 +108,7 @@ def checkout(request):
 
     cart = request.session.get('cart', {})
     if request.method == 'POST':
-       
+
         if not cart:
             messages.error(request, "There's nothing in your cart")
             return redirect(reverse('home'))
@@ -109,13 +118,15 @@ def checkout(request):
     cart_services = []
     total_price = 0
     for unique_key, service_data in cart.items():
-        try:    
-            service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+        try:
+            service_id, selected_date, selected_time_slot_id = (
+                unique_key.split('_'))
             time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
             selected_time = time_slot.time.strftime("%H:%M")
             service = SpaService.objects.get(pk=service_id)
         except ObjectDoesNotExist:
-            messages.error(request, f"The service with ID {service_id} does not exist.")
+            messages.error(
+                request, f"The service with ID {service_id} does not exist.")
             continue
         except ValueError as e:
             messages.error(request, f"Invalid format for cart item key: {e}")
@@ -133,13 +144,12 @@ def checkout(request):
         })
 
     if not cart_services:
-            messages.error(request, "There's nothing in your cart")
-            return redirect(reverse('home'))
-  
+        messages.error(request, "There's nothing in your cart")
+        return redirect(reverse('home'))
 
     stripe_total = round(total_price * 100)
     stripe.api_key = stripe_secret_key
-    
+
     intent = stripe.PaymentIntent.create(
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
@@ -163,8 +173,10 @@ def checkout(request):
 
             if cart_services:
                 first_service = cart_services[0]
-                selected_date = datetime.strptime(first_service['selected_date'], "%B %d, %Y").date()
-                selected_time = datetime.strptime(first_service['selected_time'], "%H:%M").time()
+                selected_date = datetime.strptime(
+                    first_service['selected_date'], "%B %d, %Y").date()
+                selected_time = datetime.strptime(
+                    first_service['selected_time'], "%H:%M").time()
                 date_and_time = datetime.combine(selected_date, selected_time)
                 date_and_time = timezone.make_aware(date_and_time)
             else:
@@ -178,10 +190,13 @@ def checkout(request):
                 spa_service = cart_service['service']
                 quantity = cart_service['quantity']
                 spa_service_total = cart_service['total_price']
-                selected_date = datetime.strptime(cart_service['selected_date'], "%B %d, %Y").date()
-                selected_time = datetime.strptime(cart_service['selected_time'], "%H:%M").time()
+                selected_date = datetime.strptime(
+                    cart_service['selected_date'], "%B %d, %Y").date()
+                selected_time = datetime.strptime(
+                    cart_service['selected_time'], "%H:%M").time()
                 selected_time_slot_id = cart_service['selected_time_slot_id']
-                selected_datetime = datetime.combine(selected_date, selected_time)
+                selected_datetime = datetime.combine(
+                    selected_date, selected_time)
 
                 spa_booking_service = SpaBookingServices.objects.create(
                     spa_service=spa_service,
@@ -191,13 +206,16 @@ def checkout(request):
                     date_and_time=selected_datetime,
                 )
                 selected_datetime = timezone.make_aware(selected_datetime)
-                
+
                 request.session['save_info'] = 'save-info' in request.POST
         else:
-            messages.error(request, 'There was an error with your form. Please double check your information.')
+            messages.error(
+                request, 'There was an error with your form.'
+                'Please double check your information.')
 
-
-        return redirect(reverse('checkout_success', kwargs={'booking_number': spa_booking.booking_number}))
+        return redirect(reverse(
+            'checkout_success', kwargs={
+                'booking_number': spa_booking.booking_number}))
 
     else:
         spa_booking_form = SpaBookingForm()
@@ -208,15 +226,14 @@ def checkout(request):
 
     template = 'checkout/checkout.html'
     context = {
-        'booking_id': booking_id,  
+        'booking_id': booking_id,
         'spa_booking_form': spa_booking_form,
         'cart_services': cart_services,
         'total_price': total_price,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
         'messages': messages.get_messages(request),
-        'cart':cart,
-    }
+        'cart': cart, }
 
     return render(request, template, context)
 
@@ -224,20 +241,25 @@ def checkout(request):
 def checkout_success(request, booking_number):
     """
     From Boutique Ado walkthrough.
-    Handle successful checkout completion and display the checkout success page.
+    Handle successful checkout completion and display
+    the checkout success page.
 
     Retrieves booking details based on the provided `booking_number`.
-    If the user is authenticated, associates the booking with the user's customer profile.
-    If 'save_info' is set in session, updates user and customer profile information with booking details.
+    If the user is authenticated, associates the booking with the user's
+    customer profile.
+    If 'save_info' is set in session, updates user and customer profile
+    information with booking details.
     Displays a success message with the booking number and email.
     Clears the 'cart' from session after successful checkout.
 
     Args:
         request (HttpRequest): The HTTP request object.
-        booking_number (str): The unique booking number identifying the completed booking.
+        booking_number (str): The unique booking number identifying
+        the completed booking.
 
     Returns:
-        HttpResponse: Rendered template with booking details and success message.
+        HttpResponse: Rendered template with booking details
+        and success message.
 
     Raises:
         Http404: If no booking exists with the provided `booking_number`.
@@ -257,10 +279,11 @@ def checkout_success(request, booking_number):
             'email': booking.email,
             'default_phone_number': booking.phone_number,
         }
-        customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
+        customer_profile_form = CustomerProfileForm(
+            profile_data, instance=profile)
         if customer_profile_form.is_valid():
             customer_profile_form.save()
-        
+
         user.email = booking.email
         user.save()
 
@@ -277,4 +300,4 @@ def checkout_success(request, booking_number):
         'messages': messages.get_messages(request),
     }
 
-    return render(request, template, context)    
+    return render(request, template, context)
