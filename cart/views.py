@@ -1,5 +1,4 @@
 import json
-import logging
 from decimal import Decimal
 
 from django.shortcuts import render, get_object_or_404, redirect
@@ -13,8 +12,6 @@ from booking.forms import TimeSlotSelectionForm
 
 
 # Create your views here.
-
-#logger = logging.getLogger(__name__)
 
 def add_to_cart(request, service_id=None):
 

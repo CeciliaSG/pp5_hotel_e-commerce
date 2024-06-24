@@ -4,8 +4,6 @@ from .forms import ServiceBookingForm, TimeSlotSelectionForm
 from services.models import SpaService, Availability, TimeSlot
 
 
-#from django.forms.widgets import DateInput
-
 def book_spa_service(request):
     """
     Handles the booking of spa services.

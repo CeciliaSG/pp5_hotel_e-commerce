@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
-    #'allauth.socialaccount',
     "home",
     "services",
     "crispy_forms",
@@ -205,8 +204,6 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-#STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
-
 
 STRIPE_CURRENCY = 'sek'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
