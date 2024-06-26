@@ -5,8 +5,8 @@
 
 {% block content %}
 <div class="container form-container">
-    <div class="row row-booking mt-5">
-        <div class="col-md-6">
+    <div class="row row-booking mt-5 justify-content-center">
+        <div class="col-md-6 mt-5">
             <h1 class="h4">Create your booking:</h1>
             <form method="post" action="{% url 'book_spa_service' %}">
                 {% csrf_token %}
@@ -38,6 +38,10 @@
             {% elif service_id %}
             <p>No available time slots.</p>
             {% endif %}
+        </div>
+        <div class="col-md-4 col-lg-5">
+            <img src="{% static 'images/image_water-lily.webp' %}" class="img-fluid my-5 mx-auto d-block" alt=" Spa
+                            Image">
         </div>
     </div>
 </div>
