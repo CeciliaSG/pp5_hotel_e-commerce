@@ -138,10 +138,8 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
  <img src="assets_readme/images/spa_erds_page_2.png">
 
 
- - **Kanban Board**
--  [View](assets_readme/images/spa_erds.pdf)
- <img src="assets_readme/images/kanban_board.png">
- https://github.com/users/CeciliaSG/projects/5/views/1
+### Kanban Board
+[View Board](https://github.com/users/CeciliaSG/projects/5/views/1)
 
 ## Site images (pages, sections, features etc.)
 
@@ -207,7 +205,6 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 ## Testing
 [Test File/can be downloaded](assets_readme/testing_for_the_spa_2.xlsx)
-<img src="testing_for_the_spa_2.xlsx">
 
 
 ### Validator Testing 
