@@ -6,10 +6,57 @@ from services.models import SpaService, TimeSlot
 
 
 class DateInput(forms.DateInput):
+    """
+    Widget class for rendering a date input field in a Django form.
+
+    This widget extends `forms.DateInput` and sets the HTML input 
+    type to 'date'. It is used to render date input fields in HTML
+    forms with native date picker support in browsers that support it.
+
+    Attributes:
+        input_type (str): The type of input rendered by this widget,
+        set to 'date' to ensure the browser displays a date picker
+        for date inputs.
+
+    Methods:
+        None
+
+    Usage:
+        This widget is typically used as the `widgets` attribute in
+        a Django form field definition, especially when defining
+        forms that require date inputs. It ensures consistent
+        rendering of date input fields across different browsers
+        that support HTML5 date inputs.
+    """
     input_type = 'date'
 
 
 class ServiceBookingForm(forms.ModelForm):
+    """
+    Form for booking spa services with additional customisation 
+    for fields.
+
+    This form inherits from `forms.ModelForm` and is designed 
+    for creating or updating spa bookings with fields such as
+    service selection, date, and quantity.
+
+    Attributes:
+        Meta:
+            model (SpaBooking): The model class associated with
+            this form. fields (list): The fields from the `SpaBooking` 
+            model to be included in the form. widgets (dict): 
+            Custom widgets for specific fields (`date` and `quantity`)
+            to control their appearance and behavior in HTML forms.
+
+    Methods:
+        None
+
+    Usage:
+        This form can be used in Django templates to render HTML forms
+        for booking spa services. It provides customised widgets for the
+        `date` and `quantity` fields, ensuring they are displayed with
+        appropriate placeholders, CSS classes, and validation rules.
+    """
     class Meta:
         model = SpaBooking
         fields = ['service', 'date', 'quantity']
@@ -25,7 +72,6 @@ class ServiceBookingForm(forms.ModelForm):
                 attrs={"class": "form-control", "placeholder": "Quantity"}
             ),
         }
-
     service = forms.ModelChoiceField(
         queryset=SpaService.objects.all(), empty_label="Select a service",
         widget=forms.Select(attrs={"class": "form-control service-select"})
@@ -35,7 +81,6 @@ class ServiceBookingForm(forms.ModelForm):
             attrs={
                 'type': 'date',
                 "class": "form-control",
-                #"placeholder": "Select date",
                 "required": True
             }
         )
@@ -50,6 +95,27 @@ class ServiceBookingForm(forms.ModelForm):
 
 
 class TimeSlotSelectionForm(forms.Form):
+    """
+    Form for selecting a time slot from available options.
+
+    This form allows users to select a time slot from a list
+    of available options retrieved from the `TimeSlot` model.
+
+    Attributes:
+        selected_time_slot (forms.ModelChoiceField): 
+        A choice field representing the
+        selected time slot, displayed
+        using radio buttons.
+
+    Methods:
+        __str__(self):
+            Returns a string representation of the form's name.
+
+    Usage:
+        This form is typically used in Django views and templates
+        to render a list of available time slots for users to choose
+        from using radio buttons.
+    """
     selected_time_slot = forms.ModelChoiceField(
         queryset=TimeSlot.objects.all(),
         empty_label=None, widget=forms.RadioSelect

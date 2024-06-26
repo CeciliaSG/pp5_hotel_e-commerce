@@ -3,6 +3,38 @@ from booking.models import SpaBooking
 
 
 class SpaBookingForm(forms.ModelForm):
+    """
+    Form for creating or updating a spa booking.
+    From Boutique Ado walkthrough.
+
+    This form inherits from `forms.ModelForm`
+    and is designed to handle data input
+    related to spa bookings, including customer name,
+    email, and phone number.
+
+    Attributes:
+        Meta:
+            model (SpaBooking): The model class associated
+            with this form.
+            fields (list): The fields from the `SpaBooking`
+            model to be included in the form.
+
+    Methods:
+        __init__(self, *args, **kwargs):
+            Custom initialization method to set placeholders,
+            autofocus, CSS classes, and labels for form fields
+            dynamically.
+
+    Usage:
+        This form can be used in Django templates to render HTML
+        forms for creating or updating spa bookings. It automatically
+        sets placeholders with or without asterisks for required fields,
+        applies a specific CSS class to form inputs, and autofocuses on
+        the first input field.
+    """
+
+
+
     class Meta:
         model = SpaBooking
         fields = ['customer_name', 'email',

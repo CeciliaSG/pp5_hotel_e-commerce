@@ -80,6 +80,7 @@ def cache_checkout_data(request):
 
 def checkout(request):
     """
+    Modified from Boutique Ado walkthrough.
     Handle the checkout process for spa services, including payment via Stripe.
 
     Retrieves Stripe public and secret keys from Django settings.
