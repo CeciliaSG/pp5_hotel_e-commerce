@@ -33,8 +33,6 @@ class SpaBookingForm(forms.ModelForm):
         the first input field.
     """
 
-
-
     class Meta:
         model = SpaBooking
         fields = ['customer_name', 'email',

@@ -102,7 +102,7 @@ class TimeSlotSelectionForm(forms.Form):
     of available options retrieved from the `TimeSlot` model.
 
     Attributes:
-        selected_time_slot (forms.ModelChoiceField): 
+        selected_time_slot (forms.ModelChoiceField):
         A choice field representing the
         selected time slot, displayed
         using radio buttons.
