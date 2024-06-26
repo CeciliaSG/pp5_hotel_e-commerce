@@ -706,7 +706,7 @@ transform: none;
 }
 
 .book-now-button {
-    margin-top: 50px;
+    margin-top: 100px;
   }
 
 main {
@@ -738,5 +738,9 @@ footer {
 
 .col-lg-6 {
         margin-bottom: 20px;
+}
+
+.logo {
+    margin-top: 70px;
 }
 }
