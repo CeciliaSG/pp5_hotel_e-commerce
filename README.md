@@ -4,7 +4,7 @@
 
 This is the main marketing site and sales channel for The Spa Stockholm, a spa in the heart of Sweden's vibrant capital. The Spa Stockholm, offers a sanctuary where customers can escape the hustle and bustle of everyday life and indulge in luxurious treatments for body, mind, and spirit.
 
-<h2 align="center"><img src="assets_readme/images/Responsive_image.png"></h2>
+<h2 align="center"><img src="assets_readme/images/responsive_image.png"></h2>
 
 
 ## E-commerce Model for The Spa Stockholm
@@ -229,7 +229,7 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 ### Further Testing
 
 -   The Website was tested on Google Chrome and Safari browsers.
--   The website was viewed on a variety of devices such as Desktop, Laptop, iPhone7, iPhone 8 & iPhoneX.
+-   The website was viewed on a variety of devices such as Desktop, Laptop, Galaxy, Iphone and Ipad.
 -   A large amount of testing was done to ensure that all pages were linking correctly and that buttons, other linksa and forms are working.
 
 ### Features Left to Implement
@@ -237,11 +237,11 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 - The Admin panel needs to be developed and made better. it works but it is not ideal for adding treatments7service, dates and times.
 - Employed users should be able to adminstrate the treatments etc from the front end.
 - Customers hould be able to choose a therapist when booking.
+- The prices section should be developed.
 
 <br>
 
 ### Unfixed Bugs
-
 
 <br>
 
@@ -328,34 +328,35 @@ Steps to follow for deployment to Heroku:
 
 -   [Bootstrap5](https://getbootstrap.com/docs/5.3/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
 
--   [Stack Overflow](https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory)
+-   [Stack Overflow/editing-inline-formset](https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory)
 
--   [Stack Overflow](https://stackoverflow.com/questions/3367741/inlineformset-factory-composed-of-modelform)
+-   [Stack Overflow/inlineformset](https://stackoverflow.com/questions/3367741/inlineformset-factory-composed-of-modelform)
 
--   [Stack Overflow](https://stackoverflow.com/questions/68382186/django-add-form-validation-to-inlineformset-factory)
+-   [Stack Overflow/add-form-validation](https://stackoverflow.com/questions/68382186/django-add-form-validation-to-inlineformset-factory)
 
--   [Stack Overflow](https://stackoverflow.com/questions/62315482/django-day-and-time-picker/62316055#62316055)
+-   [Stack Overflow/dayandtimepicker](https://stackoverflow.com/questions/62315482/django-day-and-time-picker/62316055#62316055)
 
--   [Stack Overflow](https://stackoverflow.com/questions/54825483/combine-django-filter-datetimefromtorangefilter-and-datetimeinputdatepicker)
+-   [Stack Overflow/datetimefromtorange](https://stackoverflow.com/questions/54825483/combine-django-filter-datetimefromtorangefilter-and-datetimeinputdatepicker)
 
--   [Stack Overflow](https://nancylin.xyz/how-to-implement-date-time-picker-in-django-without-javascript/)
+-   [Stack Overflow/date-time-picker](https://nancylin.xyz/how-to-implement-date-time-picker-in-django-without-javascript/)
 
--   [Stack Overflow](https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html)
+-   [Stack Overflow/date-picker](https://simpleisbetterthancomplex.com/tutorial/2019/01/03/how-to-use-date-picker-with-django.html)
 
--   [Stack Overflow](https://stackoverflow.com/questions/23706003/changing-nav-bar-color-after-scrolling)
+-   [Stack Overflow/changing navbar colour](https://stackoverflow.com/questions/23706003/changing-nav-bar-color-after-scrolling)
 
-- [Stack Overflow](https://stackoverflow.com/questions/57694951/using-scrollintoview-function-to-specific-html-tag)
+- [Stack Overflow/scrollintoview](https://stackoverflow.com/questions/57694951/using-scrollintoview-function-to-specific-html-tag)
 
-- [Stack Overflow](https://stackoverflow.com/questions/23506975/scrollspy-navigate-to-different-page-and-back-at-same-position)
-https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page/11715670#11715670
+- [Stack Overflow/scrollspy_navigate_to](https://stackoverflow.com/questions/23506975/scrollspy-navigate-to-different-page-and-back-at-same-position)
 
-- [www.w3schools.com](https://www.w3schools.com/tags/att_input_type_date.asp#:~:text=The%20%3Cinput%20type%3D%22date,tag%20for%20best%20accessibility%20practices!)
+- [Stack Overflow/scroll-automatically](https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page/11715670#11715670)
+
+- [www.w3schools.com/input-type-date](https://www.w3schools.com/tags/att_input_type_date.asp#:~:text=The%20%3Cinput%20type%3D%22date,tag%20for%20best%20accessibility%20practices!)
 
 
 #### Forms
 - [www.geeksforgeeks.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
-- [docs.djangoproject.com] (https://docs.djangoproject.com/en/5.0/topics/forms/)
-- [developer.mozilla.org] (https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
+- [docs.djangoproject.com](https://docs.djangoproject.com/en/5.0/topics/forms/)
+- [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
 
 ### Content
 
