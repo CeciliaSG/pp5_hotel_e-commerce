@@ -206,6 +206,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
     - Realfavicongenerator was used to generate a favicon.
 
 ## Testing
+[Test File](testing_for_the_spa_2.xlsx)
 
 ### Validator Testing 
 
