@@ -27,6 +27,7 @@ admin.site.register(SpecificDate, SpecificDateAdmin)
 
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = ("time",)
+    extra = 1
 
 
 admin.site.register(TimeSlot, TimeSlotAdmin)

@@ -326,6 +326,8 @@ Steps to follow for deployment to Heroku:
 
 ### Code
 
+The Boutique Ado walthrough forms the base for this project and has been cosulted extensively. Django docs have also been used as well as Bootstrap.
+
 -   [Bootstrap5](https://getbootstrap.com/docs/5.3/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
 
 -   [Stack Overflow/editing-inline-formset](https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory)
