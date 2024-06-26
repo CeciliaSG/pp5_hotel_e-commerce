@@ -17,7 +17,7 @@ def webhook(request):
 
     payload = request.body
     sig_header = request.META.get(
-        'HTTP_STRIPE_SIGNATURE', None)
+        'HTTP_STRIPE_SIGNATURE')
     event = None
 
     if not sig_header:

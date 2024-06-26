@@ -14,7 +14,6 @@ from django.utils.timezone import make_aware, get_current_timezone
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 
-
 class StripeWH_Handler:
     """From Boutique Ado walkthrough. Handles Stripe webhooks"""
 
@@ -65,10 +64,13 @@ class StripeWH_Handler:
         cart = json.loads(metadata.cart)
         save_info = metadata.get('save_info', 'false').lower() == 'true'
 
+        print('INTENT: ', intent)
+
         date_and_time = None
 
         for unique_key, service_data in cart.items():
             try:
+                print('IN TRY BLOCK')
                 service_id, selected_date, selected_time_slot_id = \
                     unique_key.split('_')
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
@@ -78,7 +80,6 @@ class StripeWH_Handler:
                     date_and_time_str, "%B %d, %Y %H:%M")
                 date_and_time = make_aware(
                     date_and_time, get_current_timezone())
-
                 break
             except Exception as e:
                 pass
@@ -91,9 +92,9 @@ class StripeWH_Handler:
                 status=500)
 
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
-
         billing_details = stripe_charge.billing_details
         booking_total = round(stripe_charge.amount / 100, 2)
+        
         cart_json = json.dumps(cart)
 
         booking_exists = False
@@ -104,7 +105,7 @@ class StripeWH_Handler:
                     customer_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,
                     phone_number__iexact=billing_details.phone,
-                    original_cart=cart_json,
+                    #original_cart=cart_json,
                     stripe_pid=pid,
                 )
                 booking_exists = True
@@ -130,9 +131,10 @@ class StripeWH_Handler:
                 customer_name=billing_details.name,
                 email=billing_details.email,
                 phone_number=billing_details.phone,
-                original_cart=cart_json,
+                #original_cart=cart_json,
                 stripe_pid=pid,
                 date_and_time=date_and_time,
+                booking_total=booking_total,
             )
             for service_id, service_data in cart.items():
                 service_id = int(unique_key.split('_')[0])
@@ -162,8 +164,9 @@ class StripeWH_Handler:
         self._send_confirmation_email(booking)
         return HttpResponse(
             content=f'Webhook received: {
-             event["type"]} | SUCCESS: Created booking in webhook',
+            event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
+
 
     def handle_payment_intent_payment_failed(self, event):
         """

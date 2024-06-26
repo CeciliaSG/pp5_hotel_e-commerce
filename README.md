@@ -1,4 +1,4 @@
-<h1 align="center">The Spa Stockholm Website</h1>
+<h1 align="center">The Spa Stockholm</h1>
 
 [View the live project here.](https://the-spa-df1f22d5aa6e.herokuapp.com/)
 
@@ -88,9 +88,15 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
     -   #### First Time Visitor Goals
 
-        1. As a First Time Visitor, I want to easily understand the main purpose of the site and learn more about the Spa.
-        2. As a First Time Visitor, I want to be able to easily navigate throughout the site to find content.
-        3. As a First Time Visitor, I want to locate the Spa's social media link(s) to see their followings on social media to determine how trusted and known they are.
+        1. As a First Time Visitor/user, I want to easily understand the main purpose of the site and learn more about the Spa: The Home page and Home section displays the logo and a Hero image which immediately gives the uer an idea what the website is about. it also displays a Read more button which takes the user directly to the section giving the user more information about The Spa. In the about section there is also a read more about us buttonwhich takes the user to a page with more comprehensive information about The Spa. This page is also linked in the footer that is displayed on every page of the website. 
+
+        2. As a user I want to easily get in contact with The Spa to get any questions answered.
+        If  as user has any queries there is also a contact link in the footer (visible on all pages)
+
+        3. As a First Time Visitor/user, I want to be able to easily navigate throughout the site to find content. The Spa's main navbar is a dropdown navbar displayed as a hamburder menu on all screens sizes. In it are links to the most essential pages and sections. there ae also buttons convenitently placed through out the site to make navigation easier.
+
+        4. As a First Time Visitor, I want to easily locate the Spa's social media link(s) to see their followings on social media to determine how trusted and known they are. The link to FB is threfore placed in the main navbar.
+
 
     -   #### Returning Visitor Goals
 

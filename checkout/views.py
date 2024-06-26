@@ -22,6 +22,10 @@ from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 import uuid
+from cart.utils import get_cart_from_session
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
