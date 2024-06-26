@@ -127,6 +127,9 @@ class SpecificDate(models.Model):
     def __str__(self):
         return str(self.date)
 
+    class Meta:
+        ordering = ['date']
+
 
 class TimeSlot(models.Model):
     """
