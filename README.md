@@ -105,18 +105,15 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
         8. As a customer/user I want to be able to pay for my selected services and receive a confirmation of my booking/purchase. when the services have been selected and added to the cart the user can click the button and go to checkout and fill out their payment information and then make the payment. A booking confirmation message is displayed and the user is also redireced to a booking confirmation page with more information, at the same time an email is sent to their registered email.
 
+        9. As a user I want to connect with the Spa and keep updated about events, special offers etc. I also want to follow the Spa on Social Media and be able sign-up for, and receive promotional emails from The Spa. The FB button is located in the dropdown menu so the user can easily find it The Spa uses Mail Chimp to handle their newsletters and a pop-up is conviently displayed to the user to sign-up for newsletters, promotions etc.
 
+        10. As a user/customer, first time or returning, I want to easily register an account/profile and know that my account was successfully registered. The link for registration is located in the dropdown menu and takes the user to a registration form. A confirmations page is displayed after registering letting the uer know they need to confirm their email beofore login.
+        
+        11. As a user I want to be able to easily log in and logout: I want to access my personal account information, and I want to have a personalised UserProfile, where I can view my bookings/purchases. login and logout links are located in the dropdown menu and conveniently logs the user into the account and takes the user to a logout page which checks if they are sure they want to log out.
 
-    -   #### Returning Visitor Goals
+        12. As customer/user I want to easily update my profile informatio (email, phone number) and this can be done on the profile page accessed via the dropdown menu when the uer is logged in. When profile is updated a confirmation message is displayed on the screen.
 
-        1. As a Returning Visitor, I want to find information about coding challenges.
-        2. As a Returning Visitor, I want to find the best way to get in contact with the organisation with any questions I may have.
-        3. As a Returning Visitor, I want to find community links.
-
-    -   #### Frequent User Goals
-        1. As a Frequent User, I want to check to see if there are any newly added challenges or hackathons.
-        2. As a Frequent User, I want to check to see if there are any new blog posts.
-        3. As a Frequent User, I want to sign up to the Newsletter so that I am emailed any major updates and/or changes to the website or organisation.
+        13. As customer/user I want to easily delete my account/profile and assocciated account information, there is therefore a link to a delete page located in the dropdoen menu accessible for logged in users. Here the user is asked if the are sure they want to delete the account, if the click the delte button the account is deleted and a message is displaye informting them the account has been deleted, they are logged out and returne to the Home page.
 
 -   ### Design
     -   #### Colour Scheme
