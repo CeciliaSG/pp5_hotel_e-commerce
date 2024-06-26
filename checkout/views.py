@@ -64,6 +64,14 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+        cart = request.session.get('cart', {})
+        save_info = request.POST.get('save_info')
+        username = str(request.user)
+
+        logger.info(f"Received data: client_secret={pid}, save_info={save_info}, username={username}, cart={cart}")
+
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
             'save_info': request.POST.get('save_info'),

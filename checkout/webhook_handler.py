@@ -107,14 +107,10 @@ class StripeWH_Handler:
         metadata = intent.metadata
         cart = json.loads(metadata.cart)
         save_info = metadata.get('save_info', 'false').lower() == 'true'
-
-        #print('INTENT: ', intent)
-
         date_and_time = None
 
         for unique_key, service_data in cart.items():
             try:
-                #print('IN TRY BLOCK')
                 service_id, selected_date, selected_time_slot_id = \
                     unique_key.split('_')
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
@@ -239,3 +235,4 @@ class StripeWH_Handler:
         """
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',)
+

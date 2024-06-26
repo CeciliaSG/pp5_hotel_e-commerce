@@ -154,6 +154,9 @@ class TimeSlot(models.Model):
     def __str__(self):
         return str(self.time)
 
+    class Meta:
+        ordering = ['time'] 
+
 
 class Availability(models.Model):
     """
