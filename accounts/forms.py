@@ -3,6 +3,33 @@ from .models import CustomerProfile
 
 
 class CustomerProfileForm(forms.ModelForm):
+    """
+    Form for updating customer profile information.
+
+    This form inherits from `forms.ModelForm` and is
+    used to update fields such as email
+    and default phone number in the `CustomerProfile`
+    model.
+
+    Attributes:
+        Meta:
+            model (CustomerProfile): The model class associated
+            with this form. fields (list): The fields from the
+            `CustomerProfile` model to be included in the form.
+
+    Methods:
+        __init__(self, *args, **kwargs):
+            Custom initialization method to set placeholders,
+            autofocus, CSS classes, and labels for form fields
+            dynamically.
+
+    Usage:
+        This form can be used in Django templates to render HTML
+        forms for updating customer profile information. It automatically
+        sets placeholders with or without asterisks for required fields,
+        applies specific CSS classes to form inputs, and hides labels to
+        provide a streamlined user interface for profile updates.
+    """
     class Meta:
         model = CustomerProfile
         fields = ['email', 'default_phone_number']
