@@ -101,37 +101,33 @@
   <section class="section-home bg-section-four bg-colour-grey" id="prices-booking">
     <div class="container px-5 justify-content-center">
       <div class="text-center">
-        <h2 class="section-heading pt-4 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
+        <h2 class="section-heading pt-5 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
       </div>
       <div class="row gy-5 gx-3">
-        <div class="row">
-          <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h2 class="h4 card-title">Our Spa Services</h2>
-                <ul class="list-group">
-                  {% for service in spa_services %}
-                  <li class="list-group-item">
-                    <h3 class="h5">{{ service.category }}</h3>
-                    {{ service.name }} - {{ service.price }} SEK
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="h4 card-title">Our Spa Services</h2>
+              <ul class="list-group">
+                {% for service in spa_services %}
+                <li class="list-group-item">
+                  <h3 class="h5">{{ service.category }}</h3>
+                  {{ service.name }} - {{ service.price }} SEK
+                </li>
+                {% endfor %}
+              </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
-            <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-              <button type="submit" class="btn button book-now-button btn-lg" name="service_id"
-                value="{{ service.id }}">
-                Book Now
-              </button>
-            </form>
-          </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+          <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
+            <button type="submit" class="btn button book-now-button btn-lg" name="service_id" value="{{ service.id }}">
+              Book Now
+            </button>
+          </form>
         </div>
       </div>
     </div>
   </section>
 </div>
-
 {% endblock %}
