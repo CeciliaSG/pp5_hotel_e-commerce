@@ -11,7 +11,26 @@ from checkout.webhook_handler import StripeWH_Handler
 @require_POST
 @csrf_exempt
 def webhook(request):
-    """Listen for webhooks from Stripe"""
+    """
+    From Boutique Ado walkthrough.
+    Listen for webhooks from Stripe and handle accordingly.
+
+    This view function is designed to receive HTTP POST requests containing webhook
+    events from Stripe. It verifies the authenticity of the webhook using the
+    secret key configured in Django settings. Upon successful verification, it
+    constructs the event object and dispatches it to the appropriate handler method
+    based on the event type.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing the webhook data.
+
+    Returns:
+        HttpResponse: An HTTP response indicating the status of processing the webhook
+                      event.
+
+    Raises:
+        None
+    """
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 

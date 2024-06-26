@@ -15,13 +15,36 @@ from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 
 class StripeWH_Handler:
-    """From Boutique Ado walkthrough. Handles Stripe webhooks"""
+    """
+    Handle Stripe webhooks from Boutique Ado walkthrough.
+
+    Attributes:
+        request (HttpRequest): The HTTP request object
+        received from Stripe.
+
+    Methods:
+        __init__(self, request):
+            Initialize with the incoming HTTP request
+            from Stripe.
+
+        _send_confirmation_email(self, spa_booking):
+            Send a confirmation email to the user for
+            a spa booking.
+
+            Args:
+                spa_booking (SpaBooking): The spa booking
+                instance containing details.
+
+            Raises:
+                Exception: If there is an issue sending the email.
+    """
 
     def __init__(self, request):
         self.request = request
 
     def _send_confirmation_email(self, spa_booking):
         """From Boutique Ado. Send the user a confirmation email."""
+
         cust_email = None
         try:
             cust_email = spa_booking.email
@@ -55,7 +78,28 @@ class StripeWH_Handler:
 
     def handle_payment_intent_succeeded(self, event):
         """
-        Handle the payment_intent.succeeded webhook from Stripe
+        Handle the payment_intent.succeeded webhook from Stripe.
+        From Boutique Ado walkthrough.
+
+        This method processes a successful payment intent from Stripe,
+        extracts necessary information from the event data, and handles
+        the creation or verification of a spa booking in the system.
+
+        Args:
+            event (dict): The webhook event object from Stripe containing
+            information about the payment intent.
+
+        Returns:
+            HttpResponse or JsonResponse: Depending on the outcome of
+            processing:
+                - If the booking is successfully created or verified,
+                returns an HttpResponse
+                with a success message and status code 200.
+                - If an error occurs during booking creation or verification,
+                returns an HttpResponse with an error message and status code 500.
+
+        Raises:
+            None
         """
 
         intent = event.data.object
@@ -167,10 +211,31 @@ class StripeWH_Handler:
             event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
 
-
     def handle_payment_intent_payment_failed(self, event):
         """
-        Handle the payment_intent.payment_failed webhook from Stripe
+        Handle the payment_intent.payment_failed webhook
+        from Stripe. From Boutique Ado walkthrough.
+
+        This method processes a payment failure webhook 
+        event from Stripe.
+
+        Args:
+            event (dict): The webhook event object from
+            Stripe containing information about the payment
+            failure.
+
+        Returns:
+            HttpResponse: An HttpResponse confirming receipt of
+            the webhook event.
+
+        Raises:
+            None
+
+        Notes:
+            This method is responsible for handling Stripe webhook
+            events when a payment intent fails. It logs the event type
+            and may perform additional error handling
+            or logging as needed.
         """
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',)
