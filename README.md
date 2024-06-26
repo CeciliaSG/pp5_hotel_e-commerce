@@ -117,7 +117,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 -   ### Design
     -   #### Colour Scheme
-        -   The colours used fot The Spa website are soft and harmonious. The main colours is a dark blue, light blue and a blue green colour, complemented by white, soft grey and off-white colours to give the site a harmonious feeling.
+        -   The colours used for The Spa website are soft and harmonious. The main colours is a dark blue, light blue and a blue green colour, complemented by white, soft grey and off-white colours to give the site a harmonious feeling.
     -   #### Typography
         -   The Crimson font is the main font used throughout the whole website with Serif as the fallback font in case for any reason the font isn't being imported into the site correctly. Crimson is a serif font well suited to, so it is both attractive and appropriate.
     -   #### Imagery
