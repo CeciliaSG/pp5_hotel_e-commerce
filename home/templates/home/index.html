@@ -21,76 +21,48 @@
           <h1><strong>The Spa Stockholm</strong></h1>
           <div class="about-text mt-3">
             <p>
-              Welcome to <strong>The Spa Stockholm </strong>, an oasis of tranquillity nestled in the heart of
-              Sweden's
-              vibrant capital.
-              At
-              The Spa
-              Stockholm, we offer a sanctuary where you can escape the hustle and bustle of everyday life and indulge
-              in
-              <strong>luxurious
-                treatments designed to rejuvenate your body, mind, and spirit</strong>.
+              Welcome to <strong>The Spa Stockholm</strong>, an oasis of tranquillity nestled in the heart of
+              Sweden's vibrant capital. At
+              The Spa Stockholm, we offer a sanctuary where you can escape the hustle and bustle of everyday life and
+              indulge
+              in <strong>luxurious treatments designed to rejuvenate your body, mind, and spirit</strong>.
             </p>
             <p>
               Our state-of-the-art facility combines contemporary elegance with timeless Scandinavian design, creating
-              a
-              serene
-              environment that <strong>promotes relaxation and well-being</strong>. From the moment you step through
-              our
-              doors, you will
-              be
-              enveloped
+              a serene environment that <strong>promotes relaxation and well-being</strong>. From the moment you step
+              through
+              our doors, you will be enveloped
               in an atmosphere of calm and comfort, with every detail meticulously curated to enhance your <strong>spa
                 experience</strong>.
             </p>
             <br>
-            <p>Our extensive range of <strong>treatments includes signature massages, revitalising facials, and
-                holistic
-                body
-                therapies</strong>, all
+            <p>Our extensive range of <strong>treatments includes signature massages, revitalising facials, and holistic
+                body therapies</strong>, all
               performed by our highly skilled and experienced therapists. We use only the finest products, sourced
-              from
-              the
-              world's
-              leading skincare brands, to ensure that you receive the best possible care.
-
+              from the world's leading skincare brands, to ensure that you receive the best possible care.
               Indulge in our <strong>exclusive spa packages</strong>, designed to provide a comprehensive
               <strong>wellness experience</strong> tailored to
-              your
-              individual needs. Whether you are seeking <strong>deep relaxation, skin rejuvenation, or a complete body
-                overhaul</strong>,
-              our
-              bespoke
-              treatments will leave you feeling renewed and revitalised.
+              your individual needs. Whether you are seeking <strong>deep relaxation, skin rejuvenation, or a complete
+                body overhaul</strong>,
+              our bespoke treatments will leave you feeling renewed and revitalised.
             </p>
             <br>
-            <p>In addition to our <strong>luxurious treatments</strong>, The Spa Stockholm offers a variety of
-              amenities
-              to enhance your
-              visit. Relax in
+            <p>In addition to our <strong>luxurious treatments</strong>, The Spa Stockholm offers a variety of amenities
+              to enhance your visit. Relax in
               our <strong>sauna and steam rooms</strong>, take a dip in our <strong>heated pool</strong>, or enjoy a
               refreshing beverage in our tranquil
-              lounge area.
-              Our spa also features <strong>private treatment suites</strong> for those seeking an even more exclusive
-              experience.</p>
+              lounge area. Our spa also features <strong>private treatment suites</strong> for those seeking an even
+              more exclusive experience.
+            </p>
             <p>
-              At The Spa Stockholm, our mission is to provide <strong>a haven of peace and rejuvenation</strong> in
-              the
-              heart of the
-              city.
-              We
-              are
-              committed to delivering exceptional service and personalised care, ensuring that every visit is a
+              At The Spa Stockholm, our mission is to provide <strong>a haven of peace and rejuvenation</strong> in the
+              heart of the city. We
+              are committed to delivering exceptional service and personalised care, ensuring that every visit is a
               memorable
-              and
-              transformative experience.
-
+              and transformative experience.
               Discover the ultimate in relaxation and <strong>wellness</strong> at <strong>The Spa Stockholm.</strong>
-              We invite you to
-              unwind, recharge,
-              and
-              experience
-              the true essence of luxury.</p>
+              We invite you to unwind, recharge, and experience the true essence of luxury.
+            </p>
             <h2>Welcome!</h2>
             <br>
             <div><a href="about" class="button btn" aria-label="About the Spa">Read more about us</a></div>
@@ -100,7 +72,7 @@
     </div>
   </section>
 
-  <section class="section bg-section-three bg-colour-blue" id="treatments justify-content-center">
+  <section class="section bg-section-three bg-colour-blue" id="treatments">
     <div class="container services-container px-5 justify-content-center">
       <div class="text-center">
         <h2 class="section-heading pb-5 pt-5"><strong>Spa Treatments & Therapies</strong></h2>
@@ -126,9 +98,8 @@
     </div>
   </section>
 
-
   <section class="section-home bg-section-four bg-colour-grey" id="prices-booking">
-    <div class="container">
+    <div class="container px-5 justify-content-center">
       <div class="text-center">
         <h2 class="section-heading pt-4 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
       </div>
@@ -153,12 +124,14 @@
             <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
               <button type="submit" class="btn button book-now-button btn-lg" name="service_id"
                 value="{{ service.id }}">
-                Book
-                Now</button>
+                Book Now
+              </button>
             </form>
           </div>
         </div>
       </div>
+    </div>
   </section>
 </div>
+
 {% endblock %}
