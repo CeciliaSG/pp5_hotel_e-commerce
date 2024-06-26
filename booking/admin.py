@@ -3,6 +3,7 @@ from .models import SpaBooking, SpaBookingServices
 
 # Register your models here.
 
+
 class SpaBookingServicesAdminInline(admin.TabularInline):
     model = SpaBookingServices
     readonly_fields = ('spa_service_total',)

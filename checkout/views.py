@@ -24,9 +24,6 @@ from services.models import SpaService, TimeSlot
 import uuid
 from cart.utils import get_cart_from_session
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 # Create your views here.
 
@@ -64,13 +61,6 @@ def cache_checkout_data(request):
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-        cart = request.session.get('cart', {})
-        save_info = request.POST.get('save_info')
-        username = str(request.user)
-
-        logger.info(f"Received data: client_secret={pid}, save_info={save_info}, username={username}, cart={cart}")
 
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
@@ -168,13 +158,7 @@ def checkout(request):
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         confirm=False,
-        metadata={
-        'booking_id': booking_id,
-        'username': str(request.user),
-        'save_info': request.POST.get('save_info'),
-    }
     )
-
     spa_booking_form = SpaBookingForm()
     if request.method == 'POST':
         spa_booking_form = SpaBookingForm(request.POST)
