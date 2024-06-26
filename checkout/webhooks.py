@@ -15,17 +15,21 @@ def webhook(request):
     From Boutique Ado walkthrough.
     Listen for webhooks from Stripe and handle accordingly.
 
-    This view function is designed to receive HTTP POST requests containing webhook
-    events from Stripe. It verifies the authenticity of the webhook using the
-    secret key configured in Django settings. Upon successful verification, it
-    constructs the event object and dispatches it to the appropriate handler method
+    This view function is designed to receive HTTP POST
+    requests containing webhook events from Stripe. It verifies
+    the authenticity of the webhook using the secret key configured
+    in Django settings. Upon successful verification, it
+    constructs the event object and dispatches it to
+    the appropriate handler method
     based on the event type.
 
     Args:
-        request (HttpRequest): The HTTP request object containing the webhook data.
+        request (HttpRequest): The HTTP request object
+        containing the webhook data.
 
     Returns:
-        HttpResponse: An HTTP response indicating the status of processing the webhook
+        HttpResponse: An HTTP response indicating the status
+        of processing the webhook
                       event.
 
     Raises:
@@ -59,7 +63,7 @@ def webhook(request):
 
     event_map = {
         'payment_intent.succeeded': handler.handle_payment_intent_succeeded,
-        'payment_intent.payment_failed': 
+        'payment_intent.payment_failed':
             handler.handle_payment_intent_payment_failed,
     }
 

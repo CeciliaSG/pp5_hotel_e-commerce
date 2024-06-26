@@ -14,6 +14,7 @@ from django.utils.timezone import make_aware, get_current_timezone
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 
+
 class StripeWH_Handler:
     """
     Handle Stripe webhooks from Boutique Ado walkthrough.
@@ -96,7 +97,8 @@ class StripeWH_Handler:
                 returns an HttpResponse
                 with a success message and status code 200.
                 - If an error occurs during booking creation or verification,
-                returns an HttpResponse with an error message and status code 500.
+                returns an HttpResponse with an error message and status
+                code 500.
 
         Raises:
             None
@@ -134,7 +136,7 @@ class StripeWH_Handler:
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
         billing_details = stripe_charge.billing_details
         booking_total = round(stripe_charge.amount / 100, 2)
-        
+
         cart_json = json.dumps(cart)
 
         booking_exists = False
@@ -204,7 +206,7 @@ class StripeWH_Handler:
         self._send_confirmation_email(booking)
         return HttpResponse(
             content=f'Webhook received: {
-            event["type"]} | SUCCESS: Created booking in webhook',
+                event["type"]} | SUCCESS: Created booking in webhook',
             status=200)
 
     def handle_payment_intent_payment_failed(self, event):
@@ -212,7 +214,7 @@ class StripeWH_Handler:
         Handle the payment_intent.payment_failed webhook
         from Stripe. From Boutique Ado walkthrough.
 
-        This method processes a payment failure webhook 
+        This method processes a payment failure webhook
         event from Stripe.
 
         Args:
@@ -235,4 +237,3 @@ class StripeWH_Handler:
         """
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',)
-
