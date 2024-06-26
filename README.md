@@ -146,7 +146,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 ## Site images (pages, sections, features etc.)
 
 ### Home Page
-<img src="/workspace/pp5_spa_e-commerce/assets_readme/images/home_page.png">
+<img src="assets_readme/images/home_page.png">
 
 <br>
 
@@ -206,7 +206,9 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
     - Realfavicongenerator was used to generate a favicon.
 
 ## Testing
-[Test File](testing_for_the_spa_2.xlsx)
+[Test File/can be downloaded](assets_readme/testing_for_the_spa_2.xlsx)
+<img src="testing_for_the_spa_2.xlsx">
+
 
 ### Validator Testing 
 
@@ -241,12 +243,6 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 - The prices section should be developed.
 
 <br>
-
-### Unfixed Bugs
-
-<br>
-
-### Known Bugs
 
 ## Deployment
 
