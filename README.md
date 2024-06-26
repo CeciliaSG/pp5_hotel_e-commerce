@@ -97,6 +97,15 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
         4. As a First Time Visitor, I want to easily locate the Spa's social media link(s) to see their followings on social media to determine how trusted and known they are. The link to FB is threfore placed in the main navbar.
 
+        5. As a First Time or returning Visitor/user (logged in or not), I want to easily brows the services available. These are therefore placed on the landing page and can be reached by manually scrolling or via the dropdown links in the menu which scrolls directly to the section. In the Treatments section the treaments are presented and can be clicked for more indepth information about the service.
+
+        6. As a customer/user I want to be able to select services and add them to the cart. There are threfore two buttons with booking messages on the site. One in the second navbar visible on al pages and one inte the prices and booking section (reached via the dropdown navbar).
+
+        7. As a user/customer I want to easilyt chose a service and add to my cart. I also wantot be able to delete, increase quantity and update my cart before going to checkout and payment which is possible in the cart via buttons to update, increase quaantity (only relevant for Spa access). The user can also easily navigate back via a button to add more service to their cart. 
+
+        8. As a customer/user I want to be able to pay for my selected services and receive a confirmation of my booking/purchase. when the services have been selected and added to the cart the user can click the button and go to checkout and fill out their payment information and then make the payment. A booking confirmation message is displayed and the user is also redireced to a booking confirmation page with more information, at the same time an email is sent to their registered email.
+
+
 
     -   #### Returning Visitor Goals
 
