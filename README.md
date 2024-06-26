@@ -220,10 +220,10 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 ### Lighthouse testing
 
-- Mobile
- <img src="">
-- Desktop
- <img src="">
+- Mobile (third party cookies and Cloudinary are causing issues)
+ <img src="assets_readme/images/Lighthouse_mobile.png">
+- Desktop (third party cookies and Cloudinary are causing issues)
+ <img src="assets_readme/images/Lighthouse_desktop.png">
 
 
 ### Further Testing
@@ -233,6 +233,10 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 -   A large amount of testing was done to ensure that all pages were linking correctly and that buttons, other linksa and forms are working.
 
 ### Features Left to Implement
+
+- The Admin panel needs to be developed and made better. it works but it is not ideal for adding treatments7service, dates and times.
+- Employed users should be able to adminstrate the treatments etc from the front end.
+- Customers hould be able to choose a therapist when booking.
 
 <br>
 
