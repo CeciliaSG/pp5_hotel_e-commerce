@@ -64,13 +64,13 @@ class StripeWH_Handler:
         cart = json.loads(metadata.cart)
         save_info = metadata.get('save_info', 'false').lower() == 'true'
 
-        print('INTENT: ', intent)
+        #print('INTENT: ', intent)
 
         date_and_time = None
 
         for unique_key, service_data in cart.items():
             try:
-                print('IN TRY BLOCK')
+                #print('IN TRY BLOCK')
                 service_id, selected_date, selected_time_slot_id = \
                     unique_key.split('_')
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
@@ -105,7 +105,7 @@ class StripeWH_Handler:
                     customer_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,
                     phone_number__iexact=billing_details.phone,
-                    #original_cart=cart_json,
+                    original_cart=cart_json,
                     stripe_pid=pid,
                 )
                 booking_exists = True
@@ -131,7 +131,7 @@ class StripeWH_Handler:
                 customer_name=billing_details.name,
                 email=billing_details.email,
                 phone_number=billing_details.phone,
-                #original_cart=cart_json,
+                original_cart=cart_json,
                 stripe_pid=pid,
                 date_and_time=date_and_time,
                 booking_total=booking_total,

@@ -66,6 +66,7 @@ def cache_checkout_data(request):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe.PaymentIntent.modify(pid, metadata={
             'cart': json.dumps(request.session.get('cart', {})),
+            #'cart': 'cart_placeholder',
             'save_info': request.POST.get('save_info'),
             'username': str(request.user),
         })
@@ -159,6 +160,11 @@ def checkout(request):
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         confirm=False,
+        metadata={
+        'booking_id': booking_id,
+        'username': str(request.user),
+        'save_info': request.POST.get('save_info'),
+    }
     )
 
     spa_booking_form = SpaBookingForm()

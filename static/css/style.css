@@ -670,21 +670,23 @@ footer {
     display: none;
 }
 
-
 .table-responsive {
         border: 0;
     }
 
 .table {
-    display: block;
-    overflow-x: auto;
+    display: table;
     white-space: nowrap;
 }
 
 .table thead, .table tbody, .table tr, .table td, .table th {
-    display: block; 
+    display: table; 
 }
 
+.total-cost {
+    margin-left: 15px;
+    margin-right: 15px;
+}
 
 /* Media Screens */
 
@@ -695,7 +697,7 @@ transform: none;
 }
 
 .cart-container table {
-     width: 100%;
+    width: 100%;
  }
 
 .cart-container table thead,
@@ -704,18 +706,18 @@ transform: none;
      display: table-row;
  }
 
-.cart-container table th,
 .cart-container table td {
-        display: table-cell;
-        text-align: center;
-        padding: 10px;
+    display: table-cell;
+    text-align: left;
+    padding: 10px;
+    width: 22.2%; 
 }
-
-
-  /*.logo {
-    margin-top: 30px;
-  }
-    */
+.cart-container table th {
+    width: 30.2%;
+    display: table-cell;
+    padding: 10px;
+    text-align: left;
+}
 
 .book-now-button {
     margin-top: 50px;
@@ -747,8 +749,6 @@ footer {
     padding-bottom: 130px;
     margin-bottom: 100px;
 }
-
-
 
 .col-lg-6 {
         margin-bottom: 20px;
