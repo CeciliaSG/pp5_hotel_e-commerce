@@ -352,8 +352,8 @@ pointer-events: auto;
 .service-details {
     display: flex;
     justify-content: space-between;
-    margin-top: 140px;
-    padding: 50px;
+    /*margin-top: 140px;*/
+    /*padding: 50px;*/
     }
 
 .service-description {
