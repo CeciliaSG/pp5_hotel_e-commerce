@@ -242,7 +242,7 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 - No error were found when passing the code through JSHint: [JS Hint](https://jshint.com/) 
 - No error were found when passing the code through Python Linter: [CI Python Linter](https://pep8ci.herokuapp.com/)
 - No other errors were returned when passing through the official: [W3C validator](https://validator.w3.org/)
-- No errors were found when passing through the official (Jigsaw) validator: [https://jigsaw.w3.org/]
+- No errors were found when passing through the official (Jigsaw) validator: [W3 Jigsaw validator](https://jigsaw.w3.org/)
 
 <br>
 
