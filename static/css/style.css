@@ -216,6 +216,10 @@ nav {
     padding-top: 110px;
 }
 
+.sign-in-container {
+    padding-top: 200px;
+}
+
 .messages {
     margin-top: 170px;
 }
@@ -683,7 +687,7 @@ transform: none;
 }
 
 .cart-container {
-    margin-top: 300px;
+    margin-top: 200px;
 }
 .cart-container table {
     width: 100%;
