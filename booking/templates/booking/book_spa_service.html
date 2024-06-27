@@ -11,7 +11,8 @@
             <form method="post" action="{% url 'book_spa_service' %}">
                 {% csrf_token %}
                 {{ form | crispy }}
-                <button class="button btn mb-4" type="submit">Show time slots</button>
+                <button class="button btn mb-4" type="submit" aria-label="Show time slotss button">Show time
+                    slots</button>
             </form>
 
             {% if service_id and available_time_slots %}
@@ -33,7 +34,7 @@
                 <input type="hidden" name="quantity" value="{{ quantity }}">
                 <input type="hidden" name="price" value="{{ price }}">
 
-                <button class="btn mb-5" type="submit">Add to Cart</button>
+                <button class="btn mb-5" type="submit" aria-label="Add to Cart Button">Add to Cart</button>
             </form>
             {% elif service_id %}
             <p>No available time slots.</p>

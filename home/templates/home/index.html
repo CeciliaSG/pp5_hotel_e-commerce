@@ -121,7 +121,8 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
           <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-            <button type="submit" class="btn button book-now-button btn-lg" name="service_id" value="{{ service.id }}">
+            <button type="submit" class="btn button book-now-button btn-lg" name="service_id" aria-label="Book Now"
+              value="{{ service.id }}">
               Book Now
             </button>
           </form>
