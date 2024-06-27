@@ -163,6 +163,11 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 <br>
 
+### Booking Page
+<img src="assets_readme/images/booking_page.png">
+
+<br>
+
 ### Prices & Booking Section
 <img src="assets_readme/images/prices_booking_section.png">
 
@@ -172,10 +177,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <img src="assets_readme/images/contact_form.png">
 <img src="assets_readme/images/contact_email.png">
 
-### Booking Page
-<img src="assets_readme/images/booking_page.png">
 
-<br>
 
 ### Email Confirmation
 <img src="assets_readme/images/email_booking_confirmation.png">
@@ -186,8 +188,6 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <img src="assets_readme/images/profile_page.png">
 
 <br>
-
-
 
 
 ## Features
@@ -229,6 +229,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
     - Cloudinary was used to serve the service images uploaded via the admin panel.
 11. [Realfavicongenerator](realfavicongenerator.net)
     - Realfavicongenerator was used to generate a favicon.
+
 
 ## Testing
 [Test File/can be downloaded](assets_readme/testing_for_the_spa_2.xlsx)
