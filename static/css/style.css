@@ -648,6 +648,10 @@ footer {
 
 /* Styling tables */
 
+.cart-container {
+    margin-top: 150px;
+}
+
 .cart-container table {
         width: auto; 
    }
@@ -678,6 +682,9 @@ position: static;
 transform: none;
 }
 
+.cart-container {
+    margin-top: 300px;
+}
 .cart-container table {
     width: 100%;
  }
@@ -693,7 +700,6 @@ transform: none;
     padding: 10px;
     width: 17%; 
 }
-
 
 .book-now-button {
     margin-top: 100px;
