@@ -153,14 +153,41 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 <br>
 
-### Dropdown Menu
+### About Section
 <img src="assets_readme/images/about_section_and_button.png">
+
+<br>
+
+### Treatments Section
+<img src="assets_readme/images/treatments_section.png">
+
+<br>
+
+### Prices & Booking Section
+<img src="assets_readme/images/prices_booking_section.png">
 
 <br>
 
 ### Contact
 <img src="assets_readme/images/contact_form.png">
 <img src="assets_readme/images/contact_email.png">
+
+### Booking Page
+<img src="assets_readme/images/booking_page.png">
+
+<br>
+
+### Email Confirmation
+<img src="assets_readme/images/email_booking_confirmation.png">
+
+<br>
+
+### Profile Page
+<img src="assets_readme/images/profile_page.png">
+
+<br>
+
+
 
 
 ## Features
