@@ -232,7 +232,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 
 ## Testing
-[Test File/can be downloaded](assets_readme/testing_for_the_spa_2.xlsx)
+[Test File - please download here](assets_readme/testing_for_the_spa_2.xlsx)
 
 
 ### Validator Testing 
@@ -262,9 +262,9 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 ### Features Left to Implement
 
-- The Admin panel needs to be developed and made better. it works but it is not ideal for adding treatments7service, dates and times.
-- Employed users should be able to adminstrate the treatments etc from the front end.
-- Customers hould be able to choose a therapist when booking.
+- The Admin panel needs to be developed and made better. It works but it is not ideal for adding treatments/service, dates and times.
+- Also employees/users should be able to adminstrate the treatments etc. from the front end.
+- Customers should also be able to choose a therapist when booking.
 - The prices section should be developed.
 
 <br>
