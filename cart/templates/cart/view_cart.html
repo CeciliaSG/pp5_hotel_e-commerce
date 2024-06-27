@@ -48,9 +48,12 @@
                 <p>Total Cost: SEK{{ total_cost }}</p>
             </div>
             <div class="d-flex flex-column flex-sm-row">
-                <a href="{% url 'clear_cart' %}" class="btn button submit-button mb-2 mb-sm-0 mx-sm-2">Clear Cart</a>
-                <a class="btn button mb-2 mb-sm-0 ml-2" href="{% url 'book_spa_service'%}">Add another service</a>
-                <a href="{% url 'checkout' %}" class="button btn mb-2 mb-sm-0 ml-2 mx-sm-2">Proceed to Checkout</a>
+                <a href="{% url 'clear_cart' %}" class="btn button submit-button mb-2 mb-sm-0 mx-sm-2"
+                    aria-label="clear cart button">Clear Cart</a>
+                <a class="btn button mb-2 mb-sm-0 ml-2" href="{% url 'book_spa_service'%}"
+                    aria-label="book spa service button">Add another service</a>
+                <a href="{% url 'checkout' %}" class="button btn mb-2 mb-sm-0 ml-2 mx-sm-2"
+                    aria-label="proceed to checkout button">Proceed to Checkout</a>
             </div>
             {% else %}
             <p>Your cart is empty.</p>
