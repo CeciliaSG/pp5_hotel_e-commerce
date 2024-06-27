@@ -652,10 +652,6 @@ footer {
         width: auto; 
    }
 
-.cart-container table thead {
-    display: none;
-}
-
 .table-responsive {
         border: 0;
     }
@@ -665,7 +661,7 @@ footer {
     white-space: nowrap;
 }
 
-.table thead, .table tbody, .table tr, .table td, .table th {
+.table tbody, .table tr, .table td, .table th {
     display: table; 
 }
 
@@ -686,7 +682,6 @@ transform: none;
     width: 100%;
  }
 
-.cart-container table thead,
 .cart-container table tbody,
 .cart-container table tr {
      display: table-row;
@@ -698,12 +693,7 @@ transform: none;
     padding: 10px;
     width: 17%; 
 }
-.cart-container table th {
-    width: 24%;
-    display: table-cell;
-    padding: 10px;
-    text-align: left;
-}
+
 
 .book-now-button {
     margin-top: 100px;
