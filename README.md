@@ -258,7 +258,7 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 -   The Website was tested on Google Chrome and Safari browsers.
 -   The website was viewed on a variety of devices such as Desktop, Laptop, Galaxy, Iphone and Ipad.
--   A large amount of testing was done to ensure that all pages were linking correctly and that buttons, other linksa and forms are working.
+-   A large amount of testing was done to ensure that all pages were linking correctly and that buttons, other links and forms are working.
 
 ### Features Left to Implement
 
