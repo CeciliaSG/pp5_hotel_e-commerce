@@ -20,8 +20,7 @@
                 {% if can_confirm %}
                 <p>
                     {% blocktrans with confirmation.email_address.email as email %}
-                    Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{
-                    user_display }}.
+                    Please confirm your <a href="mailto:{{ email }}">{{ email }}</a> to log in.
                     {% endblocktrans %}
                 </p>
                 {% url 'account_confirm_email' confirmation.key as action_url %}
