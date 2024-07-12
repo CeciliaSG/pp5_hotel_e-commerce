@@ -30,6 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'your_default_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
+
 ALLOWED_HOSTS = [
     "8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
     "8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
@@ -112,6 +113,7 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
+    
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
