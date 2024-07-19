@@ -58,11 +58,10 @@ def profile(request):
         profile_form = CustomerProfileForm(request.POST, instance=profile)
         
         if user_form.is_valid() and profile_form.is_valid():
+
             user_form.save()
-            
+
             profile.email = user.email
-            profile.save()
-            
             profile_form.save()
 
             messages.success(request, 'Profile updated successfully')
@@ -80,11 +79,13 @@ def profile(request):
     context = {
         'user_form': user_form,
         'profile_form': profile_form,
+        'user_email': user.email,
         'spa_bookings': spa_bookings,
         'customer_name': profile.user.username,
         'messages': messages.get_messages(request),
     }
     return render(request, 'accounts/customer_profile.html', context)
+
 
 
 def booking_history(request, booking_number):

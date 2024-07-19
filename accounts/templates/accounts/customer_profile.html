@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-12 col-lg-5 mb-4 me-lg-5">
-                <p class="text-muted">Customer info for {{ customer_name }}</p>
+                <p class="text-muted">Customer info for username: {{ customer_name }}, mail: {{user_email}}</p>
                 <form action="{% url 'customer_profile' %}" method="POST" id="profile-update-form">
                     {% csrf_token %}
                     {{ user_form | crispy }}
@@ -28,6 +28,8 @@
                         aria-label="Update profile submit button">Update
                         Information</button>
                 </form>
+                <div class="change_email_link mt-3"><a href="{% url 'account_email' %}">To Change Your Email Follow This
+                        Link</a></div>
             </div>
             <div class="col-12 col-lg-5">
                 <p class="text-muted">Previous bookings:</p>

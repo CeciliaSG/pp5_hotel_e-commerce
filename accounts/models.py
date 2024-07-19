@@ -37,6 +37,9 @@ class CustomerProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_email(self):
+        return self.email if self.email else self.user.email
 
 
 """@receiver(post_save, sender=User)

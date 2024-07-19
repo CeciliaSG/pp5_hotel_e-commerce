@@ -7,14 +7,13 @@ from .models import CustomerProfile
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'email': 'Email Address',
         }
         
         for field in self.fields:

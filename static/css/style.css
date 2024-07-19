@@ -416,6 +416,13 @@ input, .form-element {
 
 /* Styling buttons */
 
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Adjust the gap value as needed */
+}
+
+
 button {
    background-color:#538991 !important;
     border-color: #538991;
@@ -429,6 +436,7 @@ button {
     font-weight: 600;
     border-radius: 0;
     border: none;
+    padding: 15px;
 }
 
 
