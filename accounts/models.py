@@ -39,4 +39,5 @@ class CustomerProfile(models.Model):
 def create_or_update_customer_profile(sender, instance, created, **kwargs):
     if created:
         CustomerProfile.objects.create(user=instance, email=instance.email)
-    instance.customerprofile.save()
+    else:
+        instance.customerprofile.save()
