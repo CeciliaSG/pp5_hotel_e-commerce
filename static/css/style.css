@@ -241,6 +241,10 @@ transition: opacity 0.5s ease-in-out;
 pointer-events: auto;
 }
 
+.alert .alert-block .alert-danger {
+    color: black ;
+}
+
 .section-home {
     min-height: 100vh;
     display: flex;
