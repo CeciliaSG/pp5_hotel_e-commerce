@@ -28,11 +28,13 @@
                         aria-label="Update profile submit button">Update
                         Information</button>
                 </form>
-                <div class="change_email_link mt-3"><a href="{% url 'account_email' %}">To Change Your Email Follow This
+                <div class="change_email_link mt-4"><a href="{% url 'account_email' %}">To Change Your Email Follow This
                         Link</a></div>
+                <div class="change_password_link"><a href="{% url 'account_change_password' %}">Change Your Password</a>
+                </div>
             </div>
             <div class="col-12 col-lg-5">
-                <p class="text-muted">Previous bookings:</p>
+                <p class="text-muted">Bookings:</p>
                 <div class="booking-history">
                     {% for spa_booking in spa_bookings %}
                     <div class="card mb-3">
