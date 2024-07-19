@@ -22,7 +22,8 @@
                 <p class="text-muted">Customer info for {{ customer_name }}</p>
                 <form action="{% url 'customer_profile' %}" method="POST" id="profile-update-form">
                     {% csrf_token %}
-                    {{ form | crispy }}
+                    {{ user_form | crispy }}
+                    {{ profile_form | crispy }}
                     <button type="submit" class="button btn btn-white rounded-0 text-uppercase mt-3"
                         aria-label="Update profile submit button">Update
                         Information</button>

@@ -31,13 +31,22 @@ class CustomerProfile(models.Model):
     email = models.EmailField(
             max_length=254, null=True, blank=True)
 
+
     def __str__(self):
         return self.user.username
 
 
-@receiver(post_save, sender=User)
+"""@receiver(post_save, sender=User)
 def create_or_update_customer_profile(sender, instance, created, **kwargs):
     if created:
         CustomerProfile.objects.create(user=instance, email=instance.email)
     else:
-        instance.customerprofile.save()
+        instance.customerprofile.save()"""
+
+
+"""@receiver(post_save, sender=User)
+def create_or_update_customer_profile(sender, instance, created, **kwargs):
+    if created:
+        if not hasattr(instance, 'customerprofile'):
+            CustomerProfile.objects.create(user=instance, email=instance.email)"""
+

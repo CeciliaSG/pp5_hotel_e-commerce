@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 
 from booking.models import SpaBooking
-from .forms import CustomerProfileForm
+from .forms import UserProfileForm, CustomerProfileForm
 from django.urls import reverse
 from allauth.account.views import LoginView
 from .models import CustomerProfile
@@ -47,15 +47,23 @@ def profile(request):
     """
 
     try:
+        user = request.user 
         profile = CustomerProfile.objects.get(user=request.user)
     except CustomerProfile.DoesNotExist:
         messages.warning(request, "No profile found for this user.")
         return redirect('account/signup.html')
 
     if request.method == 'POST':
-        form = CustomerProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
+        user_form = UserProfileForm(request.POST, instance=user)
+        profile_form = CustomerProfileForm(request.POST, instance=profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            
+            profile.email = user.email
+            profile.save()
+            
+            profile_form.save()
 
             messages.success(request, 'Profile updated successfully')
             return redirect('customer_profile')
@@ -63,13 +71,15 @@ def profile(request):
             messages.error(request, 'Please correct the errors below.')
             print(form.errors)
     else:
-        form = CustomerProfileForm(instance=profile)
+        user_form = UserProfileForm(instance=user)
+        profile_form = CustomerProfileForm(instance=profile)
 
     spa_bookings = SpaBooking.objects.filter(customer_profile=profile)
     username = request.user.username
 
     context = {
-        'form': form,
+        'user_form': user_form,
+        'profile_form': profile_form,
         'spa_bookings': spa_bookings,
         'customer_name': profile.user.username,
         'messages': messages.get_messages(request),
@@ -123,24 +133,37 @@ def booking_history(request, booking_number):
     return render(request, template, context)
 
 
-def delete_profile(request):
 
+def delete_profile(request):
+    """
+    Handle the deletion of the user's profile and related data.
+
+    This view allows a user to delete their profile and associated data.
+    It will delete the associated CustomerProfile, any SpaBookings related
+    to the profile, and finally the user account itself. It also handles
+    user logout and displays appropriate messages.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object with the rendered template or redirect.
+    """
     profile = get_object_or_404(CustomerProfile, user=request.user)
 
     if request.method == 'POST':
         try:
             SpaBooking.objects.filter(customer_profile=profile).delete()
-
-            user = request.user
             profile.delete()
             request.user.delete()
             logout(request)
 
-            messages.success(
-                request, 'Your profile and related data have been deleted.')
-            return redirect('home')
+            messages.success(request, 'Your profile and related data have been deleted.')
+            return redirect('home') 
 
         except Exception as e:
             messages.error(request, f'Failed to delete profile: {str(e)}')
+            return redirect('delete_profile')
 
     return render(request, 'accounts/delete_profile.html')
+

@@ -1,53 +1,60 @@
 from django import forms
+from django.contrib.auth.models import User
+from allauth.account.forms import SignupForm
 from .models import CustomerProfile
 
 
-class CustomerProfileForm(forms.ModelForm):
-    """
-    Form for updating customer profile information.
-
-    This form inherits from `forms.ModelForm` and is
-    used to update fields such as email
-    and default phone number in the `CustomerProfile`
-    model.
-
-    Attributes:
-        Meta:
-            model (CustomerProfile): The model class associated
-            with this form. fields (list): The fields from the
-            `CustomerProfile` model to be included in the form.
-
-    Methods:
-        __init__(self, *args, **kwargs):
-            Custom initialization method to set placeholders,
-            autofocus, CSS classes, and labels for form fields
-            dynamically.
-
-    Usage:
-        This form can be used in Django templates to render HTML
-        forms for updating customer profile information. It automatically
-        sets placeholders with or without asterisks for required fields,
-        applies specific CSS classes to form inputs, and hides labels to
-        provide a streamlined user interface for profile updates.
-    """
+class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = CustomerProfile
-        fields = ['email', 'default_phone_number']
-
+        model = User
+        fields = ['first_name', 'last_name', 'email',]
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
             'email': 'Email Address',
+        }
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs['placeholder'] = placeholders.get(field, field.capitalize())
+            self.fields[field].widget.attrs['class'] = 'border-black-rounded-o customer-profile-form-input'
+            self.fields[field].label = False
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomerProfile
+        fields = ['default_phone_number',]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        placeholders = {
             'default_phone_number': 'Phone Number',
         }
-
-        self.fields['email'].widget.attrs['autofocus'] = True
+        
         for field in self.fields:
-            if self.fields[field].required:
-                placeholder = f'{placeholders[field]} *'
-            else:
-                placeholder = placeholders[field]
-            self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = \
-                'border-black-rounded-o customer-profile-form-input'
+            self.fields[field].widget.attrs['placeholder'] = placeholders.get(field, field.capitalize())
+            self.fields[field].widget.attrs['class'] = 'border-black-rounded-o customer-profile-form-input'
             self.fields[field].label = False
+
+
+
+class CustomSignupForm(SignupForm):
+    first_name = forms.CharField(max_length=30, label='First Name', required=True)
+    last_name = forms.CharField(max_length=30, label='Last Name', required=True)
+    phone_number = forms.CharField(max_length=20, label='Phone Number', required=True)
+
+    def save(self, request):
+        user = super(CustomSignupForm, self).save(request)
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+        """CustomerProfile.objects.create(
+            user=user,
+            default_phone_number=self.cleaned_data['phone_number'],
+            email=user.email
+        )"""
+        return user
