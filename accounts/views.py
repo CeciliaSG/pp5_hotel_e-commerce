@@ -69,7 +69,7 @@ def profile(request):
             return redirect('customer_profile')
         else:
             messages.error(request, 'Please correct the errors below.')
-            print(form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserProfileForm(instance=user)
         profile_form = CustomerProfileForm(instance=profile)

@@ -30,6 +30,9 @@ class CustomerProfile(models.Model):
             max_length=20, null=True, blank=True)
     email = models.EmailField(
             max_length=254, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+    city = models.CharField(max_length=100, null=True,
+            blank=True)
 
 
     def __str__(self):
