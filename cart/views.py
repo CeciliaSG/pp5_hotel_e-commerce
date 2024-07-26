@@ -14,6 +14,7 @@ from booking.forms import TimeSlotSelectionForm
 
 # Create your views here.
 
+
 def add_to_cart(request, service_id=None):
 
     """
@@ -52,7 +53,7 @@ def add_to_cart(request, service_id=None):
 
     if service_id is None:
         return HttpResponseBadRequest("Service ID is required")
-
+    
     selected_service = get_object_or_404(SpaService, pk=service_id)
 
     if request.method == "POST":

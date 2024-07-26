@@ -2,6 +2,7 @@ import json
 import time
 from datetime import datetime
 
+import uuid 
 import stripe
 
 from django.conf import settings
@@ -13,6 +14,7 @@ from django.utils.timezone import make_aware, get_current_timezone
 
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
+
 
 
 class StripeWH_Handler:
@@ -80,7 +82,6 @@ class StripeWH_Handler:
     def handle_payment_intent_succeeded(self, event):
         """
         Handle the payment_intent.succeeded webhook from Stripe.
-        From Boutique Ado walkthrough.
 
         This method processes a successful payment intent from Stripe,
         extracts necessary information from the event data, and handles
@@ -103,41 +104,25 @@ class StripeWH_Handler:
         Raises:
             None
         """
-
         intent = event.data.object
         pid = intent.id
         metadata = intent.metadata
-        cart = json.loads(metadata.cart)
         save_info = metadata.get('save_info', 'false').lower() == 'true'
         date_and_time = None
+        username = metadata.get('username')
+        booking_total = metadata.get('booking_total')
+        service_details = json.loads(metadata.get('service_details', '[]'))
 
-        for unique_key, service_data in cart.items():
-            try:
-                service_id, selected_date, selected_time_slot_id = \
-                    unique_key.split('_')
-                time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
-                selected_time = time_slot.time.strftime("%H:%M")
-                date_and_time_str = f"{selected_date} {selected_time}"
-                date_and_time = datetime.strptime(
-                    date_and_time_str, "%B %d, %Y %H:%M")
-                date_and_time = make_aware(
-                    date_and_time, get_current_timezone())
-                break
-            except Exception as e:
-                pass
-
-        if not date_and_time:
+        if not username:
             return HttpResponse(
-                content=(
-                        f'Webhook received: {event["type"]} | '
-                        f'ERROR: Failed to set date_and_time from cart'),
-                status=500)
+                content=f'Webhook received: {event["type"]} | ERROR: Missing customer information',
+                status=400
+            )
 
+        booking_id = uuid.uuid4().hex.upper()
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
         billing_details = stripe_charge.billing_details
         booking_total = round(stripe_charge.amount / 100, 2)
-
-        cart_json = json.dumps(cart)
 
         booking_exists = False
         attempt = 1
@@ -147,7 +132,6 @@ class StripeWH_Handler:
                     customer_name__iexact=billing_details.name,
                     email__iexact=billing_details.email,
                     phone_number__iexact=billing_details.phone,
-                    original_cart=cart_json,
                     stripe_pid=pid,
                 )
                 booking_exists = True
@@ -158,7 +142,6 @@ class StripeWH_Handler:
 
         if booking_exists:
             self._send_confirmation_email(booking)
-
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -173,29 +156,29 @@ class StripeWH_Handler:
                 customer_name=billing_details.name,
                 email=billing_details.email,
                 phone_number=billing_details.phone,
-                original_cart=cart_json,
                 stripe_pid=pid,
                 date_and_time=date_and_time,
                 booking_total=booking_total,
             )
-            for service_id, service_data in cart.items():
-                service_id = int(unique_key.split('_')[0])
-                service = SpaService.objects.get(pk=service_id)
-                quantity = service_data.get('quantity', 1)
-                date_and_time_str = f"{selected_date} {selected_time}"
-                date_and_time = datetime.strptime(
-                    date_and_time_str, "%B %d, %Y %H:%M")
-                date_and_time = make_aware(
-                    date_and_time, get_current_timezone())
 
-                if date_and_time is None:
+            for service_id, quantity in metadata.items():
+                if service_id.startswith('service_'):
+                    service_id = int(service_id.split('_')[1])
+                    service = SpaService.objects.get(pk=service_id)
+                    date_and_time_str = f"{selected_date} {selected_time}"
+                    date_and_time = datetime.strptime(
+                        date_and_time_str, "%B %d, %Y %H:%M")
+                    date_and_time = make_aware(
+                        date_and_time, get_current_timezone())
 
-                    spa_booking_service = SpaBookingServices.objects.create(
+                    SpaBookingServices.objects.create(
                         spa_booking=booking,
                         spa_service=service,
-                        quantity=quantity,
+                        quantity=int(quantity),
                         date_and_time=date_and_time,
                     )
+
+            self._send_confirmation_email(booking)
             return JsonResponse({'success': True}, status=200)
 
         except Exception as e:
@@ -203,11 +186,6 @@ class StripeWH_Handler:
                 booking.delete()
             return HttpResponse({'error': str(e)}, status=500)
 
-        self._send_confirmation_email(booking)
-        return HttpResponse(
-            content=f'Webhook received: {
-                event["type"]} | SUCCESS: Created booking in webhook',
-            status=200)
 
     def handle_payment_intent_payment_failed(self, event):
         """

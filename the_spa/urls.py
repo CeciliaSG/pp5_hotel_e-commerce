@@ -27,7 +27,7 @@ urlpatterns = [
     path('', include('services.urls')),
     path('', include('home.urls')),
     path('cart/', include('cart.urls')),
-    path('', include('checkout.urls')),
+    path('checkout/', include('checkout.urls')),
     path('customer_profile/', include('accounts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'the_spa.views.handler404'

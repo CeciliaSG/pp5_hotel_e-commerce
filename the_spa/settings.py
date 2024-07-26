@@ -33,13 +33,14 @@ DEBUG = os.getenv('DEBUG') == '1'
 
 ALLOWED_HOSTS = [
     "8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
-    "8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
+    #"8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     ".herokuapp.com",
+    '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
-    "https://8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
+    #"https://8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     "https://the-spa-df1f22d5aa6e.herokuapp.com/",
 ]
 
@@ -203,9 +204,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL'),
@@ -241,43 +240,40 @@ else:
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'level': 'DEBUG',
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': 'INFO',
-#             'propagate': True,
-#         },
-#         'cart': { 
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#         'checkout': {
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#           'handle_event': {  
-#             'handlers': ['console'],  
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#           'webhook': {  
-#             'handlers': ['console'],  
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-
-#     },
-# }
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'cart': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'checkout': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'handle_event': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'webhook': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 

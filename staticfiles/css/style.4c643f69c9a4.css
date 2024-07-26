@@ -273,7 +273,7 @@ pointer-events: auto;
 }
 
 .bg-landing-section {
-    background-image: url('../images/image_spa-view.webp');
+    background-image: url("../images/image_spa-view.87c15d4b0f19.webp");
     background-size: cover;
     background-position: center;
     margin: 0;

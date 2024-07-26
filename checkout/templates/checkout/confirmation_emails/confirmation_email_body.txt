@@ -1,6 +1,7 @@
 Dear {{ spa_booking.customer_name }}!
 
-This is a confirmation of your booking at The Spa on {{ spa_booking.date_and_time }} . Your booking information is below:
+This is a confirmation of your booking at The Spa. 
+Your booking information: {{ spa_booking.date_and_time }} . 
 
 Booking Number: {{ spa_booking.booking_number }}
 
