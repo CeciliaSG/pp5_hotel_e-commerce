@@ -45,7 +45,7 @@ class StripeWH_Handler:
     def __init__(self, request):
         self.request = request
 
-    def _send_confirmation_email(self, spa_booking):
+    def _send_confirmation_email(self, spa_booking, services):
         """From Boutique Ado. Send the user a confirmation email."""
 
         cust_email = None
@@ -57,7 +57,8 @@ class StripeWH_Handler:
             body = render_to_string(
                 'checkout/confirmation_emails/confirmation_email_body.txt',
                 {'spa_booking': spa_booking,
-                    'contact_email': settings.DEFAULT_FROM_EMAIL})
+                'services': services,
+                'contact_email': settings.DEFAULT_FROM_EMAIL})
 
             send_mail(
                 subject,
@@ -141,7 +142,8 @@ class StripeWH_Handler:
                 time.sleep(1)
 
         if booking_exists:
-            self._send_confirmation_email(booking)
+            services = SpaBookingServices.objects.filter(spa_booking=booking)
+            self._send_confirmation_email(booking, services)
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -178,7 +180,8 @@ class StripeWH_Handler:
                         date_and_time=date_and_time,
                     )
 
-            self._send_confirmation_email(booking)
+            services = SpaBookingServices.objects.filter(spa_booking=booking)
+            self._send_confirmation_email(booking, services)
             return JsonResponse({'success': True}, status=200)
 
         except Exception as e:

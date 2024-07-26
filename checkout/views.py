@@ -70,7 +70,6 @@ def cache_checkout_data(request):
 
 
         stripe.PaymentIntent.modify(pid, metadata={
-            #'cart': json.dumps(essential_cart_data),
             'save_info': request.POST.get('save_info'),
             'username': str(request.user),
         })
@@ -127,10 +126,12 @@ def checkout(request):
                 quantity = service_data.get('quantity', 0)
                 total_price += service.price * quantity
                 cart_services.append({
-                    'service_id': service.id,
+                    'service': service,
                     'quantity': quantity,
+                    'total_price': service.price * quantity,
                     'selected_date': selected_date,
                     'selected_time': selected_time,
+                    'selected_time_slot_id': selected_time_slot_id,
                 })
 
                 if not date_and_time:
@@ -143,15 +144,20 @@ def checkout(request):
             spa_booking.save()
 
             for cart_service in cart_services:
-                spa_service = SpaService.objects.get(pk=cart_service['service_id'])
+                spa_service = cart_service['service']
                 quantity = cart_service['quantity']
-                selected_date = datetime.strptime(cart_service['selected_date'], "%B %d, %Y").date()
-                selected_time = datetime.strptime(cart_service['selected_time'], "%H:%M").time()
-                selected_datetime = timezone.make_aware(datetime.combine(selected_date, selected_time))
+                spa_service_total = cart_service['total_price']
+                selected_date = datetime.strptime(
+                    cart_service['selected_date'], "%B %d, %Y").date()
+                selected_time = datetime.strptime(
+                    cart_service['selected_time'], "%H:%M").time()
+                selected_datetime = datetime.combine(selected_date, selected_time)
+                selected_datetime = timezone.make_aware(selected_datetime)
 
                 SpaBookingServices.objects.create(
                     spa_service=spa_service,
                     quantity=quantity,
+                    spa_service_total=spa_service_total,
                     spa_booking=spa_booking,
                     date_and_time=selected_datetime,
                 )
@@ -167,17 +173,39 @@ def checkout(request):
             messages.error(request, "There's nothing in your cart")
             return redirect(reverse('home'))
 
-        total_price = sum(service_data['quantity'] * SpaService.objects.get(pk=unique_key.split('_')[0]).price
-                          for unique_key, service_data in cart.items())
+        cart_services = []
+        total_price = 0
+        for unique_key, service_data in cart.items():
+            try:
+                service_id, selected_date, selected_time_slot_id = (
+                    unique_key.split('_'))
+                time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
+                selected_time = time_slot.time.strftime("%H:%M")
+                service = SpaService.objects.get(pk=service_id)
+            except ObjectDoesNotExist:
+                messages.error(request, f"The service with ID {service_id} does not exist.")
+                return redirect(reverse('home'))
+            except ValueError as e:
+                messages.error(request, f"Invalid format for cart item key: {e}")
+                return redirect(reverse('home'))
+
+            quantity = service_data.get('quantity', 0)
+            total_price += service.price * quantity
+            cart_services.append({
+                'service': service,
+                'quantity': quantity,
+                'total_price': service.price * quantity,
+                'selected_date': selected_date,
+                'selected_time': selected_time,
+                'selected_time_slot_id': selected_time_slot_id,
+            })
 
         stripe_total = round(total_price * 100)
         stripe.api_key = stripe_secret_key
-
         metadata = {
             'username': request.user.username if request.user.is_authenticated else '',
             'save_info': request.session.get('save_info', False),
             'booking_total': total_price,
-            #'cart': json.dumps(cart),
         }
 
         intent = stripe.PaymentIntent.create(
@@ -196,6 +224,10 @@ def checkout(request):
         'spa_booking_form': spa_booking_form,
         'stripe_public_key': stripe_public_key,
         'client_secret': intent.client_secret,
+        'cart_services': cart_services,
+        'total_price': total_price,
+        'messages': messages.get_messages(request),
+        'cart': cart,
     }
 
     return render(request, template, context)

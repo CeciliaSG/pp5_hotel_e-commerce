@@ -1,11 +1,15 @@
 Dear {{ spa_booking.customer_name }}!
 
 This is a confirmation of your booking at The Spa. 
-Your booking information: {{ spa_booking.date_and_time }} . 
+Your booking information:
 
 Booking Number: {{ spa_booking.booking_number }}
 
-{{ spa_service.service.name }}
+{% for service in services %}
+-Service: {{ service.spa_service.name }}
+  Quantity: {{ service.quantity }}
+  Date and Time: {{ spa_booking.date_and_time }}
+{% endfor %}
 
 Booking Total: SEK{{ spa_booking.booking_total }}
 

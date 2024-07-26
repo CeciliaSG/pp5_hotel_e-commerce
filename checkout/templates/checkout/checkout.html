@@ -16,7 +16,6 @@
             <hr>
             <p class="text-muted form-headers">Booking Summary</p>
             <ul class="list-group">
-                <li class="list-group-item"><strong>Booking ID:</strong> {{ booking_id }}</li>
                 {% for cart_service in cart_services %}
                 <li class="list-group-item">
                     <strong>{{ cart_service.service.name }}</strong>
