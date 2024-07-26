@@ -18,8 +18,13 @@
                 <li class="list-group-item"><strong>Customer Name:</strong> {{ booking.customer_name }}</li>
                 <li class="list-group-item"><strong>Email:</strong> {{ booking.email }}</li>
                 <li class="list-group-item"><strong>Phone Number:</strong> {{ booking.phone_number }}</li>
-                <li class="list-group-item"><strong>Date and Time for booking:</strong> {{ booking.date_and_time }}</li>
-                <li class="list-group-item"><strong>Total Price:</strong> SEK{{ booking.booking_total }}</li>
+                {% for service in services %}
+                <li class="list-group-item"><strong>Spa Service:</strong> {{ service.spa_service.name }}</li>
+                <li class="list-group-item"><strong>Date and Time for booking:</strong> {{ service.date_and_time}}</li>
+                <li class="list-group-item"><strong>Price:</strong> {{ service.spa_service_total}}</li>
+
+                {% endfor %}
+                <li class="list-group-item"><strong>Total:</strong> SEK{{ booking.booking_total }}</li>
             </ul>
             <p class="text-center mt-3"><strong>Thank you for your booking!</strong></p>
         </div>

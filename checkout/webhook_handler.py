@@ -114,12 +114,6 @@ class StripeWH_Handler:
         booking_total = metadata.get('booking_total')
         service_details = json.loads(metadata.get('service_details', '[]'))
 
-        if not username:
-            return HttpResponse(
-                content=f'Webhook received: {event["type"]} | ERROR: Missing customer information',
-                status=400
-            )
-
         booking_id = uuid.uuid4().hex.upper()
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
         billing_details = stripe_charge.billing_details

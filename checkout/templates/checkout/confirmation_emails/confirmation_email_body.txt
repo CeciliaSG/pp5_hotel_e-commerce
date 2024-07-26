@@ -6,9 +6,9 @@ Your booking information:
 Booking Number: {{ spa_booking.booking_number }}
 
 {% for service in services %}
--Service: {{ service.spa_service.name }}
+Service: {{ service.spa_service.name }}
   Quantity: {{ service.quantity }}
-  Date and Time: {{ spa_booking.date_and_time }}
+  Date and Time: {{ service.date_and_time }}
 {% endfor %}
 
 Booking Total: SEK{{ spa_booking.booking_total }}

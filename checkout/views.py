@@ -200,12 +200,19 @@ def checkout(request):
                 'selected_time_slot_id': selected_time_slot_id,
             })
 
+        customer_name = request.POST.get('customer_name', '')
+        email = request.POST.get('email', '')
+        phone_number = request.POST.get('phone_number', '')
+
         stripe_total = round(total_price * 100)
         stripe.api_key = stripe_secret_key
         metadata = {
             'username': request.user.username if request.user.is_authenticated else '',
             'save_info': request.session.get('save_info', False),
             'booking_total': total_price,
+            'customer_name': customer_name,
+            'email': email,
+            'phone_number': phone_number,
         }
 
         intent = stripe.PaymentIntent.create(
@@ -260,6 +267,8 @@ def checkout_success(request, booking_number):
     """
     save_info = request.session.get('save_info')
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
+    services = SpaBookingServices.objects.filter(spa_booking=booking)
+
 
     if request.user.is_authenticated:
         user = request.user
@@ -287,6 +296,7 @@ def checkout_success(request, booking_number):
     template = 'checkout/checkout_success.html'
     context = {
         'booking': booking,
+        'services': services,
     }
 
     return render(request, template, context)
