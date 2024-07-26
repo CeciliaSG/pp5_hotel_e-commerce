@@ -211,11 +211,14 @@ def checkout(request):
         customer_name = request.session.get('customer_name', 'Not provided')
         email = request.session.get('email', 'Not provided')
         phone_number = request.session.get('phone_number', 'Not provided')
+        booking_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
         metadata = {
             'username': request.user.username if request.user.is_authenticated else '',
             'save_info': request.session.get('save_info', False),
             'booking_total': total_price,
+            'booking_date': booking_date,
             'customer_name': customer_name,
             'email': email,
             'phone_number': phone_number,
