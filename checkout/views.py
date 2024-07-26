@@ -163,6 +163,11 @@ def checkout(request):
                 )
             
             request.session['save_info'] = 'save-info' in request.POST
+
+            request.session['customer_name'] = form_data['customer_name']
+            request.session['email'] = form_data['email']
+            request.session['phone_number'] = form_data['phone_number']
+
             return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
         else:
             messages.error(request, 'There was an error with your form. Please double check your information.')
@@ -200,12 +205,13 @@ def checkout(request):
                 'selected_time_slot_id': selected_time_slot_id,
             })
 
-        customer_name = request.POST.get('customer_name', '')
-        email = request.POST.get('email', '')
-        phone_number = request.POST.get('phone_number', '')
-
         stripe_total = round(total_price * 100)
         stripe.api_key = stripe_secret_key
+
+        customer_name = request.session.get('customer_name', 'Not provided')
+        email = request.session.get('email', 'Not provided')
+        phone_number = request.session.get('phone_number', 'Not provided')
+
         metadata = {
             'username': request.user.username if request.user.is_authenticated else '',
             'save_info': request.session.get('save_info', False),
@@ -214,7 +220,6 @@ def checkout(request):
             'email': email,
             'phone_number': phone_number,
         }
-
         intent = stripe.PaymentIntent.create(
             amount=stripe_total,
             currency=settings.STRIPE_CURRENCY,
