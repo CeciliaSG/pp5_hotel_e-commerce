@@ -15,6 +15,9 @@ Booking Total: SEK{{ spa_booking.booking_total }}
 
 If you have any questions, feel free to contact us at {{ contact_email }}.
 
+We have you phone number on file as: {{ spa_booking.phone_number }}. 
+Let us know if this is incorrect!
+
 Thank you for your booking!
 
 Sincerely,
