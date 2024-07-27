@@ -153,6 +153,7 @@ class TimeSlot(models.Model):
 
     """
     time = models.TimeField()
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.time)
