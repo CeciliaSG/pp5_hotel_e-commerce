@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil import parser
 import json
 
 import stripe
@@ -22,13 +23,22 @@ from accounts.forms import CustomerProfileForm
 from booking.forms import ServiceBookingForm
 from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
-from services.models import SpaService, TimeSlot
+from services.models import SpaService, TimeSlot, SpecificDate, Availability
 import uuid
 
 from django.http import HttpResponse, JsonResponse
 import json
 
 # Create your views here.
+
+def parse_date(date_str):
+    """
+    Parse the date string and return a date object.
+    """
+    try:
+        return datetime.strptime(date_str, "%B %d, %Y").date()
+    except ValueError:
+        return parser.parse(date_str).date()
 
 
 @require_POST
@@ -79,6 +89,9 @@ def cache_checkout_data(request):
 
 
 def checkout(request):
+    """
+    Handle the checkout process for spa services, including payment via Stripe.
+    """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -95,84 +108,74 @@ def checkout(request):
         }
         spa_booking_form = SpaBookingForm(form_data)
         if spa_booking_form.is_valid():
-            try:
-                with transaction.atomic():
-                    spa_booking = spa_booking_form.save(commit=False)
-                    pid = request.POST.get('client_secret').split('_secret')[0]
-                    spa_booking.stripe_pid = pid
-                    spa_booking.original_cart = json.dumps(cart)
+            spa_booking = spa_booking_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            spa_booking.stripe_pid = pid
+            spa_booking.original_cart = json.dumps(cart)
+            
+            cart_services = []
+            total_price = 0
+            date_and_time = None
+            for unique_key, service_data in cart.items():
+                try:
+                    service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                    time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
+                    selected_time = time_slot.time.strftime("%H:%M")
+                    service = SpaService.objects.get(pk=service_id)
+                except ObjectDoesNotExist:
+                    messages.error(request, f"The service with ID {service_id} does not exist.")
+                    return redirect(reverse('home'))
+                except ValueError as e:
+                    messages.error(request, f"Invalid format for cart item key: {e}")
+                    return redirect(reverse('home'))
 
-                    cart_services = []
-                    total_price = 0
-                    date_and_time = None
-                    for unique_key, service_data in cart.items():
-                        try:
-                            service_id, selected_date, selected_time_slot_id = (
-                                unique_key.split('_'))
-                            time_slot = TimeSlot.objects.select_for_update().get(pk=selected_time_slot_id)
-                            if not time_slot.is_available:
-                                messages.error(request, f"The time slot {time_slot} is no longer available.")
-                                return redirect(reverse('home'))
-                            selected_time = time_slot.time.strftime("%H:%M")
-                            service = SpaService.objects.get(pk=service_id)
-                        except ObjectDoesNotExist:
-                            messages.error(request, f"The service with ID {service_id} does not exist.")
-                            return redirect(reverse('home'))
-                        except ValueError as e:
-                            messages.error(request, f"Invalid format for cart item key: {e}")
-                            return redirect(reverse('home'))
+                quantity = service_data.get('quantity', 0)
+                total_price += service.price * quantity
+                cart_services.append({
+                    'service': service,
+                    'quantity': quantity,
+                    'total_price': service.price * quantity,
+                    'selected_date': selected_date,
+                    'selected_time': selected_time,
+                    'selected_time_slot_id': selected_time_slot_id,
+                })
 
-                        quantity = service_data.get('quantity', 0)
-                        total_price += service.price * quantity
-                        cart_services.append({
-                            'service': service,
-                            'quantity': quantity,
-                            'total_price': service.price * quantity,
-                            'selected_date': selected_date,
-                            'selected_time': selected_time,
-                            'selected_time_slot_id': selected_time_slot_id,
-                        })
+                if not date_and_time:
+                    selected_date_obj = parse_date(selected_date)
+                    selected_time_obj = datetime.strptime(selected_time, "%H:%M").time()
+                    date_and_time = timezone.make_aware(datetime.combine(selected_date_obj, selected_time_obj))
 
-                        if not date_and_time:
-                            selected_date_obj = datetime.strptime(selected_date, "%B %d, %Y").date()
-                            selected_time_obj = datetime.strptime(selected_time, "%H:%M").time()
-                            date_and_time = timezone.make_aware(datetime.combine(selected_date_obj, selected_time_obj))
+            spa_booking.booking_total = total_price
+            spa_booking.date_and_time = date_and_time
+            spa_booking.save()
 
-                    spa_booking.booking_total = total_price
-                    spa_booking.date_and_time = date_and_time
-                    spa_booking.save()
+            for cart_service in cart_services:
+                spa_service = cart_service['service']
+                quantity = cart_service['quantity']
+                spa_service_total = cart_service['total_price']
+                selected_date = parse_date(cart_service['selected_date'])
+                selected_time = datetime.strptime(cart_service['selected_time'], "%H:%M").time()
+                selected_datetime = datetime.combine(selected_date, selected_time)
+                selected_datetime = timezone.make_aware(selected_datetime)
 
-                    for cart_service in cart_services:
-                        spa_service = cart_service['service']
-                        quantity = cart_service['quantity']
-                        spa_service_total = cart_service['total_price']
-                        selected_date = datetime.strptime(
-                            cart_service['selected_date'], "%B %d, %Y").date()
-                        selected_time = datetime.strptime(
-                            cart_service['selected_time'], "%H:%M").time()
-                        selected_datetime = datetime.combine(selected_date, selected_time)
-                        selected_datetime = timezone.make_aware(selected_datetime)
+                SpaBookingServices.objects.create(
+                    spa_service=spa_service,
+                    quantity=quantity,
+                    spa_service_total=spa_service_total,
+                    spa_booking=spa_booking,
+                    date_and_time=selected_datetime,
+                )
 
-                        SpaBookingServices.objects.create(
-                            spa_service=spa_service,
-                            quantity=quantity,
-                            spa_service_total=spa_service_total,
-                            spa_booking=spa_booking,
-                            date_and_time=selected_datetime,
-                        )
+                specific_date = SpecificDate.objects.get(date=selected_date)
+                time_slot.mark_unavailable_for_date(specific_date)
 
-                        time_slot.is_available = False
-                        time_slot.save()
+            request.session['save_info'] = 'save-info' in request.POST
 
-                    request.session['save_info'] = 'save-info' in request.POST
-                    request.session['customer_name'] = form_data['customer_name']
-                    request.session['email'] = form_data['email']
-                    request.session['phone_number'] = form_data['phone_number']
+            request.session['customer_name'] = form_data['customer_name']
+            request.session['email'] = form_data['email']
+            request.session['phone_number'] = form_data['phone_number']
 
-                    return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
-            except Exception as e:
-                messages.error(request, 'There was an error with your form. Please double check your information.')
-                return redirect(reverse('home'))
+            return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
         else:
             messages.error(request, 'There was an error with your form. Please double check your information.')
 
@@ -182,66 +185,56 @@ def checkout(request):
             messages.error(request, "There's nothing in your cart")
             return redirect(reverse('home'))
 
-        try:
-            with transaction.atomic():
-                cart_services = []
-                total_price = 0
-                for unique_key, service_data in cart.items():
-                    try:
-                        service_id, selected_date, selected_time_slot_id = (
-                            unique_key.split('_'))
-                        time_slot = TimeSlot.objects.select_for_update().get(pk=selected_time_slot_id)
-                        if not time_slot.is_available:
-                            messages.error(request, f"The time slot {time_slot} is no longer available.")
-                            return redirect(reverse('home'))
-                        selected_time = time_slot.time.strftime("%H:%M")
-                        service = SpaService.objects.get(pk=service_id)
-                    except ObjectDoesNotExist:
-                        messages.error(request, f"The service with ID {service_id} does not exist.")
-                        return redirect(reverse('home'))
-                    except ValueError as e:
-                        messages.error(request, f"Invalid format for cart item key: {e}")
-                        return redirect(reverse('home'))
+        cart_services = []
+        total_price = 0
+        for unique_key, service_data in cart.items():
+            try:
+                service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
+                selected_time = time_slot.time.strftime("%H:%M")
+                service = SpaService.objects.get(pk=service_id)
+            except ObjectDoesNotExist:
+                messages.error(request, f"The service with ID {service_id} does not exist.")
+                return redirect(reverse('home'))
+            except ValueError as e:
+                messages.error(request, f"Invalid format for cart item key: {e}")
+                return redirect(reverse('home'))
 
-                    quantity = service_data.get('quantity', 0)
-                    total_price += service.price * quantity
-                    cart_services.append({
-                        'service': service,
-                        'quantity': quantity,
-                        'total_price': service.price * quantity,
-                        'selected_date': selected_date,
-                        'selected_time': selected_time,
-                        'selected_time_slot_id': selected_time_slot_id,
-                    })
+            quantity = service_data.get('quantity', 0)
+            total_price += service.price * quantity
+            cart_services.append({
+                'service': service,
+                'quantity': quantity,
+                'total_price': service.price * quantity,
+                'selected_date': selected_date,
+                'selected_time': selected_time,
+                'selected_time_slot_id': selected_time_slot_id,
+            })
 
-                stripe_total = round(total_price * 100)
-                stripe.api_key = stripe_secret_key
+        stripe_total = round(total_price * 100)
+        stripe.api_key = stripe_secret_key
 
-                customer_name = request.session.get('customer_name', 'Not provided')
-                email = request.session.get('email', 'Not provided')
-                phone_number = request.session.get('phone_number', 'Not provided')
-                booking_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        customer_name = request.session.get('customer_name', 'Not provided')
+        email = request.session.get('email', 'Not provided')
+        phone_number = request.session.get('phone_number', 'Not provided')
+        booking_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-                metadata = {
-                    'username': request.user.username if request.user.is_authenticated else '',
-                    'save_info': request.session.get('save_info', False),
-                    'booking_total': total_price,
-                    'booking_date': booking_date,
-                    'customer_name': customer_name,
-                    'email': email,
-                    'phone_number': phone_number,
-                }
-                intent = stripe.PaymentIntent.create(
-                    amount=stripe_total,
-                    currency=settings.STRIPE_CURRENCY,
-                    metadata=metadata,
-                )
+        metadata = {
+            'username': request.user.username if request.user.is_authenticated else '',
+            'save_info': request.session.get('save_info', False),
+            'booking_total': total_price,
+            'booking_date': booking_date,
+            'customer_name': customer_name,
+            'email': email,
+            'phone_number': phone_number,
+        }
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+            metadata=metadata,
+        )
 
-                spa_booking_form = SpaBookingForm()
-
-        except Exception as e:
-            messages.error(request, 'There was an error preparing the checkout. Please try again.')
-            return redirect(reverse('home'))
+        spa_booking_form = SpaBookingForm()
 
     if not stripe_public_key:
         messages.warning(request, 'Stripe public key is missing. Did you forget to set it in your environment?')

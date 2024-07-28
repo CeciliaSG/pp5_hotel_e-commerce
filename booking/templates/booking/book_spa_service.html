@@ -14,7 +14,6 @@
                 <button class="button btn mb-4" type="submit" aria-label="Show time slotss button">Show time
                     slots</button>
             </form>
-
             {% if service_id and available_time_slots %}
             <form method="post" action="{% url 'add_to_cart' service_id=service_id %}">
                 {% csrf_token %}
@@ -30,6 +29,16 @@
                         </label>
                     </li>
                     {% endfor %}
+                    {% for time_slot in unavailable_time_slots %}
+                    <li>
+                        <input type="radio" id="time_slot_{{ time_slot.id }}" name="selected_time_slot"
+                            value="{{ time_slot.id }}" disabled>
+                        <label for="time_slot_{{ time_slot.id }}">
+                            {{ time_slot.time }} (Unavailable)
+                        </label>
+                    </li>
+                    {% endfor %}
+
                 </ul>
                 <input type="hidden" name="service_id" value="{{ service_id }}">
                 <input type="hidden" name="selected_date" value="{{ selected_date }}">

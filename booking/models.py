@@ -2,12 +2,14 @@ import uuid
 from decimal import Decimal
 
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.utils import timezone
 from django.utils.timezone import make_aware
 
-from services.models import SpaService
+from services.models import SpaService, SpecificDate, Availability
 from accounts.models import CustomerProfile
 
 
@@ -88,6 +90,32 @@ class SpaBooking(models.Model):
             self.booking_number = self._generate_booking_number()
         super().save(*args, **kwargs)
 
+    
+    def delete(self, *args, **kwargs):
+        """
+        Override the delete method to mark time slots as available again.
+        """
+        related_services = self.spa_booking_services.all()
+        for service in related_services:
+            time_slot = service.spa_service
+            selected_date = service.date_and_time.date()
+
+            try:
+                specific_date = SpecificDate.objects.get(date=selected_date)
+                try:
+                    availability = Availability.objects.get(
+                        spa_service=service.spa_service,
+                        specific_dates=specific_date
+                    )
+                    time_slot.is_available = True
+                    time_slot.save()
+                except Availability.DoesNotExist:
+                    pass
+            except SpecificDate.DoesNotExist:
+                pass
+
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.booking_number
 
@@ -131,5 +159,28 @@ class SpaBookingServices(models.Model):
 
     def __str__(self):
         return f'{self.spa_service.name} x {self.quantity}'
+        
 
+@receiver(post_delete, sender=SpaBooking)
+def post_delete_spa_booking(sender, instance, **kwargs):
+    """
+    Signal to set the associated time slots as available after a booking is deleted.
+    """
+    related_services = instance.spa_booking_services.all()
+    for service in related_services:
+        time_slot = service.spa_service
+        selected_date = service.date_and_time.date()
+
+        try:
+            specific_date = SpecificDate.objects.get(date=selected_date)
+            availability = Availability.objects.get(
+                spa_service=service.spa_service,
+                specific_dates=specific_date
+            )
+            time_slot.is_available = True
+            time_slot.save()
+        except SpecificDate.DoesNotExist:
+            pass
+        except Availability.DoesNotExist:
+            pass
      

@@ -78,6 +78,11 @@ class SpaService(models.Model):
 
     """
 
+    STATUS_CHOICES = (
+        (0, 'Unavailable'),
+        (1, 'Available'),
+    )
+
     name = models.CharField(max_length=300)
     description = models.TextField()
     price = models.DecimalField(
@@ -93,7 +98,8 @@ class SpaService(models.Model):
     featured_image = CloudinaryField(
         "image", null=True, blank=True)
     status = models.SmallIntegerField(
-        choices=STATUS, default=0)
+        choices=STATUS_CHOICES, default=1)
+
 
     def __str__(self):
         return self.name
@@ -154,12 +160,45 @@ class TimeSlot(models.Model):
     """
     time = models.TimeField()
     is_available = models.BooleanField(default=True)
+    spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return str(self.time)
 
     class Meta:
-        ordering = ['time'] 
+        ordering = ['time']
+
+    def mark_available_for_date(self, specific_date):
+        try:
+            availability = Availability.objects.get(
+                spa_service=self.spa_service,
+                specific_dates=specific_date
+            )
+            availability.time_slots.add(self)
+        except Availability.DoesNotExist:
+            availability = Availability.objects.create(spa_service=self.spa_service)
+            availability.specific_dates.add(specific_date)
+            availability.time_slots.add(self)
+        
+        self.is_available = True
+        self.save()
+
+    def mark_unavailable_for_date(self, specific_date):
+        try:
+            availability = Availability.objects.get(
+                spa_service=self.spa_service,
+                specific_dates=specific_date
+            )
+            availability.time_slots.remove(self)
+        except Availability.DoesNotExist:
+            availability = Availability.objects.create(spa_service=self.spa_service)
+            availability.specific_dates.add(specific_date)
+
+        self.is_available = False
+        self.save()
+
+
 
 
 class Availability(models.Model):
@@ -195,3 +234,4 @@ class Availability(models.Model):
 
     def __str__(self):
         return f"{self.spa_service.name} - Availability"
+
