@@ -199,8 +199,6 @@ class TimeSlot(models.Model):
         self.save()
 
 
-
-
 class Availability(models.Model):
     """
     Represents the availability of a spa service on specific dates
