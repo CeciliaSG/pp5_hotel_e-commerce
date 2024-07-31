@@ -1,62 +1,47 @@
 from django.contrib import admin
-from .models import ServiceCategory, SpaService, SpecificDate
-from .models import TimeSlot, Availability
+from .models import Availability, TimeSlotAvailability, SpaService, SpecificDate, TimeSlot, ServiceCategory
 
+# Register Time Slot
+class TimeSlotAdmin(admin.ModelAdmin):
+    list_display = ('time',)
+    search_fields = ['time']  # Allow searching by the 'time' field
 
-class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+admin.site.register(TimeSlot, TimeSlotAdmin)
 
-admin.site.register(ServiceCategory, ServiceCategoryAdmin)
-
-class SpaServiceAdmin(admin.ModelAdmin):
-    list_display = ("name", "price", "category", "is_access")
-    list_filter = ("category", "is_access")
-
-admin.site.register(SpaService, SpaServiceAdmin)
-
+# Register Specific Date
 class SpecificDateAdmin(admin.ModelAdmin):
     list_display = ("date",)
 
 admin.site.register(SpecificDate, SpecificDateAdmin)
 
-class TimeSlotAdmin(admin.ModelAdmin):
-    list_display = ("time", "spa_service", "is_available")
-    list_filter = ("spa_service", "is_available")
-    actions = ['make_available', 'make_unavailable']
+# Inline for TimeSlotAvailability within AvailabilityAdmin
+class TimeSlotAvailabilityInline(admin.TabularInline):
+    model = TimeSlotAvailability
+    extra = 3  # Number of empty forms to display for adding new time slots
+    fields = ['specific_date', 'time_slot', 'is_available']
+    autocomplete_fields = ['time_slot']  # Enable autocomplete for time_slot
 
-    def make_available(self, request, queryset):
-        for slot in queryset:
-            slot.is_available = True
-            slot.save()
-    make_available.short_description = "Mark selected time slots as available"
-
-    def make_unavailable(self, request, queryset):
-        for slot in queryset:
-            slot.is_available = False
-            slot.save()
-    make_unavailable.short_description = "Mark selected time slots as unavailable"
-
-admin.site.register(TimeSlot, TimeSlotAdmin)
-
-
-class SpecificDateInline(admin.TabularInline):
-    model = Availability.specific_dates.through
-    extra = 1
-
-class TimeSlotInline(admin.TabularInline):
-    model = Availability.time_slots.through
-    extra = 1
-
+# Availability Admin
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
-    inlines = [SpecificDateInline, TimeSlotInline]
-    actions = ['make_time_slots_available']
-
-    def make_time_slots_available(self, request, queryset):
-        for availability in queryset:
-            for time_slot in availability.time_slots.all():
-                time_slot.is_available = True
-                time_slot.save()
-    make_time_slots_available.short_description = "Mark all time slots as available for selected availabilities"
+    inlines = [TimeSlotAvailabilityInline]
 
 admin.site.register(Availability, AvailabilityAdmin)
+
+# Register TimeSlotAvailability separately as well
+class TimeSlotAvailabilityAdmin(admin.ModelAdmin):
+    list_display = ('time_slot', 'specific_date', 'is_available')
+    list_filter = ('specific_date', 'is_available')
+    actions = ['mark_available', 'mark_unavailable']
+
+    def mark_available(self, request, queryset):
+        queryset.update(is_available=True)
+        self.message_user(request, "Selected time slots have been marked as available.")
+    mark_available.short_description = "Mark selected time slots as available"
+
+    def mark_unavailable(self, request, queryset):
+        queryset.update(is_available=False)
+        self.message_user(request, "Selected time slots have been marked as unavailable.")
+    mark_unavailable.short_description = "Mark selected time slots as unavailable"
+
+admin.site.register(TimeSlotAvailability, TimeSlotAvailabilityAdmin)

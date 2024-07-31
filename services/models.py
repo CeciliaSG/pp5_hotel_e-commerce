@@ -138,30 +138,8 @@ class SpecificDate(models.Model):
 
 
 class TimeSlot(models.Model):
-    """
-    Represents a specific time slot associated with
-    spa service availability.
-
-    Each TimeSlot object represents a particular time slot
-    during which a spa service may be scheduled or booked.
-
-    Attributes:
-        time (TimeField): The specific time associated with
-        the time slot.
-
-    Methods:
-        __str__(): Returns the string representation of the time slot,
-        which is the time itself.
-
-    Usage:
-        This model is typically used to manage and represent specific
-        time slots for spa service scheduling or booking.
-
-    """
     time = models.TimeField()
-    is_available = models.BooleanField(default=True)
     spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
-
 
     def __str__(self):
         return str(self.time)
@@ -170,66 +148,40 @@ class TimeSlot(models.Model):
         ordering = ['time']
 
     def mark_available_for_date(self, specific_date):
-        try:
-            availability = Availability.objects.get(
-                spa_service=self.spa_service,
-                specific_dates=specific_date
-            )
-            availability.time_slots.add(self)
-        except Availability.DoesNotExist:
-            availability = Availability.objects.create(spa_service=self.spa_service)
-            availability.specific_dates.add(specific_date)
-            availability.time_slots.add(self)
-        
-        self.is_available = True
-        self.save()
+        availability, created = Availability.objects.get_or_create(spa_service=self.spa_service)
+        TimeSlotAvailability.objects.update_or_create(
+            availability=availability,
+            specific_date=specific_date,
+            time_slot=self,
+            defaults={'is_available': True}
+        )
 
     def mark_unavailable_for_date(self, specific_date):
-        try:
-            availability = Availability.objects.get(
-                spa_service=self.spa_service,
-                specific_dates=specific_date
-            )
-            availability.time_slots.remove(self)
-        except Availability.DoesNotExist:
-            availability = Availability.objects.create(spa_service=self.spa_service)
-            availability.specific_dates.add(specific_date)
+        availability, created = Availability.objects.get_or_create(spa_service=self.spa_service)
+        TimeSlotAvailability.objects.update_or_create(
+            availability=availability,
+            specific_date=specific_date,
+            time_slot=self,
+            defaults={'is_available': False}
+        )
 
-        self.is_available = False
-        self.save()
+
+class TimeSlotAvailability(models.Model):
+    availability = models.ForeignKey('Availability', on_delete=models.CASCADE)
+    specific_date = models.ForeignKey(SpecificDate, on_delete=models.CASCADE)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    is_available = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('availability', 'specific_date', 'time_slot')
 
 
 class Availability(models.Model):
-    """
-    Represents the availability of a spa service on specific dates
-    and time slots.
-
-    Each Availability object links a spa service to multiple specific
-    dates and time slots during which
-    the service is available for booking or scheduling.
-
-    Attributes:
-        spa_service (ForeignKey): Reference to the SpaService object
-        associated with this availability.
-        specific_dates (ManyToManyField): Many-to-many relationship with
-        SpecificDate objects, representing the specific dates when
-        the spa service is available. time_slots (ManyToManyField):
-        Many-to-many relationship with TimeSlot objects, representing
-        the time slots during which the spa service is available.
-
-    Methods:
-        __str__(): Returns a string representation of the availability,
-        formatted as '<spa_service_name> - Availability'.
-
-    Usage:
-        This model is typically used to manage and represent the availability
-        schedule of spa services, allowing users to see when specific services
-        are available for booking or scheduling.
-    """
     spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
-    specific_dates = models.ManyToManyField("SpecificDate")
-    time_slots = models.ManyToManyField(TimeSlot)
+    specific_dates = models.ManyToManyField(SpecificDate)
+    time_slots = models.ManyToManyField(TimeSlot, through=TimeSlotAvailability)
 
     def __str__(self):
         return f"{self.spa_service.name} - Availability"
+
 

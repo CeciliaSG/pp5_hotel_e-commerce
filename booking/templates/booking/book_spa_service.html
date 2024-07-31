@@ -22,10 +22,9 @@
                     {% for time_slot in available_time_slots %}
                     <li>
                         <input type="radio" id="time_slot_{{ time_slot.id }}" name="selected_time_slot"
-                            value="{{ time_slot.id }}" {% if not time_slot.is_available %}disabled{% endif %}>
+                            value="{{ time_slot.id }}">
                         <label for="time_slot_{{ time_slot.id }}">
                             {{ time_slot.time }}
-                            {% if not time_slot.is_available %} (Unavailable) {% endif %}
                         </label>
                     </li>
                     {% endfor %}
@@ -38,8 +37,8 @@
                         </label>
                     </li>
                     {% endfor %}
-
                 </ul>
+
                 <input type="hidden" name="service_id" value="{{ service_id }}">
                 <input type="hidden" name="selected_date" value="{{ selected_date }}">
                 <input type="hidden" name="price" value="{{ time_slot.id }}">

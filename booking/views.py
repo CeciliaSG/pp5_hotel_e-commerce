@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
 from .forms import ServiceBookingForm, TimeSlotSelectionForm
-from services.models import SpaService, Availability, TimeSlot, SpecificDate
+from services.models import SpaService, Availability, TimeSlot, SpecificDate, TimeSlotAvailability
 
 
 def book_spa_service(request):
@@ -72,24 +72,27 @@ def book_spa_service(request):
             if selected_service and selected_date:
 
                 specific_date = SpecificDate.objects.filter(date=selected_date).first()
+                specific_date = SpecificDate.objects.filter(date=selected_date).first()
                 if specific_date:
                     all_time_slots = TimeSlot.objects.filter(
                         spa_service=selected_service
                     ).distinct()
 
-                    available_time_slots = all_time_slots.filter(
-                        availability__specific_dates=specific_date,
+                    available_time_slots = TimeSlotAvailability.objects.filter(
+                        availability__spa_service=selected_service,
+                        specific_date=specific_date,
                         is_available=True
-                    )
-                    unavailable_time_slots = all_time_slots.filter(
-                        availability__specific_dates=specific_date,
-                        is_available=False
-                    )
+                    ).select_related('time_slot')
 
-                    print("Selected service:", selected_service)
-                    print("Selected date:", selected_date)
-                    print("Specific date:", specific_date)
-                    print("All time slots:", all_time_slots)
+                    unavailable_time_slots = TimeSlotAvailability.objects.filter(
+                        availability__spa_service=selected_service,
+                        specific_date=specific_date,
+                        is_available=False
+                    ).select_related('time_slot')
+
+                    available_time_slots = [tsa.time_slot for tsa in available_time_slots]
+                    unavailable_time_slots = [tsa.time_slot for tsa in unavailable_time_slots]
+
                     print("Available time slots:", available_time_slots)
                     print("Unavailable time slots:", unavailable_time_slots)
 
@@ -99,7 +102,7 @@ def book_spa_service(request):
         "booking/book_spa_service.html",
         {
             "form": form,
-            #"time_slot_form": time_slot_form,
+            "time_slot_form": time_slot_form,
             "service_id": selected_service.id if selected_service else None,
             "selected_date": selected_date,
             "quantity": quantity,

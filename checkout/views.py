@@ -166,7 +166,11 @@ def checkout(request):
                     date_and_time=selected_datetime,
                 )
 
+                #specific_date = SpecificDate.objects.get(date=selected_date)
+                #time_slot.mark_unavailable_for_date(specific_date)
+
                 specific_date = SpecificDate.objects.get(date=selected_date)
+                time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
                 time_slot.mark_unavailable_for_date(specific_date)
 
             request.session['save_info'] = 'save-info' in request.POST
