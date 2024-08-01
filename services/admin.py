@@ -2,6 +2,15 @@ from django.contrib import admin
 from .models import (Availability, TimeSlotAvailability, 
 SpaService, SpecificDate, TimeSlot, ServiceCategory)
 
+
+class ServiceCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name',)
+    list_filter = ('name',)
+    ordering = ('name',)
+
+admin.site.register(ServiceCategory, ServiceCategoryAdmin)
+
 # Inline for SpecificDate within AvailabilityAdmin
 class SpecificDateInline(admin.TabularInline):
     model = Availability.specific_dates.through
