@@ -166,12 +166,33 @@ def checkout(request):
                     date_and_time=selected_datetime,
                 )
 
-                #specific_date = SpecificDate.objects.get(date=selected_date)
-                #time_slot.mark_unavailable_for_date(specific_date)
+                # specific_date = SpecificDate.objects.get(date=selected_date)
+                # time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
+                # time_slot.mark_unavailable_for_date(specific_date)
 
-                specific_date = SpecificDate.objects.get(date=selected_date)
+              
+                #time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
+
+                #specific_dates = SpecificDate.objects.filter(date=selected_date, timeslotavailability__time_slot=time_slot)
+
+                #if specific_dates.exists():
+                    #specific_date = specific_dates.first()
+                    #time_slot.mark_unavailable_for_date(specific_date)
+
+
                 time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
-                time_slot.mark_unavailable_for_date(specific_date)
+
+                specific_dates = SpecificDate.objects.filter(date=selected_date, timeslotavailability__time_slot=time_slot)
+
+                if specific_dates.exists():
+                    specific_date = specific_dates.first()
+
+                    print(f"Marking TimeSlot {time_slot.time} as unavailable for SpecificDate {specific_date.date}")
+
+                    time_slot.mark_unavailable_for_date(specific_date)
+                else:
+                    print(f"No matching SpecificDate found for {selected_date} and TimeSlot {time_slot.time}")
+
 
             request.session['save_info'] = 'save-info' in request.POST
 

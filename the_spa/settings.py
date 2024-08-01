@@ -33,14 +33,12 @@ DEBUG = os.getenv('DEBUG') == '1'
 
 ALLOWED_HOSTS = [
     "8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
-    #"8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     ".herokuapp.com",
     '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
-    #"https://8001-ceciliasg-pp5spaecommer-rq9b7zjv2mi.ws-eu114.gitpod.io",
     "https://the-spa-df1f22d5aa6e.herokuapp.com/",
 ]
 
