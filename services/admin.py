@@ -6,6 +6,9 @@ SpaService, SpecificDate, TimeSlot, ServiceCategory)
 class SpecificDateInline(admin.TabularInline):
     model = Availability.specific_dates.through
     extra = 3
+    can_delete = True
+    verbose_name = "Specific Date"
+    verbose_name_plural = "Specific Dates"
 
 
 # Inline for TimeSlotAvailability within AvailabilityAdmin
@@ -14,6 +17,12 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     extra = 5
     fields = ['specific_date', 'time_slot', 'is_available']
     autocomplete_fields = ['time_slot']
+
+
+class SpecificDateAdmin(admin.ModelAdmin):
+    list_display = ("date",)
+
+admin.site.register(SpecificDate, SpecificDateAdmin)
 
 
 # Availability Admin
