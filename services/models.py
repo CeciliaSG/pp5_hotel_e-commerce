@@ -145,6 +145,7 @@ class TimeSlot(models.Model):
         return f"{self.spa_service.name} - {self.time}"
 
     class Meta:
+        unique_together = ('time', 'spa_service')
         ordering = ['time']
 
     def mark_available_for_date(self, specific_date):

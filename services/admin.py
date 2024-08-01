@@ -28,7 +28,7 @@ admin.site.register(SpecificDate, SpecificDateAdmin)
 # Availability Admin
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
-    inlines = [SpecificDateInline, TimeSlotAvailabilityInline]
+    inlines = [TimeSlotAvailabilityInline]
 
 admin.site.register(Availability, AvailabilityAdmin, )
 
@@ -36,6 +36,7 @@ admin.site.register(Availability, AvailabilityAdmin, )
 # Register TimeSlot and SpaService separately
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = ('time',)
+    list_filter = ('time', 'spa_service')
     search_fields = ['time']
 
 admin.site.register(TimeSlot, TimeSlotAdmin)
