@@ -142,7 +142,7 @@ class TimeSlot(models.Model):
     spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.time)
+        return f"{self.spa_service.name} - {self.time}"
 
     class Meta:
         ordering = ['time']

@@ -187,6 +187,8 @@ def checkout(request):
                 if specific_dates.exists():
                     specific_date = specific_dates.first()
 
+                    print(f"Matching SpecificDate found: {specific_date.date} (ID: {specific_date.id})")
+
                     print(f"Marking TimeSlot {time_slot.time} as unavailable for SpecificDate {specific_date.date}")
 
                     time_slot.mark_unavailable_for_date(specific_date)

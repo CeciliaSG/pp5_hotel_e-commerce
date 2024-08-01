@@ -5,21 +5,24 @@ SpaService, SpecificDate, TimeSlot, ServiceCategory)
 # Inline for SpecificDate within AvailabilityAdmin
 class SpecificDateInline(admin.TabularInline):
     model = Availability.specific_dates.through
-    extra = 3  # Number of empty forms to display for adding new dates
+    extra = 3
+
 
 # Inline for TimeSlotAvailability within AvailabilityAdmin
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
-    extra = 5  # Number of empty forms to display for adding new time slots
+    extra = 5
     fields = ['specific_date', 'time_slot', 'is_available']
     autocomplete_fields = ['time_slot']
+
 
 # Availability Admin
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
     inlines = [SpecificDateInline, TimeSlotAvailabilityInline]
 
-admin.site.register(Availability, AvailabilityAdmin)
+admin.site.register(Availability, AvailabilityAdmin, )
+
 
 # Register TimeSlot and SpaService separately
 class TimeSlotAdmin(admin.ModelAdmin):
