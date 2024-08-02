@@ -720,7 +720,7 @@ transform: none;
     margin-top: 200px;
 }
 .cart-container table {
-    width: 100%;
+    /*width: 100%;*/
  }
 
 .cart-container table tbody,
