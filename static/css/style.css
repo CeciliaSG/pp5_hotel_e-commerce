@@ -53,7 +53,7 @@ main {
     left: 0;
     min-width: 250px;
     max-width: 400px;
-    height: 58%;
+    /*height: 58%;*/
     background-color: #191521;
     padding-top: 0px;
     z-index: 1000;
@@ -185,6 +185,10 @@ nav {
     padding-right: 0;
     height: 100%;
     padding-bottom: 20px;
+}
+
+.container-home{
+    margin-bottom: 0;
 }
 
 .form-container {
@@ -551,7 +555,7 @@ button.btn.btn-sm:hover {
   border-radius: 0 !important;
   height: auto;
   border-color: #538991;
-  margin-top: 100px;
+  margin-top: 5px;
 }
 
 .book-now-button:hover {
@@ -635,7 +639,7 @@ footer {
     padding: 20px 20px; 
     bottom: 0;
     width: 100%;
-    z-index: 1000; /* Ensure footer appears above other content */
+    z-index: 1000;
 }
 
 .table-responsive {
@@ -764,5 +768,10 @@ footer {
 
 .logo {
     margin-top: 70px;
+}
+
+
+.book-now-button {
+  margin-top: 100px;
 }
 }

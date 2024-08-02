@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid" style="height: 100vh;">
+<div class="container-fluid d-flex flex-column container-home">
   <section class="section-home bg-landing-section bg-colour-blue" id="home">
     <h2 class="visually-hidden">Main Content</h2>
     <div class="container">
@@ -14,7 +14,7 @@
     </div>
   </section>
 
-  <section class="section-home bg-section-two bg-colour-grey" id="about">
+  <section class="section-home bg-section-two bg-colour-grey flex-grow-1" id="about">
     <div class="container px-4">
       <div class="row pt-5 justify-content-center mb-5">
         <div class="col-md-7">
@@ -72,7 +72,7 @@
     </div>
   </section>
 
-  <section class="section bg-section-three bg-colour-blue" id="treatments">
+  <section class="section bg-section-three bg-colour-blue flex-grow-1" id="treatments">
     <div class="container services-container px-5 justify-content-center">
       <div class="text-center">
         <h2 class="section-heading pb-5 pt-5"><strong>Spa Treatments & Therapies</strong></h2>
@@ -98,7 +98,7 @@
     </div>
   </section>
 
-  <section class="section-home bg-section-four bg-colour-grey" id="prices-booking">
+  <section class="section-home bg-section-four bg-colour-grey flex-grow-1" id="prices-booking">
     <div class="container px-5 justify-content-center">
       <div class="text-center">
         <h2 class="section-heading pt-5 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
@@ -119,7 +119,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 text-start mb-4 mx-auto mx-lg-5">
+        <div class="col-sm-4 col-md-4 col-lg-4 text-start mx-auto mx-lg-5">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo
             consequat nisi, et
             sollicitudin velit
