@@ -7,16 +7,41 @@
 {% endblock %}
 
 {% block content %}
-<div class="container form-container">
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-6">
-            <h2>Delete Profile</h2>
-            <p>Are you sure you want to delete your profile?</p>
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" aria-label="Delete profile submit button">Delete Profile</button>
-            </form>
+{% if user.is_authenticated %}
+<section class="container-fluid d-flex justify-content-center bg-white delete-account-page ml-3 mr-3 form-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 text-left">
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                        <h2 class="logo-font mb-4">Delete Account</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div class="text-wrap">
+                    <h2 class="h5 form-heading mt-3">We are sorry you want to leave us <strong>
+                            {{ request.user.first_name }}
+                            {{ request.user.last_name }}.</strong></h2>
+                    <p>
+                        To delete your account and close your membership,
+                        just check the box below and click the button.
+                        It will delete your account and any information associated with it.</p>
+                    <h3 class="h5">We hope to see you back here in the future!</h3>
+                </div>
+                <div class="mt-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class=" btn btn-delete-account" type="submit"
+                            aria-label="submit button delete account">Delete
+                            Account</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
+{% endif %}
 {% endblock %}

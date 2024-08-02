@@ -67,3 +67,11 @@ class CustomSignupForm(SignupForm):
             city=self.cleaned_data['city']
         )
         return user
+
+class DeleteAccountForm(forms.Form):
+    """
+    Form class for users to delete their account and all associated information
+    """
+
+    confirm_delete = forms.BooleanField(required=True,
+                                        label='Confirm Account Deletion')

@@ -8,6 +8,7 @@ from .forms import UserProfileForm, CustomerProfileForm
 from django.urls import reverse
 from allauth.account.views import LoginView
 from .models import CustomerProfile
+from .forms import DeleteAccountForm
 
 
 @login_required
@@ -51,7 +52,7 @@ def profile(request):
         profile = CustomerProfile.objects.get(user=request.user)
     except CustomerProfile.DoesNotExist:
         messages.warning(request, "No profile found for this user.")
-        return redirect('account/signup.html')
+        return redirect('signup.html')
 
     if request.method == 'POST':
         user_form = UserProfileForm(request.POST, instance=user)
@@ -134,7 +135,7 @@ def booking_history(request, booking_number):
     return render(request, template, context)
 
 
-
+@login_required
 def delete_profile(request):
     """
     Handle the deletion of the user's profile and related data.
@@ -150,21 +151,28 @@ def delete_profile(request):
     Returns:
         HttpResponse: The HTTP response object with the rendered template or redirect.
     """
-    profile = get_object_or_404(CustomerProfile, user=request.user)
+    #profile = get_object_or_404(CustomerProfile, user=request.user)
+
+    try:
+        profile = CustomerProfile.objects.get(user=request.user)
+    except CustomerProfile.DoesNotExist:
+        return redirect('customer_profile')
 
     if request.method == 'POST':
-        try:
-            SpaBooking.objects.filter(customer_profile=profile).delete()
-            profile.delete()
-            request.user.delete()
-            logout(request)
+        form = DeleteAccountForm(request.POST)
+        if form.is_valid() and form.cleaned_data['confirm_delete']:
+            try:
+                SpaBooking.objects.filter(customer_profile=profile).delete()
+                profile.delete()
+                request.user.delete()
+                logout(request)
 
-            messages.success(request, 'Your profile and related data have been deleted.')
-            return redirect('home') 
+                messages.success(request, 'Your profile and related data have been deleted.')
+                return redirect('home') 
+            except Exception as e:
+                messages.error(request, f'Failed to delete profile: {str(e)}')
+                return redirect('delete_profile')
+    else:
+        form = DeleteAccountForm()
 
-        except Exception as e:
-            messages.error(request, f'Failed to delete profile: {str(e)}')
-            return redirect('delete_profile')
-
-    return render(request, 'accounts/delete_profile.html')
-
+    return render(request, 'accounts/delete_profile.html', {'form': form})
