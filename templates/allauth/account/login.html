@@ -17,9 +17,13 @@
                 </div>
                 {% endfor %}
                 {% endif %}
-                {% element h1 %}
-                {% trans "Sign In" %}
-                {% endelement %}
+                <div class="col">
+                    <hr>
+                    <h1 class="logo-font mb-4">{% element h2 %}
+                        {% trans "Sign In" %}
+                        {% endelement %}</h1>
+                    <hr>
+                </div>
                 {% if not SOCIALACCOUNT_ONLY %}
                 {% setvar link %}
                 <a href="{{ signup_url }}">

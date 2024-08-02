@@ -719,9 +719,10 @@ transform: none;
 .cart-container {
     margin-top: 200px;
 }
-.cart-container table {
-    /*width: 100%;*/
- }
+
+/*.cart-container table {
+    width: 100%;
+ }*/
 
 .cart-container table tbody,
 .cart-container table tr {
