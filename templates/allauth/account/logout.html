@@ -8,28 +8,41 @@
 {% block content %}
 <div class="container form-container justify-content-center">
     <div class="row justify-content-center">
-        <div class="col-12 col-md-6 d-flex justify-content-center">
+        <div class="col-12 col-md-8 d-flex justify-content-center">
             <div class="allauth-form-inner-content">
-                {% element h1 %}
-                {% trans "Sign Out" %}
-                {% endelement %}
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                        <h1 class="logo-font mb-4">{% element h2 %}
+                            {% trans "Sign Out" %}
+                            {% endelement %}</h1>
+                        <hr>
+                    </div>
+                </div>
                 {% element p %}
                 {% trans 'Are you sure you want to sign out?' %}
+                <h5>{{ request.user.username }}</h5>
+                <h6>{{ request.user.email }}</h6>
                 {% endelement %}
-                {% url 'account_logout' as action_url %}
-                {% element form method="post" action=action_url no_visible_fields=True %}
-                {% slot body %}
-                {% csrf_token %}
-                {{ redirect_field }}
-                {% endslot %}
-                {% slot actions %}
-                <div class="button btn">{% element button type="submit" %}
-                    {% trans 'Sign Out' %}
-                    {% endelement %}
+                <div>
+                    {% url 'account_logout' as action_url %}
+                    {% element form method="post" action=action_url no_visible_fields=True %}
+                    {% slot body %}
+                    {% csrf_token %}
+                    {{ redirect_field }}
+                    {% endslot %}
+                    {% slot actions %}
+                    <div class="d-flex">
+                        {% element button type="submit" %}
+                        {% trans 'Sign Out' %}
+                        {% endelement %}
+                        <a href="{% url 'home' %}" class="btn button" style="margin-left: 15px;">
+                            {% trans 'Back to Home Page'%}</a>
+                    </div>
                 </div>
-                {% endslot %}
-                {% endelement %}
             </div>
+            {% endslot %}
+            {% endelement %}
         </div>
     </div>
 </div>
