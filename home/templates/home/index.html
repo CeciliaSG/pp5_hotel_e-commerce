@@ -103,7 +103,7 @@
       <div class="text-center">
         <h2 class="section-heading pt-5 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
       </div>
-      <div class="row gy-5 gx-3">
+      <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
           <div class="card">
             <div class="card-body">
@@ -119,9 +119,19 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+        <div class="col-sm-4 col-md-4 col-lg-4 text-start mb-4 mx-auto mx-lg-5">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque commodo
+            consequat nisi, et
+            sollicitudin velit
+            mollis vitae. Pellentesque sit amet justo at lorem tincidunt semper vel id metus. Sed erat justo, eleifend
+            ut dolor id,
+            laoreet posuere est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+            himenaeos. Donec
+            luctus ut nunc tristique vulputate. Integer justo mi, sagittis sit amet orci in, finibus tempor urna. Morbi
+            rhoncus
+            blandit erat, et ullamcorper lectus sollicitudin eget.</p>
           <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-            <button type="submit" class="btn button book-now-button btn-lg" name="service_id" aria-label="Book Now"
+            <button type="submit" class="btn button book-now-button-2 mb-5" name="service_id" aria-label="Book Now"
               value="{{ service.id }}">
               Book Now
             </button>

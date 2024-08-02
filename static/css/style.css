@@ -543,7 +543,6 @@ button.btn.btn-sm:hover {
     background-color: transparent !important;
 }
 
-
 .book-now-button {
   white-space: nowrap; 
   --bs-gutter-x: 0;
@@ -552,9 +551,24 @@ button.btn.btn-sm:hover {
   border-radius: 0 !important;
   height: auto;
   border-color: #538991;
+  margin-top: 100px;
 }
 
 .book-now-button:hover {
+    background-color: #375d66 !important; 
+    color: #fff !important;
+}
+
+.book-now-button-2 {
+  white-space: nowrap; 
+  --bs-gutter-x: 0;
+  background-color: #538991 !important;
+  font-size: 18px !important;
+  border-radius: 0 !important;
+  border-color: #538991;
+}
+
+.book-now-button-2:hover {
     background-color: #375d66 !important; 
     color: #fff !important;
 }
@@ -716,10 +730,6 @@ transform: none;
     padding: 10px;
     width: 17%; 
 }
-
-.book-now-button {
-    margin-top: 100px;
-  }
 
 main {
     flex: 1 0 auto;
