@@ -10,12 +10,6 @@
             <div class="col-lg-5 col-md-8 col-sm-10 mb-4">
                 <h1>{{ service.name }}</h1>
                 <p>{{ service.description }}</p>
-                <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
-                    <button type="submit" class="btn button book-now-button-2 mb-5" name="service_id"
-                        aria-label="Book Now" value="{{ service.id }}">
-                        Book Now
-                    </button>
-                </form>
             </div>
             <div class="col-lg-4 col-md-8 col-sm-10">
                 <h2>Service Details</h2>
@@ -25,6 +19,12 @@
                     <li><strong>Price:</strong> {{ service.price }} SEK</li>
                     <li><strong>Employee:</strong> {{ service.employee_name }}</li>
                 </ul>
+                <form action="{% url 'book_spa_service'%}" method="get" style="display: inline;">
+                    <button type="submit" class="btn button book-now-button-2 mb-5" name="service_id"
+                        aria-label="Book Now" value="{{ service.id }}">
+                        Book Now
+                    </button>
+                </form>
             </div>
         </div>
     </div>
