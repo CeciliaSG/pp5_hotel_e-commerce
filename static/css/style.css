@@ -499,6 +499,12 @@ a.btn:hover {
 
 a.text-info {
     color: #538991 !important;
+    text-decoration: none;
+}
+
+a.text-info:hover {
+    color: #375d66 !important;
+    text-decoration: none;
 }
 
 button.btn.btn-sm {
