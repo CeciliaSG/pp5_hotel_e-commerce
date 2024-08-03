@@ -75,7 +75,7 @@
   <section class="section bg-section-three bg-colour-blue flex-grow-1" id="treatments">
     <div class="container services-container px-5 justify-content-center">
       <div class="text-center">
-        <h2 class="section-heading pb-5 pt-5"><strong>Spa Treatments & Therapies</strong></h2>
+        <h2 class="section-heading pb-5 pt-5 mb-2"><strong>Spa Treatments & Therapies</strong></h2>
       </div>
       <div class="row gy-5 gx-5">
         {% for service in spa_services %}
@@ -101,17 +101,48 @@
   <section class="section-home bg-section-four bg-colour-grey flex-grow-1" id="prices-booking">
     <div class="container px-5 justify-content-center">
       <div class="text-center">
-        <h2 class="section-heading pt-5 pb-5 mb-5"><strong>Prices & Booking</strong></h2>
+        <h2 class="section-heading pt-5 pb-4"><strong>Prices & Booking</strong></h2>
       </div>
       <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 mb-4">
           <div class="card">
             <div class="card-body">
-              <h2 class="h4 card-title">Our Spa Services</h2>
+              <h2 class="h4 card-title"><strong> Spa Services</strong></h2>
               <ul class="list-group">
+                <h3 class="h5 mt-3">Massages</h3>
                 {% for service in spa_services %}
+                {% if service.category.name == "Massages" %}
                 <li class="list-group-item">
-                  <h3 class="h5">{{ service.category }}</h3>
+                  {{ service.name }} - {{ service.price }} SEK
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              <ul class="list-group">
+                <h3 class="h5 mt-2">Facials</h3>
+                {% for service in spa_services %}
+                {% if service.category.name == "Facials" %}
+                <li class="list-group-item">
+                  {{ service.name }} - {{ service.price }} SEK
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+
+              <ul class="list-group">
+                <h3 class="h5 mt-2">Pedicures</h3>
+                {% for service in spa_services %}
+                {% if service.category.name == "Pedicures" %}
+                <li class="list-group-item">
+                  {{ service.name }} - {{ service.price }} SEK
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              <ul class="list-group">
+                <h3 class="h5 mt-2">Spa Access</h3>
+                {% for service in access_services %}
+                <li class="list-group-item">
                   {{ service.name }} - {{ service.price }} SEK
                 </li>
                 {% endfor %}

@@ -364,9 +364,12 @@ pointer-events: auto;
 .service-details {
     display: flex;
     justify-content: space-between;
-    /*margin-top: 140px;*/
-    /*padding: 50px;*/
-    }
+    margin-top: 170px;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
 
 .service-description {
     flex: 2;
@@ -757,11 +760,12 @@ footer {
     font-size: 30px;
 }
 
+/*
 .form-container {
     padding-top: 90px;
     padding-bottom: 130px;
     margin-bottom: 100px;
-}
+}*/
 
 .col-lg-6 {
         margin-bottom: 20px;
