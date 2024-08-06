@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
@@ -186,3 +187,21 @@ class Availability(models.Model):
         return f"{self.spa_service.name} - Availability"
 
 
+class Review(models.Model):
+    """
+    From "I Think therfore I blog".
+    Lets logged-in users review spa services.
+    """
+    spa_service = models.ForeignKey(
+        SpaService, on_delete=models.CASCADE, related_name="reviews")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviewer")
+    body = models.TextField()
+    approved = models.BooleanField(default=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_on"]
+
+    def __str__(self):
+        return f"Review {self.body} by {self.author}"

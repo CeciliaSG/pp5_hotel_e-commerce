@@ -1,0 +1,12 @@
+.modal.custom-modal .modal-dialog .modal-content {
+    border-radius: 0px !important;
+    margin-top: 300px !important;
+}
+
+.modal-open .modal {
+    padding-right: 10px !important;
+}
+
+.faded {
+    opacity: 0.6;
+}

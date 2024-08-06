@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import SpaService, ServiceCategory
+from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponseRedirect
+from .models import SpaService, ServiceCategory, Review
+from django.contrib import messages
+from .forms import reviewForm
 
 # Create your views here.
 
@@ -96,28 +98,98 @@ def spa_services(request, context_only=False):
 
 def service_details(request, service_id):
     """
-    Render the details of a specific spa service.
+    Render the details of a specific spa service, including reviews.
 
-    Retrieves a SpaService object from the database
-    based on the provided service_id.
-    If the service_id does not exist, a HTTP 404 Not
-    Found error is raised.
+    Retrieves a SpaService object from the database based on the provided
+    service_id. If the service_id does not exist, a HTTP 404 Not Found error
+    is raised. Handles review submission and displays reviews for the service.
 
     Args:
         request (HttpRequest): The HTTP request object.
-        service_id (int): The ID of the SpaService to
-        retrieve details for.
+        service_id (int): The ID of the SpaService to retrieve details for.
 
     Returns:
         HttpResponse: Rendered template 'services/service_details.html'
-        displaying details of the retrieved SpaService.
+        displaying details of the retrieved SpaService, including reviews and
+        a review form.
 
     Usage:
-        This view is typically used to display detailed information
-        about a specific spa service on a dedicated service details
-        page in a spa website.
+        This view is typically used to display detailed information about a
+        specific spa service on a dedicated service details page in a spa website.
     """
 
     service = get_object_or_404(SpaService, id=service_id)
+    reviews = service.reviews.all().order_by("-created_on")
+
+    #reviews = service.reviews.filter(approved=True).order_by("-created_on")
+    #review_count = reviews.count()
+    review_count = service.reviews.filter(approved=True).count()
+
+
+    if request.method == "POST":
+        review_form = reviewForm(data=request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.author = request.user
+            review.spa_service = service
+            review.save()
+
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Review submitted and awaiting approval'
+            )
+            return redirect('service_details', service_id=service_id)
+    else:
+        review_form = reviewForm()
+
     return render(
-        request, 'services/services_details.html', {'service': service})
+        request,
+        "services/services_details.html",
+        {
+            "service": service,
+            "reviews": reviews,
+            "review_count": review_count,
+            "review_form": review_form,
+        }
+    )
+
+def review_edit(request, service_id, review_id):
+    """
+    view to edit reviews
+    """
+    if request.method == "POST":
+
+        queryset = SpaService.objects.filter(status=1)
+        spa_service = get_object_or_404(queryset, id=service_id)
+        review = get_object_or_404(Review, pk=review_id)
+        review_form = reviewForm(data=request.POST, instance=review)
+
+        if review_form.is_valid() and review.author == request.user:
+            review = review_form.save(commit=False)
+            review.spa_service = spa_service
+            review.approved = False
+            review.save()
+            messages.add_message(request, messages.SUCCESS, 'review Updated!')
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'Error updating review!')
+
+    return HttpResponseRedirect(reverse('service_details', args=[service_id]))  
+
+
+def review_delete(request, service_id, review_id):
+    """
+    View to delete review. From Blog walkthrough.
+    """
+    queryset = SpaService.objects.filter(status=1)
+    spa_service = get_object_or_404(queryset, id=service_id)
+    review = get_object_or_404(Review, pk=review_id)
+
+    if review.author == request.user:
+        review.delete()
+        messages.add_message(request, messages.SUCCESS, 'Review deleted!')
+    else:
+            messages.add_message(request, messages.ERROR, 'You can only delete your own review!')
+
+    return redirect('service_details', service_id=service_id)
+

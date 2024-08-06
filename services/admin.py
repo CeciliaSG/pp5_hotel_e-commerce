@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Availability, TimeSlotAvailability, 
-SpaService, SpecificDate, TimeSlot, ServiceCategory)
+SpaService, SpecificDate, TimeSlot, ServiceCategory, Review)
 
 
 class ServiceCategoryAdmin(admin.ModelAdmin):
@@ -56,3 +56,5 @@ class SpaServiceAdmin(admin.ModelAdmin):
     list_filter = ("category", "is_access")
 
 admin.site.register(SpaService, SpaServiceAdmin)
+
+admin.site.register(Review)
