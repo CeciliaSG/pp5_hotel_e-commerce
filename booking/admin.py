@@ -18,7 +18,7 @@ class SpaBookingAdmin(admin.ModelAdmin):
 admin.site.register(SpaBooking, SpaBookingAdmin)
 
 class SpaBookingServicesAdmin(admin.ModelAdmin):
-    list_display = ('spa_service', 'quantity', 'spa_service_total', 'spa_booking')
+    list_display = ('spa_service', 'quantity', 'spa_service_total', 'spa_booking',)
     list_filter = ('spa_booking__booking_date',)
     search_fields = ('spa_service__name', 'spa_booking__customer_name')
 

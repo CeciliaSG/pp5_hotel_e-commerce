@@ -84,7 +84,6 @@ def spa_services(request, context_only=False):
     services = SpaService.objects.annotate(
         review_count=Count('reviews', filter=Q(reviews__approved=True))
     )
-    #services = SpaService.objects.all()
     access_services = services.filter(is_access=True)
     spa_services = services.filter(is_access=False)
     categories = ServiceCategory.objects.all()
@@ -94,7 +93,6 @@ def spa_services(request, context_only=False):
         "access_services": access_services,
         "spa_services": spa_services,
         "categories": categories,
-        #'review_count': review_count,
     }
 
     if context_only:
@@ -128,8 +126,6 @@ def service_details(request, service_id):
     service = get_object_or_404(SpaService, id=service_id)
     reviews = service.reviews.all().order_by("-created_on")
 
-    #reviews = service.reviews.filter(approved=True).order_by("-created_on")
-    #review_count = reviews.count()
     review_count = service.reviews.filter(approved=True).count()
 
     if request.method == "POST":

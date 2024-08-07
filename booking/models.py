@@ -74,10 +74,10 @@ class SpaBooking(models.Model):
         Returns:
             None
         """
-        self.booking_total = self.spa_booking_services.aggregate(
-            models.Sum('spa_service_total'))[
-                    'spa_service_total__sum'] or Decimal('0.00')
-
+        total = self.spa_booking_services.aggregate(
+            total=models.Sum('spa_service_total')
+        )['total'] or Decimal('0.00')
+        self.booking_total = total
         self.save()
 
     def save(self, *args, **kwargs):
