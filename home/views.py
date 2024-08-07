@@ -35,17 +35,12 @@ def index(request):
         HttpResponse: The HTTP response object with the rendered
         index page, displaying booking information and spa services.
     """
-
     booking_context = book_spa_service(request)
     services_context = spa_services(request)
 
-    review_count = Review.objects.filter(approved=True).count()
-    print(f"Review Count: {review_count}")
-
     context = {
         'booking_context': booking_context,
-        'services_context': services_context,
-        'review_count': review_count,
+        'spa_services': spa_services,
     }
 
     return render(request, 'home/index.html', context)
