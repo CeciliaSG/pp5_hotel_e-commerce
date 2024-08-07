@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.mail import send_mail
 
+from services.models import Review 
+
 from .forms import ContactForm
 
 # Create your views here.
@@ -37,9 +39,13 @@ def index(request):
     booking_context = book_spa_service(request)
     services_context = spa_services(request)
 
+    review_count = Review.objects.filter(approved=True).count()
+    print(f"Review Count: {review_count}")
+
     context = {
         'booking_context': booking_context,
         'services_context': services_context,
+        'review_count': review_count,
     }
 
     return render(request, 'home/index.html', context)

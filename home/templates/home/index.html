@@ -89,6 +89,11 @@
                 <h3 class="h6 card-category">{{ service.category }}</h3>
                 <h3 class="h5 card-title">{{ service.name }}</h3>
                 <p class="card-text">{{ service.description | truncatewords:10 }}</p>
+                <div class="col-lg-4">
+                  <strong class="text-secondary">
+                    <i class="fa-solid fa-star-half-stroke"></i>{{ review_count }}
+                  </strong>
+                </div>
               </div>
             </div>
           </a>

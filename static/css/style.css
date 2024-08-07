@@ -327,7 +327,11 @@ pointer-events: auto;
 .card .card-body p {
     font-size: 14px;
     padding: 0;
-    color: gray;
+    /*color: gray;*/
+}
+
+.card .card-body p .card-body-review {
+    color: black;
 }
 
 .card-link {
