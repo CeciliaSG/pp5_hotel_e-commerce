@@ -208,7 +208,7 @@ nav {
     margin-top: 100px;
     margin-bottom: 200px;
 }
-
+ 
 .container.form-container,
 .container.form-container form,
 .container.form-container input,
@@ -221,7 +221,8 @@ nav {
 }
 
 .sign-in-container {
-    padding-top: 200px;
+    padding-top: 150px;
+    height: 100vh;
 }
 
 .messages {
@@ -240,9 +241,13 @@ border-color: #191521 !important;
 position: fixed;
 top: 10px;
 z-index: 2000;
-opacity: 0;
 transition: opacity 0.5s ease-in-out;
 pointer-events: auto;
+margin-bottom: 5px;
+}
+
+ul li .message-list-item{
+    list-style-type: none !important;
 }
 
 .alert .alert-block .alert-danger {

@@ -4,9 +4,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.mail import send_mail
 
-from services.models import Review 
+from services.models import Review
 
 from .forms import ContactForm
+
+from booking.views import book_spa_service
+from services.views import spa_services
 
 # Create your views here.
 
@@ -36,11 +39,11 @@ def index(request):
         index page, displaying booking information and spa services.
     """
     booking_context = book_spa_service(request)
-    services_context = spa_services(request)
+    services_context = spa_services(request, context_only=True)
 
     context = {
         'booking_context': booking_context,
-        'spa_services': spa_services,
+        **services_context,
     }
 
     return render(request, 'home/index.html', context)

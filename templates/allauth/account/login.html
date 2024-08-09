@@ -9,10 +9,9 @@
     <div class="row justify-content-center mb-5">
         <div class="col-10 col-md-4">
             <div class="allauth-form-inner-content">
-                {% block inner_content %}
                 {% if messages %}
                 {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}" role="alert">
+                <ul><li class="message-list-item"><div class="messages alert alert-{{ message.tags }}" role="alert">
                     {{ message }}
                 </div>
                 {% endfor %}
@@ -24,6 +23,8 @@
                         {% endelement %}</h1>
                     <hr>
                 </div>
+                </li>
+                </ul>
                 {% if not SOCIALACCOUNT_ONLY %}
                 {% setvar link %}
                 <a href="{{ signup_url }}">
@@ -72,5 +73,3 @@
 {% block head_title %}
 
 {% endblock head_title %}
-
-{% endblock content %}
