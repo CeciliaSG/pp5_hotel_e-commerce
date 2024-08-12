@@ -20,14 +20,20 @@
         <div class="row">
             <div class="col-12 col-lg-5 mb-4 me-lg-5">
                 <p class="text-muted">Customer info for username: {{ customer_name }}, mail: {{user_email}}</p>
-                <form action="{% url 'customer_profile' %}" method="POST" id="profile-update-form">
-                    {% csrf_token %}
-                    {{ user_form | crispy }}
-                    {{ profile_form | crispy }}
-                    <button type="submit" class="button btn btn-white rounded-0 text-uppercase mt-3"
-                        aria-label="Update profile submit button">Update
-                        Information</button>
-                </form>
+                <div class="d-flex justify-content-between align-items-center">
+                    <form action="{% url 'customer_profile' %}" method="POST" id="profile-update-form"
+                        class="flex-grow-1">
+                        {% csrf_token %}
+                        {{ user_form | crispy }}
+                        {{ profile_form | crispy }}
+                        <button type="submit" class="button btn btn-white rounded-0 text-uppercase mt-3"
+                            aria-label="Update profile submit button">Update
+                            Information</button>
+                        <a href="{% url 'delete_profile' %}" class="btn button mt-3" style="margin-left: 10px;"
+                            aria-label="Delete your profile">Delete
+                            Account</a>
+                    </form>
+                </div>
                 <div class="change_email_link mt-4"><a href="{% url 'account_email' %}">To Change Your Email Follow This
                         Link</a></div>
                 <div class="change_password_link"><a href="{% url 'account_change_password' %}">Change Your Password</a>

@@ -11,9 +11,12 @@
             <div class="allauth-form-inner-content">
                 {% if messages %}
                 {% for message in messages %}
+                {% if 'error' in message.tags %}
+
                 <ul><li class="message-list-item"><div class="messages alert alert-{{ message.tags }}" role="alert">
                     {{ message }}
                 </div>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
                 <div class="col">
