@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 
+from allauth.account.views import ConfirmEmailView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from booking.models import SpaBooking
 from .forms import UserProfileForm, CustomerProfileForm
 from django.urls import reverse
@@ -88,6 +92,20 @@ def profile(request):
     return render(request, 'accounts/customer_profile.html', context)
 
 
+class CustomConfirmEmailView(ConfirmEmailView):
+
+    def post(self, *args, **kwargs):
+        response = super().post(*args, **kwargs)
+        if self.object and self.object.email_address.verified:
+            return HttpResponseRedirect(reverse('account_login'))
+        return response
+
+    def get(self, *args, **kwargs):
+        response = super().get(*args, **kwargs)
+        if self.object and self.object.email_address.verified:
+            return HttpResponseRedirect(reverse('account_login'))
+        return response
+        
 
 def booking_history(request, booking_number):
     """
@@ -151,7 +169,7 @@ def delete_profile(request):
     Returns:
         HttpResponse: The HTTP response object with the rendered template or redirect.
     """
-    #profile = get_object_or_404(CustomerProfile, user=request.user)
+    profile = get_object_or_404(CustomerProfile, user=request.user)
 
     try:
         profile = CustomerProfile.objects.get(user=request.user)

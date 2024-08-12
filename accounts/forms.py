@@ -48,10 +48,10 @@ class CustomSignupForm(SignupForm):
     phone_number = forms.CharField(max_length=20, label='Phone Number', required=True)
     date_of_birth = forms.DateField(
         widget=forms.DateInput(attrs={'placeholder': 'DD/MM/YYYY', 'type': 'date'}),
-        required=True,
-        label='Date of Birth'
+        required=False,
+        label='Date of Birth (optional)'
     )
-    city = forms.CharField(max_length=100, label='City', required=True)
+    city = forms.CharField(max_length=100, label='City (optional)', required=False)
 
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
@@ -59,14 +59,18 @@ class CustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data['last_name']
         user.save()
 
+        date_of_birth = self.cleaned_data.get('date_of_birth', None)
+        city = self.cleaned_data.get('city', None)
+
         CustomerProfile.objects.create(
             user=user,
             default_phone_number=self.cleaned_data['phone_number'],
             email=user.email,
-            date_of_birth=self.cleaned_data['date_of_birth'],
-            city=self.cleaned_data['city']
+            date_of_birth=date_of_birth,
+            city=city 
         )
         return user
+
 
 class DeleteAccountForm(forms.Form):
     """

@@ -47,10 +47,10 @@ def create_or_update_customer_profile(sender, instance, created, **kwargs):
     if created:
         CustomerProfile.objects.create(user=instance, email=instance.email)
     else:
-        instance.customerprofile.save()"""
+        instance.customerprofile.save()
 
 
-"""@receiver(post_save, sender=User)
+@receiver(post_save, sender=User)
 def create_or_update_customer_profile(sender, instance, created, **kwargs):
     if created:
         if not hasattr(instance, 'customerprofile'):
