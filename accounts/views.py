@@ -51,21 +51,19 @@ def profile(request):
         messages (Message): The messages to display to the user.
     """
 
-    try:
-        user = request.user 
-        profile = CustomerProfile.objects.get(user=request.user)
-    except CustomerProfile.DoesNotExist:
-        messages.warning(request, "No profile found for this user.")
-        return redirect('signup.html')
+    user = request.user 
+
+    profile, created = CustomerProfile.objects.get_or_create(user=user)
+
+    if created:
+        messages.info(request, "A profile has been created for you.")
 
     if request.method == 'POST':
         user_form = UserProfileForm(request.POST, instance=user)
         profile_form = CustomerProfileForm(request.POST, instance=profile)
         
         if user_form.is_valid() and profile_form.is_valid():
-
             user_form.save()
-
             profile.email = user.email
             profile_form.save()
 
@@ -86,7 +84,7 @@ def profile(request):
         'profile_form': profile_form,
         'user_email': user.email,
         'spa_bookings': spa_bookings,
-        'customer_name': profile.user.username,
+        'customer_name': username,
         'messages': messages.get_messages(request),
     }
     return render(request, 'accounts/customer_profile.html', context)
