@@ -1,7 +1,7 @@
 from django import forms
 from django.db import models
 
-from .models import SpaBooking
+from .models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 
 
@@ -58,7 +58,7 @@ class ServiceBookingForm(forms.ModelForm):
         appropriate placeholders, CSS classes, and validation rules.
     """
     class Meta:
-        model = SpaBooking
+        model = SpaBookingServices
         fields = ['service', 'date', 'quantity']
         widgets = {
             'date': DateInput(
@@ -93,6 +93,20 @@ class ServiceBookingForm(forms.ModelForm):
             attrs={"class": "form-control", "placeholder": "Quantity"}
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super(ServiceBookingForm, self).__init__(*args, **kwargs)
+
+        if 'service' in self.data:
+            service_id = self.data.get('service')
+            service = SpaService.objects.get(id=service_id)
+
+            if not service.is_access:
+                self.fields['quantity'].widget = forms.HiddenInput()
+        elif self.instance and hasattr(self.instance, 'service'):
+            service = self.instance.service
+            if not service.is_access:
+                self.fields['quantity'].widget = forms.HiddenInput()
 
 
 class TimeSlotSelectionForm(forms.Form):

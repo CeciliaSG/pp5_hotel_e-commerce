@@ -65,9 +65,7 @@ def book_spa_service(request):
                 price = selected_service.price
                 is_access = selected_service.is_access
 
-
             specific_date = SpecificDate.objects.filter(date=selected_date).first()
-
 
             if selected_service and selected_date:
 

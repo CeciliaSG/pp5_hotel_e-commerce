@@ -42,7 +42,13 @@
                 <input type="hidden" name="service_id" value="{{ service_id }}">
                 <input type="hidden" name="selected_date" value="{{ selected_date }}">
                 <input type="hidden" name="price" value="{{ time_slot.id }}">
+
+                {% if service_id == 'spa_access' %}
+
                 <input type="hidden" name="quantity" value="{{ quantity }}">
+                {% else %}
+                <input type="hidden" name="quantity" value="1">
+                {% endif %}
                 <input type="hidden" name="price" value="{{ price }}">
 
                 <button class="btn mb-5" type="submit" aria-label="Add to Cart Button">Add to Cart</button>
