@@ -760,9 +760,6 @@ transform: none;
     margin-top: 200px;
 }
 
-/*.cart-container table {
-    width: 100%;
- }*/
 
 .cart-container table tbody,
 .cart-container table tr {
@@ -788,7 +785,7 @@ footer {
 .navbar-button {
     position: fixed;
     top: 50px;
-    left: 200px;
+    left: 150px;
     z-index: 1001;
 }
 
@@ -797,12 +794,6 @@ footer {
     font-size: 30px;
 }
 
-/*
-.form-container {
-    padding-top: 90px;
-    padding-bottom: 130px;
-    margin-bottom: 100px;
-}*/
 
 .col-lg-6 {
         margin-bottom: 20px;

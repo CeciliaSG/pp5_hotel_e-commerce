@@ -43,8 +43,7 @@
                 <input type="hidden" name="selected_date" value="{{ selected_date }}">
                 <input type="hidden" name="price" value="{{ time_slot.id }}">
 
-                {% if service_id == 'spa_access' %}
-
+                {% if service_id == 'is_access' %}
                 <input type="hidden" name="quantity" value="{{ quantity }}">
                 {% else %}
                 <input type="hidden" name="quantity" value="1">

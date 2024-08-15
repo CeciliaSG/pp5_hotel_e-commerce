@@ -44,9 +44,11 @@
     rel="stylesheet">
   {% endblock %}
 
-  {% block extra_css %}{% endblock %}
+  {% block extra_css %}
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">{% endblock %}
 
-  <title>The Spa {% block extra_title %}{% endblock %}</title>
+  <title> {% block extra_title %}The Spa{% endblock %}</title>
 
   <!-- Mail Chimp -->
   <script id="mcjs">
@@ -188,6 +190,7 @@
   </footer>
 
   {% block postloadjs %}{% endblock %}
+
   <!-- Script-->
   {% block corejs %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -200,6 +203,9 @@
 
   <!-- Custom script -->
   <script src="{% static 'js/script.js' %}"></script>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Fontawesome-->
   <script src="https://kit.fontawesome.com/b564c0e6b0.js" crossorigin="anonymous"></script>
