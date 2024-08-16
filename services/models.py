@@ -183,6 +183,11 @@ class Availability(models.Model):
     specific_dates = models.ManyToManyField(SpecificDate)
     time_slots = models.ManyToManyField(TimeSlot, through=TimeSlotAvailability)
 
+    def save_model(self, request, obj, form, change):
+        if Availability.objects.filter(spa_service=obj.spa_service).exists() and not change:
+            raise ValidationError(f"The spa service '{obj.spa_service}' is already available.")
+        super().save_model(request, obj, form, change)
+
     def __str__(self):
         return f"{self.spa_service.name} - Availability"
 
