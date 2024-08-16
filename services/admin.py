@@ -19,9 +19,24 @@ class SpecificDateInline(admin.TabularInline):
     model = Availability.specific_dates.through
     extra = 3
     can_delete = True
-    #verbose_name = "Specific Date"
-    #verbose_name_plural = "Specific Dates"
+    verbose_name = "Specific Date"
+    verbose_name_plural = "Specific Dates"
     raw_id_fields = ['specific_date',]
+
+    def clean(self):
+        super().clean()
+        seen_dates = set()
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                specific_date = form.cleaned_data.get('specificdate')
+                
+                if specific_date in seen_dates:
+                    raise ValidationError(f"The date {specific_date} is already associated with this availability.")
+                
+                if self.instance.specific_dates.filter(id=specific_date.id).exists():
+                    raise ValidationError(f"The date {specific_date} is already associated with this availability.")
+                
+                seen_dates.add(specific_date)
 
 
 # Inline for TimeSlotAvailability within AvailabilityAdmin
@@ -31,6 +46,26 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     fields = ['specific_date', 'time_slot', 'is_available',]
     autocomplete_fields = ['specific_date', 'time_slot',]
 
+    def clean(self):
+        super().clean()
+        seen_dates = set()
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                specific_date = form.cleaned_data.get('specific_date')
+                time_slot = form.cleaned_data.get('time_slot')
+                
+                if (specific_date, time_slot) in seen_dates:
+                    raise ValidationError(f"The combination of {specific_date} and {time_slot} is already in use for this availability.")
+                
+                if TimeSlotAvailability.objects.filter(
+                    availability=self.instance,
+                    specific_date=specific_date,
+                    time_slot=time_slot
+                ).exists():
+                    raise ValidationError(f"The combination of {specific_date} and {time_slot} is already in use for this availability.")
+                
+                seen_dates.add((specific_date, time_slot))
+
 
 #SpecificDateAdmin (Bulk add dates to chose from)
 class SpecificDateAdmin(admin.ModelAdmin):
@@ -39,17 +74,13 @@ class SpecificDateAdmin(admin.ModelAdmin):
     search_fields = ['date']
 
     def save_model(self, request, obj, form, change):
-
         dates = form.cleaned_data['dates']
         date_list = set([date.strip() for date in dates.split(',') if date.strip()])
 
-        unique_dates = set(date_list)
-
         specific_date_objects = []
         for date in date_list:
-
             if not SpecificDate.objects.filter(date=date).exists():
-                specific_date_objects.append(specific_date)
+                specific_date_objects.append(SpecificDate(date=date))
 
         SpecificDate.objects.bulk_create(specific_date_objects)
 

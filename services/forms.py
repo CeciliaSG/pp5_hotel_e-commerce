@@ -9,9 +9,6 @@ class reviewForm(forms.ModelForm):
         fields = ('body',)
 
 
-from django import forms
-from .models import SpecificDate
-
 class MultiDateInput(forms.TextInput):
     def __init__(self, attrs=None):
         default_attrs = {'class': 'form-control', 'placeholder': 'Select multiple dates'}
@@ -29,16 +26,23 @@ class SpecificDateAdminForm(forms.ModelForm):
         model = SpecificDate
         fields = []
 
-    def save(self, commit=True):
-        dates = self.cleaned_data['dates']
-        date_list = [date.strip() for date in dates.split(',') if date.strip()]
-        specific_date_objects = []
-        for date in date_list:
-            specific_date = SpecificDate(date=date)
-            specific_date_objects.append(specific_date)
-        SpecificDate.objects.bulk_create(specific_date_objects)
-        return specific_date_objects[0] if specific_date_objects else None
+    def clean_dates(self):
+        dates = self.cleaned_data.get('dates')
+        if dates:
+            date_list = [date.strip() for date in dates.split(',') if date.strip()]
+            unique_dates = set(date_list)
+            for date in unique_dates:
+                if SpecificDate.objects.filter(date=date).exists():
+                    raise forms.ValidationError(f"The date {date} already exists.")
+            return unique_dates
+        return []
 
+    def save(self, commit=True):
+        unique_dates = self.cleaned_data['dates']
+        specific_date_objects = [SpecificDate(date=date) for date in unique_dates]
+        SpecificDate.objects.bulk_create(specific_date_objects)
+        return specific_date_objects
+        
 
     class Media:
         js = ('https://cdn.jsdelivr.net/npm/flatpickr', 'admin/js/init_flatpickr.js')
