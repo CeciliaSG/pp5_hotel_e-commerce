@@ -19,9 +19,24 @@ class SpecificDateInline(admin.TabularInline):
     model = Availability.specific_dates.through
     extra = 3
     can_delete = True
-    #verbose_name = "Specific Date"
-    #verbose_name_plural = "Specific Dates"
+    verbose_name = "Specific Date"
+    verbose_name_plural = "Specific Dates"
     raw_id_fields = ['specific_date',]
+
+    def clean(self):
+        super().clean()
+        seen_dates = set()
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                specific_date = form.cleaned_data.get('specificdate')
+                
+                if specific_date in seen_dates:
+                    raise ValidationError(f"The date {specific_date} is already associated with this availability.")
+                
+                if self.instance.specific_dates.filter(id=specific_date.id).exists():
+                    raise ValidationError(f"The date {specific_date} is already associated with this availability.")
+                
+                seen_dates.add(specific_date)
 
 
 # Inline for TimeSlotAvailability within AvailabilityAdmin
@@ -31,7 +46,7 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     fields = ['specific_date', 'time_slot', 'is_available',]
     #autocomplete_fields = ['specific_date', 'time_slot',]
 
-    
+
 #SpecificDateAdmin (Bulk add dates to chose from)
 class SpecificDateAdmin(admin.ModelAdmin):
     form = SpecificDateAdminForm
