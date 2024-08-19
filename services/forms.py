@@ -27,7 +27,6 @@ class SpecificDateAdminForm(forms.ModelForm):
         fields = []
 
     def clean_dates(self):
-<<<<<<< HEAD
         dates = self.cleaned_data['dates']
         date_list = [date.strip() for date in dates.split(',') if date.strip()]
 
@@ -50,24 +49,6 @@ class SpecificDateAdminForm(forms.ModelForm):
         if commit:
             SpecificDate.objects.bulk_create(specific_date_objects)
         return specific_date_objects
-=======
-        dates = self.cleaned_data.get('dates')
-        if dates:
-            date_list = [date.strip() for date in dates.split(',') if date.strip()]
-            unique_dates = set(date_list)
-            for date in unique_dates:
-                if SpecificDate.objects.filter(date=date).exists():
-                    raise forms.ValidationError(f"The date {date} already exists.")
-            return unique_dates
-        return []
-
-    def save(self, commit=True):
-        unique_dates = self.cleaned_data['dates']
-        specific_date_objects = [SpecificDate(date=date) for date in unique_dates]
-        SpecificDate.objects.bulk_create(specific_date_objects)
-        return specific_date_objects
-        
->>>>>>> 16de44819b15276aab4d09fc699661d1f8919c58
 
     class Media:
         js = ('https://cdn.jsdelivr.net/npm/flatpickr', 'admin/js/init_flatpickr.js')
