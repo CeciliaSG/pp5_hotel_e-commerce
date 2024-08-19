@@ -27,7 +27,7 @@ class ServiceCategory(models.Model):
         This model is typically used to categorise
         spa services in a structured manner.
     """
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, unique=True)
     description = models.TextField()
 
     def __str__(self):
@@ -84,7 +84,7 @@ class SpaService(models.Model):
         (1, 'Available'),
     )
 
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, unique=True)
     description = models.TextField()
     price = models.DecimalField(
         max_digits=6, decimal_places=2)

@@ -58,3 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
      }
 })
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    flatpickr(".flatpickr-date", {
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        mode: "single"
+    });
+});

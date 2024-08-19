@@ -29,9 +29,9 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
     extra = 5
     fields = ['specific_date', 'time_slot', 'is_available',]
-    autocomplete_fields = ['specific_date', 'time_slot',]
+    #autocomplete_fields = ['specific_date', 'time_slot',]
 
-
+    
 #SpecificDateAdmin (Bulk add dates to chose from)
 class SpecificDateAdmin(admin.ModelAdmin):
     form = SpecificDateAdminForm
@@ -39,19 +39,7 @@ class SpecificDateAdmin(admin.ModelAdmin):
     search_fields = ['date']
 
     def save_model(self, request, obj, form, change):
-
-        dates = form.cleaned_data['dates']
-        date_list = set([date.strip() for date in dates.split(',') if date.strip()])
-
-        unique_dates = set(date_list)
-
-        specific_date_objects = []
-        for date in date_list:
-
-            if not SpecificDate.objects.filter(date=date).exists():
-                specific_date_objects.append(specific_date)
-
-        SpecificDate.objects.bulk_create(specific_date_objects)
+        form.save(commit=True)
 
     def save_related(self, request, form, formsets, change):
         pass

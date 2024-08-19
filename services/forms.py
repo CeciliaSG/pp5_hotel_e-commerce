@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review, SpaService, SpecificDate
+from .models import Review, SpaService, SpecificDate, TimeSlot, TimeSlotAvailability
 
 
 class reviewForm(forms.ModelForm):
@@ -8,9 +8,6 @@ class reviewForm(forms.ModelForm):
         model = Review
         fields = ('body',)
 
-
-from django import forms
-from .models import SpecificDate
 
 class MultiDateInput(forms.TextInput):
     def __init__(self, attrs=None):
@@ -29,19 +26,33 @@ class SpecificDateAdminForm(forms.ModelForm):
         model = SpecificDate
         fields = []
 
-    def save(self, commit=True):
+    def clean_dates(self):
         dates = self.cleaned_data['dates']
         date_list = [date.strip() for date in dates.split(',') if date.strip()]
+
+        if len(date_list) != len(set(date_list)):
+            raise forms.ValidationError("You have entered duplicate dates.")
+
+        existing_dates = SpecificDate.objects.filter(date__in=date_list).values_list('date', flat=True)
+        if existing_dates:
+            existing_dates_str = ", ".join([date.strftime('%Y-%m-%d') for date in existing_dates])
+            raise forms.ValidationError(f"The following dates already exist: {existing_dates_str}")
+
+        return date_list
+
+    def save(self, commit=True):
+        date_list = self.cleaned_data['dates']
         specific_date_objects = []
         for date in date_list:
             specific_date = SpecificDate(date=date)
             specific_date_objects.append(specific_date)
-        SpecificDate.objects.bulk_create(specific_date_objects)
-        return specific_date_objects[0] if specific_date_objects else None
-
+        if commit:
+            SpecificDate.objects.bulk_create(specific_date_objects)
+        return specific_date_objects
 
     class Media:
         js = ('https://cdn.jsdelivr.net/npm/flatpickr', 'admin/js/init_flatpickr.js')
         css = {
             'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
         }
+
