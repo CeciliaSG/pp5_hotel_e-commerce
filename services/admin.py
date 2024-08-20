@@ -1,9 +1,8 @@
 from django.contrib import admin
-from django import forms 
-from .models import (Availability, TimeSlotAvailability, 
+from django import forms
+from .models import (Availability, TimeSlotAvailability,
 SpaService, SpecificDate, TimeSlot, ServiceCategory, Review)
-from .forms import SpecificDateAdminForm
-
+from .forms import SpecificDateAdminForm, TimeSlotAvailabilityForm
 
 class ServiceCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -42,9 +41,22 @@ class SpecificDateInline(admin.TabularInline):
 # Inline for TimeSlotAvailability within AvailabilityAdmin
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
+    form = TimeSlotAvailabilityForm
     extra = 5
-    fields = ['specific_date', 'time_slot', 'is_available',]
-    #autocomplete_fields = ['specific_date', 'time_slot',]
+    fields = ['specific_date', 'time_slot', 'is_available']
+
+    def get_formset(self, request, obj=None, **kwargs):
+        spa_service = obj.spa_service if obj else None
+
+        formset_class = super().get_formset(request, obj, **kwargs)
+
+        class CustomFormset(formset_class):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                for form in self.forms:
+                    form.fields['time_slot'].queryset = TimeSlot.objects.filter(spa_service=spa_service)
+
+        return CustomFormset
 
 
 #SpecificDateAdmin (Bulk add dates to chose from)
@@ -66,9 +78,14 @@ admin.site.register(SpecificDate, SpecificDateAdmin)
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
     inlines = [TimeSlotAvailabilityInline]
-    raw_id_fields = ['spa_service',]
+    raw_id_fields = ['spa_service']
 
-admin.site.register(Availability, AvailabilityAdmin, )
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = super().get_inline_instances(request, obj=obj)
+        return inline_instances
+
+admin.site.register(Availability, AvailabilityAdmin)
+
 
 
 # TimeSlots 

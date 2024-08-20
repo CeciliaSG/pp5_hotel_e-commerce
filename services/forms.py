@@ -1,5 +1,6 @@
 from django import forms
-from .models import Review, SpaService, SpecificDate, TimeSlot, TimeSlotAvailability
+from django.forms.models import BaseInlineFormSet
+from .models import Review, SpaService, SpecificDate, TimeSlot, TimeSlotAvailability, Availability
 
 
 class reviewForm(forms.ModelForm):
@@ -15,6 +16,7 @@ class MultiDateInput(forms.TextInput):
         if attrs:
             default_attrs.update(attrs)
         super().__init__(default_attrs)
+
 
 class SpecificDateAdminForm(forms.ModelForm):
     dates = forms.CharField(
@@ -56,3 +58,16 @@ class SpecificDateAdminForm(forms.ModelForm):
             'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
         }
 
+
+class TimeSlotAvailabilityForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlotAvailability
+        fields = ['specific_date', 'time_slot', 'is_available']
+
+    def __init__(self, *args, **kwargs):
+        spa_service = kwargs.pop('spa_service', None)
+        super().__init__(*args, **kwargs)
+        if spa_service:
+            self.fields['time_slot'].queryset = TimeSlot.objects.filter(spa_service=spa_service)
+        else:
+            self.fields['time_slot'].queryset = TimeSlot.objects.none()
