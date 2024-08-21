@@ -24,7 +24,7 @@ from booking.forms import ServiceBookingForm
 from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot, SpecificDate, Availability
-import uuid
+#import uuid
 
 from django.http import HttpResponse, JsonResponse
 import json
@@ -165,20 +165,6 @@ def checkout(request):
                     spa_booking=spa_booking,
                     date_and_time=selected_datetime,
                 )
-
-                # specific_date = SpecificDate.objects.get(date=selected_date)
-                # time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
-                # time_slot.mark_unavailable_for_date(specific_date)
-
-              
-                #time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
-
-                #specific_dates = SpecificDate.objects.filter(date=selected_date, timeslotavailability__time_slot=time_slot)
-
-                #if specific_dates.exists():
-                    #specific_date = specific_dates.first()
-                    #time_slot.mark_unavailable_for_date(specific_date)
-
 
                 time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
 
