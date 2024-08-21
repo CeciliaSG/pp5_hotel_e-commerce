@@ -42,8 +42,12 @@ class SpecificDateInline(admin.TabularInline):
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
     form = TimeSlotAvailabilityForm
-    extra = 5
+    extra = 1
     fields = ['specific_date', 'time_slot', 'is_available']
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.order_by('specific_date__date')
 
     def get_formset(self, request, obj=None, **kwargs):
         spa_service = obj.spa_service if obj else None

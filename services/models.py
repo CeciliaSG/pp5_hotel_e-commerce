@@ -191,7 +191,7 @@ class Availability(models.Model):
     def __str__(self):
         return f"{self.spa_service.name} - Availability"
 
-
+   
 class Review(models.Model):
     """
     From "I Think therfore I blog".
