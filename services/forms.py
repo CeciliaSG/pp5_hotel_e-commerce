@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import BaseInlineFormSet
 from .models import Review, SpaService, SpecificDate, TimeSlot, TimeSlotAvailability, Availability
+from django.db import transaction
 
 
 class reviewForm(forms.ModelForm):
@@ -71,3 +72,68 @@ class TimeSlotAvailabilityForm(forms.ModelForm):
             self.fields['time_slot'].queryset = TimeSlot.objects.filter(spa_service=spa_service)
         else:
             self.fields['time_slot'].queryset = TimeSlot.objects.none()
+
+
+# Frontend Admin Form
+class FrontendTimeSlotForm(forms.ModelForm):
+    time_slots = forms.ModelMultipleChoiceField(
+        queryset=TimeSlot.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Available Time Slots"
+    )
+
+    class Meta:
+        model = TimeSlotAvailability
+        fields = ['specific_date', 'time_slots']
+
+    def __init__(self, *args, **kwargs):
+        self.availability = kwargs.pop('availability', None)
+        super().__init__(*args, **kwargs)
+        if self.availability:
+            self.fields['time_slots'].queryset = TimeSlot.objects.filter(spa_service=self.availability.spa_service)
+            self.initial['time_slots'] = TimeSlot.objects.filter(
+                id__in=TimeSlotAvailability.objects.filter(
+                    availability=self.availability,
+                    specific_date=self.initial.get('specific_date')
+                ).values_list('time_slot_id', flat=True)
+            )
+        else:
+            self.fields['time_slots'].queryset = TimeSlot.objects.none()
+
+    def save(self, commit=True):
+        specific_date = self.cleaned_data['specific_date']
+        selected_time_slots = self.cleaned_data['time_slots']
+
+        if not self.availability:
+            raise ValueError("Availability must be set when saving TimeSlotAvailability instances.")
+
+        try:
+            with transaction.atomic():
+                existing_time_slots = TimeSlotAvailability.objects.filter(
+                    availability=self.availability,
+                    specific_date=specific_date,
+                )
+
+                for tsa in existing_time_slots:
+                    if tsa.time_slot not in selected_time_slots:
+                        tsa.is_available = False
+                        tsa.save()
+
+                for time_slot in selected_time_slots:
+                    TimeSlotAvailability.objects.update_or_create(
+                        availability=self.availability,
+                        specific_date=specific_date,
+                        time_slot=time_slot,
+                        defaults={'is_available': True}
+                    )
+        except Exception as e:
+            raise e
+
+        return self.availability
+
+
+
+       
+
+

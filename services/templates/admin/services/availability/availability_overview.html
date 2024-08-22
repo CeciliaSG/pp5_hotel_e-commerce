@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container sign-in-container form-container">
+    <div class="row justify-content-center mb-5">
+        <div class="col-10 col-md-4">
+            <div class="allauth-form-inner-content">
+                <h1>Availability Overview</h1>
+                <ul>
+                    {% for availability in availabilities %}
+                    <li>
+                        {{ availability.spa_service.name }} -
+                        <a href="{% url 'manage_time_slots_frontend' availability_id=availability.id %}">
+                            Manage Time Slots
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

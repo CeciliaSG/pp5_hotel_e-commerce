@@ -1,9 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponseRedirect
-from .models import SpaService, ServiceCategory, Review
+from django.contrib.admin.views.decorators import staff_member_required
+from .models import SpaService, ServiceCategory, Review, Availability, TimeSlotAvailability
 from django.contrib import messages
-from .forms import reviewForm
+from .forms import reviewForm, FrontendTimeSlotForm
+from collections import defaultdict
 
 from django.db.models import Count, Q
+from django.http import JsonResponse
+
 
 # Create your views here.
 
@@ -194,4 +198,41 @@ def review_delete(request, service_id, review_id):
             messages.add_message(request, messages.ERROR, 'You can only delete your own review!')
 
     return redirect('service_details', service_id=service_id)
+
+
+def availability_overview(request):
+    availabilities = Availability.objects.all()
+    return render(request, 'admin/services/availability/availability_overview.html', {'availabilities': availabilities})
+
+
+@staff_member_required
+def manage_time_slots_frontend(request, availability_id=None):
+    availability = get_object_or_404(Availability, id=availability_id)
+    if request.method == 'POST':
+        form = FrontendTimeSlotForm(request.POST, availability=availability)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = FrontendTimeSlotForm(availability=availability)
+
+    return render(request, 'admin/services/availability/manage_time_slots.html', {'form': form, 'availability': availability})
+
+
+def get_time_slots_for_date(request, availability_id):
+    date_id = request.GET.get('date_id')
+    availability = get_object_or_404(Availability, id=availability_id)
+    
+    time_slots = TimeSlotAvailability.objects.filter(
+        availability=availability,
+        specific_date_id=date_id
+    ).values('time_slot__id', 'time_slot__time', 'is_available')
+
+    data = {
+        'time_slots': list(time_slots)
+    }
+
+    return JsonResponse(data)
+
+
 

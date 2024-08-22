@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container sign-in-container form-container">
+    <div class="row justify-content-center mb-5">
+        <div class="col-10 col-md-4">
+            <div class="allauth-form-inner-content">
+                <h2>Manage Time Slots for {{ availability.spa_service.name }}</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.specific_date }}
+
+                    <h3>Available Time Slots</h3>
+                    <div id="time-slots-container">
+                        {% for time_slot in form.fields.time_slots.queryset %}
+                        <div>
+                            <label>
+                                <input type="checkbox" name="time_slots" value="{{ time_slot.id }}" 
+                                {% if time_slot.id in form.initial.time_slots %}checked{% endif %}>
+                                {{ time_slot.time }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'services/js/manage_time_slots.js' %}"></script>
+{% endblock %}
