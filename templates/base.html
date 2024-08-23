@@ -110,9 +110,14 @@
             <li class="nav-item"><a href="{% url 'delete_profile' %}" class="nav-link"
                 aria-label="Delete your profile">Delete Account</a>
             </li>
+            {% if user.is_staff or user.is_superuser %}
+            <li class="nav-item">
+              <h1 class="h6 nav-link" style="color: #538991; margin-top: 1rem;">For Staff:</h1>
+            </li>
             <li class="nav-item"><a href="{% url 'availability_overview' %}" class="nav-link"
                 aria-label="Manage Time Slots">Manage Availability</a>
             </li>
+            {% endif %}
             {% endif %}
           </ul>
           <div>
