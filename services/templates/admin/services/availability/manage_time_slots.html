@@ -9,6 +9,19 @@
             <div class="allauth-form-inner-content">
                 <h2>Manage Time Slots for {{ availability.spa_service.name }}</h2>
 
+                <form id="spa-service-form" method="get">
+                    <label for="spa_service">Choose Spa Service:</label>
+                    <select id="spa_service" name="spa_service">
+                        {% for service in spa_services %}
+                        {% if service.id == availability.spa_service.id %}
+                        <option value="{{ service.id }}" selected>{{ service.name }}</option>
+                        {% else %}
+                        <option value="{{ service.id }}">{{ service.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </form>
+
                 <form method="post">
                     {% csrf_token %}
                     {{ form.specific_date }}
@@ -17,7 +30,6 @@
                     <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}"
                         style="display: none;">
                     </div>
-
                     <button type="submit">Save</button>
                 </form>
             </div>
@@ -25,6 +37,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 {% block postloadjs %}
 {{ block.super }}

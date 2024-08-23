@@ -208,7 +208,11 @@ def availability_overview(request):
 
 @staff_member_required
 def manage_time_slots_frontend(request, availability_id=None):
-    availability = get_object_or_404(Availability, id=availability_id)
+    spa_service_id = request.GET.get('spa_service')
+    if spa_service_id:
+        availability = get_object_or_404(Availability, spa_service_id=spa_service_id)
+    else:
+        availability = get_object_or_404(Availability, id=availability_id)
     
     if request.method == 'POST':
         form = FrontendTimeSlotForm(request.POST, availability=availability)
@@ -219,9 +223,12 @@ def manage_time_slots_frontend(request, availability_id=None):
         specific_date = request.GET.get('specific_date')
         form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
 
+    spa_services = SpaService.objects.all()
+
     return render(request, 'admin/services/availability/manage_time_slots.html', {
         'form': form,
-        'availability': availability
+        'availability': availability,
+        'spa_services': spa_services,
     })
 
 
@@ -229,6 +236,7 @@ def manage_time_slots_frontend(request, availability_id=None):
 def get_time_slots_for_date(request, availability_id):
     date_id = request.GET.get('date_id')
     availability = get_object_or_404(Availability, id=availability_id)
+
 
     all_time_slots = TimeSlot.objects.filter(spa_service=availability.spa_service)
 
