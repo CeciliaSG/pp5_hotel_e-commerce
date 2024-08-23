@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import SpaService, ServiceCategory, Review, Availability, TimeSlotAvailability
+from .models import SpaService, ServiceCategory, Review, Availability, TimeSlotAvailability, TimeSlot
 from django.contrib import messages
 from .forms import reviewForm, FrontendTimeSlotForm
 from collections import defaultdict
@@ -229,17 +229,29 @@ def manage_time_slots_frontend(request, availability_id=None):
 def get_time_slots_for_date(request, availability_id):
     date_id = request.GET.get('date_id')
     availability = get_object_or_404(Availability, id=availability_id)
-    
-    time_slots = TimeSlotAvailability.objects.filter(
+
+    all_time_slots = TimeSlot.objects.filter(spa_service=availability.spa_service)
+
+    available_time_slots = TimeSlotAvailability.objects.filter(
         availability=availability,
         specific_date_id=date_id
-    ).values('time_slot__id', 'time_slot__time', 'is_available')
+    )
+
+    time_slots_data = []
+    for time_slot in all_time_slots:
+        time_slots_data.append({
+            'time_slot__id': time_slot.id,
+            'time_slot__time': time_slot.time,
+            'is_available': available_time_slots.filter(time_slot=time_slot).exists()
+        })
 
     data = {
-        'time_slots': list(time_slots)
+        'time_slots': time_slots_data
     }
 
     return JsonResponse(data)
+
+
 
 
 
