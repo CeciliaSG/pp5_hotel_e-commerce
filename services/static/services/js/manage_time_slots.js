@@ -41,15 +41,13 @@ document.getElementById('id_specific_date').addEventListener('change', function(
 
 
 /** Drop down for spa services */
-   document.getElementById('spa_service').addEventListener('change', function() {
-        document.getElementById('spa-service-form').submit();
-    });
+ document.addEventListener('DOMContentLoaded', function () {
+    let spaServiceDropdown = document.getElementById('spa_service');
+    let dateDropdown = document.getElementById('id_specific_date');
+    let container = document.getElementById('time-slots-container');
 
-    document.getElementById('id_specific_date').addEventListener('change', function() {
-        let dateId = this.value;
-        let container = document.getElementById('time-slots-container');
-        let url = container.getAttribute('data-url');
-
+    function loadTimeSlots(spaServiceId, dateId) {
+        let url = container.getAttribute('data-url').replace('availability.id', spaServiceId);
         if (url && dateId) {
             console.log('Making fetch request to:', url + "?date_id=" + dateId);
             fetch(url + "?date_id=" + dateId)
@@ -63,7 +61,7 @@ document.getElementById('id_specific_date').addEventListener('change', function(
                     console.dir(data);
                     console.log('Received data:', data);
                     container.innerHTML = '';
-                    data.time_slots.forEach(function(time_slot) {
+                    data.time_slots.forEach(function (time_slot) {
                         let checked = time_slot.is_available ? 'checked' : '';
                         container.innerHTML += `
                             <div>
@@ -81,4 +79,16 @@ document.getElementById('id_specific_date').addEventListener('change', function(
         } else {
             console.error('Invalid URL or Date ID');
         }
+    }
+
+    spaServiceDropdown.addEventListener('change', function () {
+        let selectedSpaServiceId = this.value;
+        window.location.href = '?spa_service=' + selectedSpaServiceId;
     });
+
+    dateDropdown.addEventListener('change', function () {
+        let selectedDateId = this.value;
+        loadTimeSlots(spaServiceDropdown.value, selectedDateId);
+    });
+});
+

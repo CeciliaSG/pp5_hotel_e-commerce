@@ -218,7 +218,8 @@ def manage_time_slots_frontend(request, availability_id=None):
         form = FrontendTimeSlotForm(request.POST, availability=availability)
         if form.is_valid():
             form.save()
-            return redirect('availability_overview')
+            return redirect(reverse('manage_time_slots_frontend', args=[availability.id]))
+
     else:
         specific_date = request.GET.get('specific_date')
         form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
@@ -230,6 +231,7 @@ def manage_time_slots_frontend(request, availability_id=None):
         'availability': availability,
         'spa_services': spa_services,
     })
+
 
 
 @staff_member_required

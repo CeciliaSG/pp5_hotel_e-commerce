@@ -1,43 +1,40 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
 <div class="container sign-in-container form-container">
     <div class="row justify-content-center mb-5">
-        <div class="col-10 col-md-4">
+        <div class="col-10 col-md-5">
             <div class="allauth-form-inner-content">
-                <h2>Manage Time Slots for {{ availability.spa_service.name }}</h2>
+                <h1 class="h2 mb-3">Manage Time Slots</h1>
 
-                <form id="spa-service-form" method="get">
-                    <label for="spa_service">Choose Spa Service:</label>
+                <form class="mb-3" id="spa-service-form" method="get">
+                    <h3 class="h5">Choose Spa Service</h3>
                     <select id="spa_service" name="spa_service">
                         {% for service in spa_services %}
-                        {% if service.id == availability.spa_service.id %}
-                        <option value="{{ service.id }}" selected>{{ service.name }}</option>
-                        {% else %}
-                        <option value="{{ service.id }}">{{ service.name }}</option>
-                        {% endif %}
+                        <option value="{{ service.id }}" {% if service.id == availability.spa_service.id %}
+                        selected{% endif %}>
+                            {{ service.name }}
+                        </option>
                         {% endfor %}
                     </select>
                 </form>
 
                 <form method="post">
+                    <h3 class="h6">Choose date to display possible time slots</h3>
+                    <h3 class="h6">(ticked time slots are already set)</h3>
                     {% csrf_token %}
                     {{ form.specific_date }}
-
-                    <h3>Available Time Slots</h3>
                     <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}"
                         style="display: none;">
                     </div>
-                    <button type="submit">Save</button>
+                    <button class="mt-3" type="submit">Save</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
 
 {% block postloadjs %}
 {{ block.super }}
