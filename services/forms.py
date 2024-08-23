@@ -92,10 +92,11 @@ class FrontendTimeSlotForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.availability:
             self.fields['time_slots'].queryset = TimeSlot.objects.filter(spa_service=self.availability.spa_service)
+            selected_date = self.initial.get('specific_date')
             self.initial['time_slots'] = TimeSlot.objects.filter(
                 id__in=TimeSlotAvailability.objects.filter(
                     availability=self.availability,
-                    specific_date=self.initial.get('specific_date')
+                    specific_date=selected_date
                 ).values_list('time_slot_id', flat=True)
             )
         else:
@@ -131,6 +132,7 @@ class FrontendTimeSlotForm(forms.ModelForm):
             raise e
 
         return self.availability
+
 
 
 

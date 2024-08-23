@@ -4,6 +4,7 @@ document.getElementById('id_specific_date').addEventListener('change', function(
     let url = container.getAttribute('data-url');
 
     if (url && dateId) {
+        console.log('Making fetch request to:', url + "?date_id=" + dateId);
         fetch(url + "?date_id=" + dateId)
             .then(response => {
                 if (!response.ok) {
@@ -12,6 +13,7 @@ document.getElementById('id_specific_date').addEventListener('change', function(
                 return response.json();
             })
             .then(data => {
+                console.dir(data);
                 console.log('Received data:', data);
                 container.innerHTML = '';
                 data.time_slots.forEach(function(time_slot) {

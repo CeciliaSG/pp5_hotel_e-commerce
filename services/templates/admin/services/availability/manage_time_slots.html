@@ -14,7 +14,7 @@
                     {{ form.specific_date }}
 
                     <h3>Available Time Slots</h3>
-                    <div id="time-slots-container">
+                    <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}">
                         {% for time_slot in form.fields.time_slots.queryset %}
                         <div>
                             <label>
@@ -25,13 +25,14 @@
                         </div>
                         {% endfor %}
                     </div>
+                    <button type="submit">Save</button>
+                </form>
             </div>
-            <button type="submit">Save</button>
-            </form>
         </div>
     </div>
 </div>
 {% endblock %}
+
 
 {% block postloadjs %}
 {{ block.super }}

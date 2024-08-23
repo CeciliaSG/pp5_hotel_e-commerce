@@ -200,6 +200,7 @@ def review_delete(request, service_id, review_id):
     return redirect('service_details', service_id=service_id)
 
 
+@staff_member_required
 def availability_overview(request):
     availabilities = Availability.objects.all()
     return render(request, 'admin/services/availability/availability_overview.html', {'availabilities': availabilities})
@@ -208,17 +209,23 @@ def availability_overview(request):
 @staff_member_required
 def manage_time_slots_frontend(request, availability_id=None):
     availability = get_object_or_404(Availability, id=availability_id)
+    
     if request.method == 'POST':
         form = FrontendTimeSlotForm(request.POST, availability=availability)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('availability_overview')
     else:
-        form = FrontendTimeSlotForm(availability=availability)
+        specific_date = request.GET.get('specific_date')
+        form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
 
-    return render(request, 'admin/services/availability/manage_time_slots.html', {'form': form, 'availability': availability})
+    return render(request, 'admin/services/availability/manage_time_slots.html', {
+        'form': form,
+        'availability': availability
+    })
 
 
+@staff_member_required
 def get_time_slots_for_date(request, availability_id):
     date_id = request.GET.get('date_id')
     availability = get_object_or_404(Availability, id=availability_id)

@@ -30,6 +30,5 @@ urlpatterns = [
     path('manage-time-slots/<int:availability_id>/get-time-slots/',
     get_time_slots_for_date, name='get_time_slots_for_date'),
     path('get-time-slots-for-date/<int:availability_id>/', get_time_slots_for_date, name='get_time_slots_for_date'),
-
     ]
 
