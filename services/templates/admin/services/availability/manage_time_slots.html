@@ -14,17 +14,10 @@
                     {{ form.specific_date }}
 
                     <h3>Available Time Slots</h3>
-                    <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}">
-                        {% for time_slot in form.fields.time_slots.queryset %}
-                        <div>
-                            <label>
-                                <input type="checkbox" name="time_slots" value="{{ time_slot.id }}" 
-                                {% if time_slot.id in form.initial.time_slots %}checked{% endif %}>
-                                {{ time_slot.time }}
-                            </label>
-                        </div>
-                        {% endfor %}
+                    <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}"
+                        style="display: none;">
                     </div>
+
                     <button type="submit">Save</button>
                 </form>
             </div>
@@ -32,7 +25,6 @@
     </div>
 </div>
 {% endblock %}
-
 
 {% block postloadjs %}
 {{ block.super }}
