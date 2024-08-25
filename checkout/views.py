@@ -126,15 +126,23 @@ def checkout(request):
             date_and_time = None
             for unique_key, service_data in cart.items():
                 try:
-                    service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                    service_id, selected_date, selected_time_slot_id = (
+                        unique_key.split('_')
+                    )
                     time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
                     selected_time = time_slot.time.strftime("%H:%M")
                     service = SpaService.objects.get(pk=service_id)
                 except ObjectDoesNotExist:
-                    messages.error(request, f"The service with ID {service_id} does not exist.")
+                    messages.error(
+                        request, 
+                        f"The service with ID {service_id} does not exist."
+                    )
+
                     return redirect(reverse('home'))
                 except ValueError as e:
-                    messages.error(request, f"Invalid format for cart item key: {e}")
+                    messages.error(
+                        request, 
+                        f"Invalid format for cart item key: {e}")
                     return redirect(reverse('home'))
 
                 quantity = service_data.get('quantity', 0)
@@ -150,10 +158,14 @@ def checkout(request):
 
                 if not date_and_time:
                     selected_date_obj = parse_date(selected_date)
-                    selected_time_obj = datetime.strptime(selected_time, "%H:%M").time()
+                    selected_time_obj = datetime.strptime(
+                        selected_time, "%H:%M"
+                    ).time()
                     date_and_time = timezone.make_aware(
-                        datetime.combine(selected_date_obj, selected_time_obj))
-
+                        datetime.combine(
+                            selected_date_obj, selected_time_obj
+                        )
+                    )
             spa_booking.booking_total = total_price
             spa_booking.date_and_time = date_and_time
             spa_booking.save()
