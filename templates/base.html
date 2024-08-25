@@ -95,24 +95,24 @@
           </ul>
           <ul>
             {% if not request.user.is_authenticated %}
-            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link"
+            <li class="nav-item nav-link"><a href="{% url 'account_signup' %}"
                 aria-label="For for registering">Register</a>
             </li>
-            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link" aria-label="Login page">Signin</a>
+            <li class="nav-item nav-link"><a href="{% url 'account_login' %}" class="nav-link"
+                aria-label="Login page">Signin</a>
             </li>
             {% else %}
-            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link"
-                aria-label="Logout page">Signout</a>
+            <li class="nav-item nav-link"><a href="{% url 'account_logout' %}" aria-label="Logout page">Signout</a>
             </li>
-            <li class="nav-item"><a href="{% url 'customer_profile' %}" class="nav-link"
+            <li class="nav-item nav-link"><a href="{% url 'customer_profile' %}"
                 aria-label="View your profile">Account</a>
             </li>
-            <li class="nav-item"><a href="{% url 'delete_profile' %}" class="nav-link"
-                aria-label="Delete your profile">Delete Account</a>
+            <li class="nav-item nav-link"><a href="{% url 'delete_profile' %}" aria-label="Delete your profile">Delete
+                Account</a>
             </li>
             {% if user.is_staff or user.is_superuser %}
             <li class="nav-item">
-              <h1 class="h6 nav-link" style="color: #538991; margin-top: 1rem;">For Staff:</h1>
+              <h6 class="nav-link" style="color: #538991; margin-top: 1rem;">For Staff:</h6>
             </li>
             <li class="nav-item"><a href="{% url 'availability_overview' %}" class="nav-link"
                 aria-label="Manage Time Slots">Manage Availability</a>

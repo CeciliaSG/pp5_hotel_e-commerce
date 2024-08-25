@@ -80,7 +80,7 @@
       <div class="row gy-5 gx-5">
         {% for service in spa_services %}
         <div class="col-sm-6 col-md-4 col-lg-3 mb-5 gy-4">
-          <a class="text-info" href="{% url 'service_details' service.id %}" class="card-link">
+          <a class="text-info card-link" href="{% url 'service_details' service.id %}">
             <div class="card h-100">
               <div class="card-image-container">
                 <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.image }}">
@@ -114,7 +114,9 @@
             <div class="card-body">
               <h2 class="h4 card-title"><strong> Spa Services</strong></h2>
               <ul class="list-group">
-                <h3 class="h5 mt-3">Massages</h3>
+                <li class="list-group-item">
+                  <h3 class="h5 mt-3">Massages</h3>
+                </li>
                 {% for service in spa_services %}
                 {% if service.category.name == "Massages" %}
                 <li class="list-group-item">
@@ -126,7 +128,9 @@
                 {% endfor %}
               </ul>
               <ul class="list-group">
-                <h3 class="h5 mt-2">Facials</h3>
+                <li class="list-group-item">
+                  <h3 class="h5 mt-2">Facials</h3>
+                </li>
                 {% for service in spa_services %}
                 {% if service.category.name == "Facials" %}
                 <li class="list-group-item">
@@ -137,9 +141,10 @@
                 {% endif %}
                 {% endfor %}
               </ul>
-
               <ul class="list-group">
-                <h3 class="h5 mt-2">Pedicures</h3>
+                <li class="list-group-item">
+                  <h3 class="h5 mt-2">Pedicures</h3>
+                </li>
                 {% for service in spa_services %}
                 {% if service.category.name == "Pedicures" %}
                 <li class="list-group-item">
@@ -151,7 +156,9 @@
                 {% endfor %}
               </ul>
               <ul class="list-group">
-                <h3 class="h5 mt-2">Spa Access</h3>
+                <li class="list-group-item">
+                  <h3 class="h5 mt-2">Spa Access</h3>
+                </li>
                 {% for service in access_services %}
                 <li class="list-group-item">
                   <a class="text-info" href="{% url 'service_details' service.id %}">
