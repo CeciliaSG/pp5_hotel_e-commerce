@@ -1,13 +1,16 @@
+# Standard library imports
 from datetime import datetime
-from dateutil import parser
 import json
 
+# Third-party imports
+from dateutil import parser
 import stripe
+
+# Django imports
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-
 from django.shortcuts import (
     render,
     redirect,
@@ -17,17 +20,15 @@ from django.shortcuts import (
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from django.http import HttpResponse, JsonResponse
 
+# Local application imports
 from .forms import SpaBookingForm
 from accounts.forms import CustomerProfileForm
 from booking.forms import ServiceBookingForm
 from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot, SpecificDate, Availability
-#import uuid
-
-from django.http import HttpResponse, JsonResponse
-import json
 
 # Create your views here.
 
@@ -82,15 +83,22 @@ def cache_checkout_data(request):
         })
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, "Unfortunately, your payment can't be "
-                       "processed at the moment. Please try again later.")
+        messages.error(
+            request, 
+            (
+                "Unfortunately, your payment can't be processed at the moment. "
+                "Please try again later."
+            )
+        )
+
 
         return HttpResponse(content=e, status=400)
 
 
 def checkout(request):
     """
-    Handle the checkout process for spa services, including payment via Stripe.
+    Handle the checkout process for spa services,
+    including payment via Stripe.
     """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -143,7 +151,8 @@ def checkout(request):
                 if not date_and_time:
                     selected_date_obj = parse_date(selected_date)
                     selected_time_obj = datetime.strptime(selected_time, "%H:%M").time()
-                    date_and_time = timezone.make_aware(datetime.combine(selected_date_obj, selected_time_obj))
+                    date_and_time = timezone.make_aware(
+                        datetime.combine(selected_date_obj, selected_time_obj))
 
             spa_booking.booking_total = total_price
             spa_booking.date_and_time = date_and_time
@@ -168,29 +177,27 @@ def checkout(request):
 
                 time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
 
-                specific_dates = SpecificDate.objects.filter(date=selected_date, timeslotavailability__time_slot=time_slot)
+                specific_dates = SpecificDate.objects.filter(
+                    date=selected_date, timeslotavailability__time_slot=time_slot)
 
                 if specific_dates.exists():
                     specific_date = specific_dates.first()
 
-                    print(f"Matching SpecificDate found: {specific_date.date} (ID: {specific_date.id})")
-
-                    print(f"Marking TimeSlot {time_slot.time} as unavailable for SpecificDate {specific_date.date}")
-
-                    time_slot.mark_unavailable_for_date(specific_date)
-                else:
-                    print(f"No matching SpecificDate found for {selected_date} and TimeSlot {time_slot.time}")
-
-
             request.session['save_info'] = 'save-info' in request.POST
-
             request.session['customer_name'] = form_data['customer_name']
             request.session['email'] = form_data['email']
             request.session['phone_number'] = form_data['phone_number']
 
             return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
         else:
-            messages.error(request, 'There was an error with your form. Please double check your information.')
+            messages.error(
+                request, 
+    (
+        "There was an error with your form. "
+        "Please double check your information."
+    )
+)
+
 
     else:
         cart = request.session.get('cart', {})
@@ -250,7 +257,14 @@ def checkout(request):
         spa_booking_form = SpaBookingForm()
 
     if not stripe_public_key:
-        messages.warning(request, 'Stripe public key is missing. Did you forget to set it in your environment?')
+        messages.warning(
+            request, 
+            (
+                "Stripe public key is missing. "
+                "Did you forget to set it in your environment?"
+            )
+        )
+
 
     template = 'checkout/checkout.html'
     context = {
@@ -314,7 +328,14 @@ def checkout_success(request, booking_number):
             user.email = booking.email
             user.save()
 
-    messages.success(request, f'Order successfully processed! Your booking number is {booking_number}. A confirmation email will be sent to {booking.email}.')
+    messages.success(
+    request, 
+    (
+        f"Order successfully processed! "
+        f"Your booking number is {booking_number}. "
+        f"A confirmation email will be sent to {booking.email}."
+    )
+)
 
     if 'cart' in request.session:
         del request.session['cart']
