@@ -32,6 +32,7 @@ from services.models import SpaService, TimeSlot, SpecificDate, Availability
 
 # Create your views here.
 
+
 def parse_date(date_str):
     """
     Parse the date string and return a date object.
@@ -84,13 +85,12 @@ def cache_checkout_data(request):
         return HttpResponse(status=200)
     except Exception as e:
         messages.error(
-            request, 
+            request,
             (
-                "Unfortunately, your payment can't be processed at the moment. "
+                "Unfortunately, your payment can't be processed at the moment."
                 "Please try again later."
             )
         )
-
 
         return HttpResponse(content=e, status=400)
 
@@ -120,7 +120,7 @@ def checkout(request):
             pid = request.POST.get('client_secret').split('_secret')[0]
             spa_booking.stripe_pid = pid
             spa_booking.original_cart = json.dumps(cart)
-            
+
             cart_services = []
             total_price = 0
             date_and_time = None
@@ -191,13 +191,11 @@ def checkout(request):
             return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
         else:
             messages.error(
-                request, 
-    (
-        "There was an error with your form. "
-        "Please double check your information."
-    )
-)
-
+                request, (
+                    "There was an error with your form. "
+                    "Please double check your information."
+                    )
+            )
 
     else:
         cart = request.session.get('cart', {})
@@ -258,13 +256,12 @@ def checkout(request):
 
     if not stripe_public_key:
         messages.warning(
-            request, 
+            request,
             (
                 "Stripe public key is missing. "
                 "Did you forget to set it in your environment?"
             )
         )
-
 
     template = 'checkout/checkout.html'
     context = {
@@ -309,7 +306,6 @@ def checkout_success(request, booking_number):
     booking = get_object_or_404(SpaBooking, booking_number=booking_number)
     services = SpaBookingServices.objects.filter(spa_booking=booking)
 
-
     if request.user.is_authenticated:
         user = request.user
         profile, created = CustomerProfile.objects.get_or_create(user=request.user)
@@ -329,13 +325,12 @@ def checkout_success(request, booking_number):
             user.save()
 
     messages.success(
-    request, 
-    (
-        f"Order successfully processed! "
-        f"Your booking number is {booking_number}. "
-        f"A confirmation email will be sent to {booking.email}."
+        request, (
+            f"Order successfully processed! "
+            f"Your booking number is {booking_number}. "
+            f"A confirmation email will be sent to {booking.email}."
+        )
     )
-)
 
     if 'cart' in request.session:
         del request.session['cart']
@@ -347,5 +342,3 @@ def checkout_success(request, booking_number):
     }
 
     return render(request, template, context)
-
-
