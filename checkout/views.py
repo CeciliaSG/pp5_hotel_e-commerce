@@ -134,14 +134,14 @@ def checkout(request):
                     service = SpaService.objects.get(pk=service_id)
                 except ObjectDoesNotExist:
                     messages.error(
-                        request, 
+                        request,
                         f"The service with ID {service_id} does not exist."
                     )
 
                     return redirect(reverse('home'))
                 except ValueError as e:
                     messages.error(
-                        request, 
+                        request,
                         f"Invalid format for cart item key: {e}")
                     return redirect(reverse('home'))
 
@@ -175,8 +175,13 @@ def checkout(request):
                 quantity = cart_service['quantity']
                 spa_service_total = cart_service['total_price']
                 selected_date = parse_date(cart_service['selected_date'])
-                selected_time = datetime.strptime(cart_service['selected_time'], "%H:%M").time()
-                selected_datetime = datetime.combine(selected_date, selected_time)
+                selected_time = datetime.strptime(
+                    cart_service['selected_time'], "%H:%M"
+                ).time()
+                selected_datetime = datetime.combine(
+                    selected_date, selected_time
+                )
+
                 selected_datetime = timezone.make_aware(selected_datetime)
 
                 SpaBookingServices.objects.create(
@@ -187,11 +192,13 @@ def checkout(request):
                     date_and_time=selected_datetime,
                 )
 
-                time_slot = TimeSlot.objects.get(pk=cart_service['selected_time_slot_id'])
-
+                time_slot = TimeSlot.objects.get(
+                    pk=cart_service['selected_time_slot_id']
+                )
                 specific_dates = SpecificDate.objects.filter(
-                    date=selected_date, timeslotavailability__time_slot=time_slot)
-
+                    date=selected_date,
+                    timeslotavailability__time_slot=time_slot
+                )
                 if specific_dates.exists():
                     specific_date = specific_dates.first()
 
@@ -200,7 +207,9 @@ def checkout(request):
             request.session['email'] = form_data['email']
             request.session['phone_number'] = form_data['phone_number']
 
-            return redirect(reverse('checkout_success', args=[spa_booking.booking_number]))
+            return redirect(
+                reverse('checkout_success', args=[spa_booking.booking_number])
+            )
         else:
             messages.error(
                 request, (
@@ -219,15 +228,23 @@ def checkout(request):
         total_price = 0
         for unique_key, service_data in cart.items():
             try:
-                service_id, selected_date, selected_time_slot_id = unique_key.split('_')
+                service_id, selected_date, selected_time_slot_id = (
+                    unique_key.split('_')
+                )
                 time_slot = TimeSlot.objects.get(pk=selected_time_slot_id)
                 selected_time = time_slot.time.strftime("%H:%M")
                 service = SpaService.objects.get(pk=service_id)
             except ObjectDoesNotExist:
-                messages.error(request, f"The service with ID {service_id} does not exist.")
+                messages.error(
+                    request,
+                    f"The service with ID {service_id} does not exist."
+                )
                 return redirect(reverse('home'))
             except ValueError as e:
-                messages.error(request, f"Invalid format for cart item key: {e}")
+                messages.error(
+                    request,
+                    f"Invalid format for cart item key: {e}"
+                )
                 return redirect(reverse('home'))
 
             quantity = service_data.get('quantity', 0)
@@ -250,7 +267,8 @@ def checkout(request):
         booking_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         metadata = {
-            'username': request.user.username if request.user.is_authenticated else '',
+            'username': request.user.username
+            if request.user.is_authenticated else '',
             'save_info': request.session.get('save_info', False),
             'booking_total': total_price,
             'booking_date': booking_date,
@@ -320,7 +338,10 @@ def checkout_success(request, booking_number):
 
     if request.user.is_authenticated:
         user = request.user
-        profile, created = CustomerProfile.objects.get_or_create(user=request.user)
+        profile, created = CustomerProfile.objects.get_or_create(
+            user=request.user
+        )
+
         booking.customer_profile = profile
         booking.save()
 
@@ -329,7 +350,9 @@ def checkout_success(request, booking_number):
                 'email': booking.email,
                 'default_phone_number': booking.phone_number,
             }
-            customer_profile_form = CustomerProfileForm(profile_data, instance=profile)
+            customer_profile_form = CustomerProfileForm(
+                profile_data, instance=profile
+            )
             if customer_profile_form.is_valid():
                 customer_profile_form.save()
 
