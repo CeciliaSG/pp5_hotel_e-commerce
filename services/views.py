@@ -202,12 +202,19 @@ def review_delete(request, service_id, review_id):
 
 @staff_member_required
 def availability_overview(request):
+    """
+    Overview of availability.
+    """
     availabilities = Availability.objects.all()
-    return render(request, 'admin/services/availability/availability_overview.html', {'availabilities': availabilities})
+    return render(request,
+    'admin/services/availability/availability_overview.html', {'availabilities': availabilities})
 
 
 @staff_member_required
 def manage_time_slots_frontend(request, availability_id=None):
+    """
+    View for managing time_slots
+    """
     spa_service_id = request.GET.get('spa_service')
     if spa_service_id:
         availability = get_object_or_404(Availability, spa_service_id=spa_service_id)
@@ -233,12 +240,10 @@ def manage_time_slots_frontend(request, availability_id=None):
     })
 
 
-
 @staff_member_required
 def get_time_slots_for_date(request, availability_id):
     date_id = request.GET.get('date_id')
     availability = get_object_or_404(Availability, id=availability_id)
-
 
     all_time_slots = TimeSlot.objects.filter(spa_service=availability.spa_service)
 
@@ -260,6 +265,7 @@ def get_time_slots_for_date(request, availability_id):
     }
 
     return JsonResponse(data)
+
 
 
 

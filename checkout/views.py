@@ -28,7 +28,8 @@ from accounts.forms import CustomerProfileForm
 from booking.forms import ServiceBookingForm
 from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
-from services.models import SpaService, TimeSlot, SpecificDate, Availability
+from services.models import (SpaService, TimeSlot, SpecificDate,
+Availability, TimeSlotAvailability)
 
 # Create your views here.
 
@@ -201,6 +202,12 @@ def checkout(request):
                 )
                 if specific_dates.exists():
                     specific_date = specific_dates.first()
+
+                TimeSlotAvailability.objects.filter(
+                    availability__spa_service=spa_service,
+                    specific_date=specific_date,
+                    time_slot=time_slot
+                ).update(is_available=False)
 
             request.session['save_info'] = 'save-info' in request.POST
             request.session['customer_name'] = form_data['customer_name']

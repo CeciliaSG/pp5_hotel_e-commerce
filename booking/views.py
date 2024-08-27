@@ -91,10 +91,6 @@ def book_spa_service(request):
                     available_time_slots = [tsa.time_slot for tsa in available_time_slots]
                     unavailable_time_slots = [tsa.time_slot for tsa in unavailable_time_slots]
 
-                    print("Available time slots:", available_time_slots)
-                    print("Unavailable time slots:", unavailable_time_slots)
-
-
     return render(
         request,
         "booking/book_spa_service.html",
