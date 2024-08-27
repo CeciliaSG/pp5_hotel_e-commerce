@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseBadRequest
 from .forms import ServiceBookingForm, TimeSlotSelectionForm
-from services.models import SpaService, Availability, TimeSlot, SpecificDate, TimeSlotAvailability
+from services.models import (SpaService, Availability, TimeSlot,
+                             SpecificDate, TimeSlotAvailability)
 
 
 def book_spa_service(request):
@@ -65,12 +66,18 @@ def book_spa_service(request):
                 price = selected_service.price
                 is_access = selected_service.is_access
 
-            specific_date = SpecificDate.objects.filter(date=selected_date).first()
+                specific_date = SpecificDate.objects.filter(
+                    date=selected_date
+                ).first()
 
             if selected_service and selected_date:
 
-                specific_date = SpecificDate.objects.filter(date=selected_date).first()
-                specific_date = SpecificDate.objects.filter(date=selected_date).first()
+                specific_date = SpecificDate.objects.filter(
+                    date=selected_date
+                    ).first()
+                specific_date = SpecificDate.objects.filter(
+                    date=selected_date
+                    ).first()
                 if specific_date:
                     all_time_slots = TimeSlot.objects.filter(
                         spa_service=selected_service
@@ -80,16 +87,21 @@ def book_spa_service(request):
                         availability__spa_service=selected_service,
                         specific_date=specific_date,
                         is_available=True
-                    ).select_related('time_slot')
+                    ).select_related('time_slot').order_by('time_slot__time')
 
-                    unavailable_time_slots = TimeSlotAvailability.objects.filter(
-                        availability__spa_service=selected_service,
-                        specific_date=specific_date,
-                        is_available=False
-                    ).select_related('time_slot')
+                    unavailable_time_slots = TimeSlotAvailability.objects \
+                        .filter(
+                         availability__spa_service=selected_service,
+                         specific_date=specific_date,
+                         is_available=False
+                        ).select_related('time_slot').order_by('time_slot__time')
 
-                    available_time_slots = [tsa.time_slot for tsa in available_time_slots]
-                    unavailable_time_slots = [tsa.time_slot for tsa in unavailable_time_slots]
+                    available_time_slots = [
+                        tsa.time_slot for tsa in available_time_slots
+                    ]
+                    unavailable_time_slots = [
+                        tsa.time_slot for tsa in unavailable_time_slots
+                        ]
 
     return render(
         request,

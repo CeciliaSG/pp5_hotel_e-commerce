@@ -55,7 +55,6 @@ class SpaBooking(models.Model):
         """
         Generate a random, unique booking number using UUID
         """
-        #return uuid.uuid4().hex.upper()
         return uuid.uuid4().hex[:8].upper()
 
     def update_total(self):
