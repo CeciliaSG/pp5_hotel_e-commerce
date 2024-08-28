@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponseRedirect
+from django.shortcuts import (render, get_object_or_404,
+                              redirect, reverse, HttpResponseRedirect)
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import SpaService, ServiceCategory, Review, Availability, TimeSlotAvailability, TimeSlot
+from .models import (SpaService, ServiceCategory,
+                     Review, Availability, TimeSlotAvailability, TimeSlot)
 from django.contrib import messages
 from .forms import reviewForm, FrontendTimeSlotForm
 from collections import defaultdict
@@ -27,16 +29,17 @@ def services_by_category(request, category_id):
         filter SpaService objects.
 
     Returns:
-        HttpResponse: Rendered response with the index.html template
-        displaying spa services belonging to the specified service category.
+        HttpResponse: Rendered response with the index.html
+        template displaying spa services belonging to
+        the specified service category.
 
     Raises:
-        Http404: If the ServiceCategory with the given category_id does
-        not exist.
+        Http404: If the ServiceCategory with the given
+        category_id does not exist.
 
     Usage:
-        This view is typically used to display spa services categorized under
-        specific ServiceCategory objects
+        This view is typically used to display spa services
+        categorized under specific ServiceCategory objects
         on the website's index or home page.
     """
 
@@ -66,8 +69,8 @@ def spa_services(request, context_only=False):
 
     Args:
         request (HttpRequest): The HTTP request object.
-        context_only (bool, optional): If True, returns a dictionary
-        context containing access_services,
+        context_only (bool, optional): If True, returns
+        a dictionary context containing access_services,
         spa_services, and categories without rendering a template.
         Defaults to False.
 
@@ -82,16 +85,13 @@ def spa_services(request, context_only=False):
         This view is typically used to display various spa services
         categorized by access type and ServiceCategory
         on the index or home page of a spa website.
-
     """
-
     services = SpaService.objects.annotate(
         review_count=Count('reviews', filter=Q(reviews__approved=True))
     )
     access_services = services.filter(is_access=True)
     spa_services = services.filter(is_access=False)
     categories = ServiceCategory.objects.all()
-
 
     context = {
         "access_services": access_services,
@@ -107,24 +107,28 @@ def spa_services(request, context_only=False):
 
 def service_details(request, service_id):
     """
-    Render the details of a specific spa service, including reviews.
+    Render the details of a specific spa service, including
+    reviews.
 
-    Retrieves a SpaService object from the database based on the provided
-    service_id. If the service_id does not exist, a HTTP 404 Not Found error
-    is raised. Handles review submission and displays reviews for the service.
+    Retrieves a SpaService object from the database based on
+    the provided service_id. If the service_id does not exist,
+    a HTTP 404 Not Found error is raised. Handles review submission
+    and displays reviews for the service.
 
     Args:
         request (HttpRequest): The HTTP request object.
-        service_id (int): The ID of the SpaService to retrieve details for.
+        service_id (int): The ID of the SpaService to retrieve
+        details for.
 
     Returns:
         HttpResponse: Rendered template 'services/service_details.html'
-        displaying details of the retrieved SpaService, including reviews and
-        a review form.
+        displaying details of the retrieved SpaService, including
+        reviews and a review form.
 
     Usage:
-        This view is typically used to display detailed information about a
-        specific spa service on a dedicated service details page in a spa website.
+        This view is typically used to display detailed information
+        about a specific spa service on a dedicated service details
+        page in a spa website.
     """
 
     service = get_object_or_404(SpaService, id=service_id)
@@ -159,6 +163,7 @@ def service_details(request, service_id):
         }
     )
 
+
 def review_edit(request, service_id, review_id):
     """
     view to edit reviews
@@ -180,7 +185,7 @@ def review_edit(request, service_id, review_id):
             messages.add_message(request, messages.ERROR,
                                  'Error updating review!')
 
-    return HttpResponseRedirect(reverse('service_details', args=[service_id]))  
+    return HttpResponseRedirect(reverse('service_details', args=[service_id]))
 
 
 def review_delete(request, service_id, review_id):
@@ -195,10 +200,14 @@ def review_delete(request, service_id, review_id):
         review.delete()
         messages.add_message(request, messages.SUCCESS, 'Review deleted!')
     else:
-            messages.add_message(request, messages.ERROR, 'You can only delete your own review!')
+        messages.add_message(
+            request, messages.ERROR, 'You can only delete your own review!'
+        )
 
     return redirect('service_details', service_id=service_id)
 
+
+# Frontend Admin
 
 @staff_member_required
 def availability_overview(request):
@@ -207,7 +216,8 @@ def availability_overview(request):
     """
     availabilities = Availability.objects.all()
     return render(request,
-    'admin/services/availability/availability_overview.html', {'availabilities': availabilities})
+                  'admin/services/availability/availability_overview.html', 
+    {'availabilities': availabilities})
 
 
 @staff_member_required
@@ -217,7 +227,9 @@ def manage_time_slots_frontend(request, availability_id=None):
     """
     spa_service_id = request.GET.get('spa_service')
     if spa_service_id:
-        availability = get_object_or_404(Availability, spa_service_id=spa_service_id)
+        availability = get_object_or_404(
+            Availability, spa_service_id=spa_service_id
+        )
     else:
         availability = get_object_or_404(Availability, id=availability_id)
     
@@ -225,8 +237,9 @@ def manage_time_slots_frontend(request, availability_id=None):
         form = FrontendTimeSlotForm(request.POST, availability=availability)
         if form.is_valid():
             form.save()
-            return redirect(reverse('manage_time_slots_frontend', args=[availability.id]))
-
+            return redirect(
+                reverse('manage_time_slots_frontend', args=[availability.id])
+            )
     else:
         specific_date = request.GET.get('specific_date')
         form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
@@ -242,10 +255,38 @@ def manage_time_slots_frontend(request, availability_id=None):
 
 @staff_member_required
 def get_time_slots_for_date(request, availability_id):
+    """
+    Retrieves the list of time slots for a specific spa service
+    on a given date.
+
+    This view function is restricted to staff members and is used to
+    retrieve all time slots associated with a specific spa service's
+    availability. For each time slot, it checks whether the time slot
+    is available on the specified date.
+
+    Args:
+        request (HttpRequest): The HTTP request object. It should include a
+            'date_id' parameter in the GET query string, which corresponds
+            to the specific date.
+        availability_id (int): The ID of the Availability object, which
+            links the spa service to its time slots.
+
+    Returns:
+        JsonResponse: A JSON response containing a dictionary with
+        a 'time_slots'
+            key. The value is a list of dictionaries, each representing
+            a time slot with the following fields:
+            - 'time_slot__id': The ID of the time slot.
+            - 'time_slot__time': The time associated with the time slot.
+            - 'is_available': A boolean indicating whether the time slot is
+              available on the specified date.
+    """
     date_id = request.GET.get('date_id')
     availability = get_object_or_404(Availability, id=availability_id)
 
-    all_time_slots = TimeSlot.objects.filter(spa_service=availability.spa_service)
+    all_time_slots = TimeSlot.objects.filter(
+        spa_service=availability.spa_service
+    )
 
     available_time_slots = TimeSlotAvailability.objects.filter(
         availability=availability,
@@ -257,7 +298,9 @@ def get_time_slots_for_date(request, availability_id):
         time_slots_data.append({
             'time_slot__id': time_slot.id,
             'time_slot__time': time_slot.time,
-            'is_available': available_time_slots.filter(time_slot=time_slot).exists()
+            'is_available': available_time_slots.filter(
+                time_slot=time_slot
+            ).exists()
         })
 
     data = {
