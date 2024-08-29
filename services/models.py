@@ -173,6 +173,7 @@ class TimeSlotAvailability(models.Model):
     specific_date = models.ForeignKey(SpecificDate, on_delete=models.CASCADE)
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     is_available = models.BooleanField(default=True)
+    is_booked = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('availability', 'specific_date', 'time_slot')

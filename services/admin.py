@@ -43,7 +43,7 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
     form = TimeSlotAvailabilityForm
     extra = 1
-    fields = ['specific_date', 'time_slot', 'is_available']
+    fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -57,6 +57,7 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
         class CustomFormset(formset_class):
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
+
                 for form in self.forms:
                     form.fields['time_slot'].queryset = TimeSlot.objects.filter(spa_service=spa_service)
 
@@ -89,7 +90,6 @@ class AvailabilityAdmin(admin.ModelAdmin):
         return inline_instances
 
 admin.site.register(Availability, AvailabilityAdmin)
-
 
 
 # TimeSlots 

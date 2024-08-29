@@ -662,7 +662,6 @@ button.btn.btn-sm:hover {
 
 .fa-solid.fa-chevron-down:hover {
    color: #fff;
-
 }
 
 #scrollToAboutBtn:hover {
@@ -748,6 +747,17 @@ footer {
     margin-right: 15px;
 }
 
+/* Admin */
+
+.booked-slot {
+    color: red;
+    font-weight: bold;
+}
+.booked-slot input[type="checkbox"] {
+    background-color: red;
+    border: 1px solid red;
+}
+
 /* Media Screens */
 
 @media (min-width: 768px) {
@@ -759,7 +769,6 @@ transform: none;
 .cart-container {
     margin-top: 200px;
 }
-
 
 .cart-container table tbody,
 .cart-container table tr {

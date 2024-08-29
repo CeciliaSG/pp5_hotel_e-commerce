@@ -207,7 +207,7 @@ def checkout(request):
                     availability__spa_service=spa_service,
                     specific_date=specific_date,
                     time_slot=time_slot
-                ).update(is_available=False)
+                ).update(is_available=False, is_booked=True)
 
             request.session['save_info'] = 'save-info' in request.POST
             request.session['customer_name'] = form_data['customer_name']
