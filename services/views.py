@@ -281,33 +281,47 @@ def get_time_slots_for_date(request, availability_id):
             - 'is_available': A boolean indicating whether the time slot is
               available on the specified date.
     """
-    date_id = request.GET.get('date_id')
-    availability = get_object_or_404(Availability, id=availability_id)
+    try:
+        date_id = request.GET.get('date_id')
+        print(f"Date ID: {date_id}, Availability ID: {availability_id}")
 
-    all_time_slots = TimeSlot.objects.filter(
-        spa_service=availability.spa_service
-    )
+        availability = get_object_or_404(Availability, id=availability_id)
+        print(f"Found Availability: {availability}")
 
-    available_time_slots = TimeSlotAvailability.objects.filter(
-        availability=availability,
-        specific_date_id=date_id
-    )
+        all_time_slots = TimeSlot.objects.filter(
+            spa_service=availability.spa_service
+        )
+        print(f"All Time Slots: {all_time_slots.count()}")
 
-    time_slots_data = []
-    for time_slot in all_time_slots:
-        time_slots_data.append({
-            'time_slot__id': time_slot.id,
-            'time_slot__time': time_slot.time,
-            'is_available': available_time_slots.filter(
-                time_slot=time_slot
-            ).exists()
-        })
 
-    data = {
-        'time_slots': time_slots_data
-    }
+        available_time_slots = TimeSlotAvailability.objects.filter(
+            availability=availability,
+            specific_date_id=date_id
+        )
 
-    return JsonResponse(data)
+        time_slots_data = []
+        for time_slot in all_time_slots:
+            availability_record = available_time_slots.filter(time_slot=time_slot).first()
+            is_available = availability_record.is_available if availability_record else False
+            is_booked = availability_record.is_booked if availability_record else False
+
+            time_slots_data.append({
+                'time_slot__id': time_slot.id,
+                'time_slot__time': time_slot.time,
+                'is_available': is_available,
+                'is_booked': is_booked,
+            })
+        print(f"Time Slots Data: {time_slots_data}")
+
+        data = {
+            'time_slots': time_slots_data
+        }
+
+        return JsonResponse(data)
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
+
 
 
 

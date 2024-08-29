@@ -749,14 +749,15 @@ footer {
 
 /* Admin */
 
-.booked-slot {
-    color: red;
-    font-weight: bold;
+.booked-checkbox {
+    accent-color: red !important;
 }
-.booked-slot input[type="checkbox"] {
-    background-color: red;
-    border: 1px solid red;
+
+.booked-checkbox:checked {
+    background-color: red !important;
+    border-color: red !important;
 }
+
 
 /* Media Screens */
 
