@@ -20,18 +20,28 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log('Received data:', data);
                     container.innerHTML = '';
                     data.time_slots.forEach(function (time_slot) {
-                        let checked = time_slot.is_available ? 'checked' : '';
-                        let redCheck = time_slot.is_booked ? 'style="color:red;"' : '';
+                        let checked = time_slot.is_available || time_slot.is_booked ? 'checked' : '';
+                        let checkboxClass = time_slot.is_booked ? 'booked-checkbox' : '';
 
                         container.innerHTML += `
                             <div>
-                                <label ${redCheck}>
-                                    <input type="checkbox" name="time_slots" value="${time_slot.time_slot__id}" ${checked}>
+                                <label>
+                                    <input type="checkbox" name="time_slots" value="${time_slot.time_slot__id}" ${checked} class="${checkboxClass}">
                                     ${time_slot.time_slot__time}
                                 </label>
                             </div>`;
                     });
                     container.style.display = 'block';
+
+                    let bookedCheckboxes = document.querySelectorAll('.booked-checkbox');
+                    bookedCheckboxes.forEach(function(checkbox) {
+                        checkbox.style.accentColor = 'red';
+                        if (checkbox.checked) {
+                            checkbox.style.backgroundColor = 'red';
+                            checkbox.style.borderColor = 'red';
+                        }
+                    });
+
                 })
                 .catch(error => {
                     console.error('Error fetching time slots:', error);

@@ -22,7 +22,8 @@
 
                 <form method="post">
                     <h3 class="h6">Choose date to display possible time slots</h3>
-                    <h3 class="h6">(ticked time slots are already set)</h3>
+                    <h3 class="h6">(blue time slots are already set as available,
+                        and red time slots are booked.)</h3>
                     {% csrf_token %}
                     {{ form.specific_date }}
                     <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}"
