@@ -93,8 +93,11 @@ class SpaBooking(models.Model):
     
     def delete(self, *args, **kwargs):
         """
-        Override the delete method to mark time slots as available again.
+        Override the delete method to mark time slots as available and not booked again.
         """
+
+        print("Deleting SpaBooking and updating availability...")
+
         related_services = self.spa_booking_services.all()
         for service in related_services:
             time_slot = service.spa_service
@@ -102,19 +105,20 @@ class SpaBooking(models.Model):
 
             try:
                 specific_date = SpecificDate.objects.get(date=selected_date)
-                try:
-                    availability = Availability.objects.get(
-                        spa_service=service.spa_service,
-                        specific_dates=specific_date
-                    )
-                    time_slot.is_available = True
-                    time_slot.save()
-                except Availability.DoesNotExist:
-                    pass
-            except SpecificDate.DoesNotExist:
+                availability = Availability.objects.get(
+                    spa_service=service.spa_service,
+                    specific_dates=specific_date
+                )
+                TimeSlotAvailability.objects.filter(
+                    availability=availability,
+                    specific_date=specific_date,
+                    time_slot=time_slot
+                ).update(is_available=True, is_booked=False)
+            except (SpecificDate.DoesNotExist, Availability.DoesNotExist):
                 pass
 
         super().delete(*args, **kwargs)
+        
 
     def __str__(self):
         return self.booking_number
@@ -164,8 +168,10 @@ class SpaBookingServices(models.Model):
 @receiver(post_delete, sender=SpaBooking)
 def post_delete_spa_booking(sender, instance, **kwargs):
     """
-    Signal to set the associated time slots as available after a booking is deleted.
+    Signal to update the associated time slots' availability after a booking is deleted.
     """
+    print("post_delete signal triggered for SpaBooking...")
+
     related_services = instance.spa_booking_services.all()
     for service in related_services:
         time_slot = service.spa_service
@@ -177,10 +183,11 @@ def post_delete_spa_booking(sender, instance, **kwargs):
                 spa_service=service.spa_service,
                 specific_dates=specific_date
             )
-            time_slot.is_available = True
-            time_slot.save()
-        except SpecificDate.DoesNotExist:
-            pass
-        except Availability.DoesNotExist:
+            TimeSlotAvailability.objects.filter(
+                availability=availability,
+                specific_date=specific_date,
+                time_slot=time_slot
+            ).update(is_available=True, is_booked=False)
+        except (SpecificDate.DoesNotExist, Availability.DoesNotExist):
             pass
      

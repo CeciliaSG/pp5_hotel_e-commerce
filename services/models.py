@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -177,6 +178,14 @@ class TimeSlotAvailability(models.Model):
 
     class Meta:
         unique_together = ('availability', 'specific_date', 'time_slot')
+
+    def clean(self):
+        if self.is_available and self.is_booked:
+            raise ValidationError('Time slots cannot be both available and booked.')
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
 
 class Availability(models.Model):

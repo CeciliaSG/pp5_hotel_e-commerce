@@ -120,9 +120,7 @@ class FrontendTimeSlotForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.availability:
             spa_service = self.availability.spa_service
-            time_slots_queryset = TimeSlot.objects.filter(
-                spa_service=spa_service
-            )
+            time_slots_queryset = TimeSlot.objects.filter(spa_service=spa_service)
             self.fields['time_slots'].queryset = time_slots_queryset
             self.initial['time_slots'] = TimeSlot.objects.filter(
                 id__in=TimeSlotAvailability.objects.filter(
@@ -138,10 +136,7 @@ class FrontendTimeSlotForm(forms.ModelForm):
         selected_time_slots = self.cleaned_data['time_slots']
 
         if not self.availability:
-            raise ValueError(
-                "Availability must be set when saving "
-                "TimeSlotAvailability instances."
-            )
+            raise ValueError("Availability must be set when saving TimeSlotAvailability instances.")
 
         try:
             with transaction.atomic():
@@ -151,17 +146,23 @@ class FrontendTimeSlotForm(forms.ModelForm):
                 )
 
                 for tsa in existing_time_slots:
-                    if tsa.time_slot not in selected_time_slots:
+                    if tsa.is_booked:
+                        continue
+                    if tsa.time_slot in selected_time_slots:
+                        tsa.is_available = True
+                        tsa.is_booked = tsa.is_booked
                         tsa.is_available = False
-                        tsa.save()
+                        tsa.is_booked = False
+                    tsa.save()
 
                 for time_slot in selected_time_slots:
                     TimeSlotAvailability.objects.update_or_create(
                         availability=self.availability,
                         specific_date=specific_date,
                         time_slot=time_slot,
-                        defaults={'is_available': True}
+                        defaults={'is_available': True, 'is_booked': False}
                     )
+
         except Exception as e:
             raise e
 

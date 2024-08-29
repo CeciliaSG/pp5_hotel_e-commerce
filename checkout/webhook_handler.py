@@ -16,7 +16,6 @@ from booking.models import SpaBooking, SpaBookingServices
 from services.models import SpaService, TimeSlot
 
 
-
 class StripeWH_Handler:
     """
     Handle Stripe webhooks from Boutique Ado walkthrough.
