@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let spaServiceDropdown = document.getElementById('spa_service');
     let dateDropdown = document.getElementById('id_specific_date');
     let container = document.getElementById('time-slots-container');
+    let saveButton = document.getElementById('save-button');
 
     function loadTimeSlots(spaServiceId, dateId) {
         let url = container.getAttribute('data-url').replace('availability.id', spaServiceId);
@@ -27,10 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         container.innerHTML += `
                             <div>
                                 <label>
-                                    <input type="checkbox" name="time_slots" value="${time_slot.time_slot__id}" ${checked} class="${checkboxClass}" ${time_slot.is_booked ? 'disabled' : ''}>
+                                    <input 
+                                        type="checkbox" 
+                                        name="time_slots" 
+                                        value="${time_slot.time_slot__id}" 
+                                        ${checked} 
+                                        class="${checkboxClass}" 
+                                        ${time_slot.is_booked ? 'disabled' : ''}
+                                    >
                                     ${time_slot.time_slot__time}
                                 </label>
                             </div>`;
+
                     });
 
                     document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
@@ -46,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
 
                     container.style.display = 'block';
+                    saveButton.style.display = 'block';
 
                     let bookedCheckboxes = document.querySelectorAll('.booked-checkbox');
                     bookedCheckboxes.forEach(function(checkbox) {
@@ -69,11 +79,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     dateDropdown.addEventListener('change', function () {
         let selectedDateId = this.value;
-        loadTimeSlots(spaServiceDropdown.value, selectedDateId);
+        if (selectedDateId) {
+            loadTimeSlots(spaServiceDropdown.value, selectedDateId);
+        }
     });
 
     if (spaServiceDropdown.value && dateDropdown.value) {
         loadTimeSlots(spaServiceDropdown.value, dateDropdown.value);
     }
 });
-

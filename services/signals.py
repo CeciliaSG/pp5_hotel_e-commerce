@@ -1,4 +1,4 @@
-from django.db.models.signals import post_delete, pre_delete, pre_save
+from django.db.models.signals import post_delete, pre_delete, pre_save, post_save
 from django.dispatch import receiver
 from .models import SpecificDate, Availability, TimeSlotAvailability, TimeSlot
 from booking.models import SpaBooking, SpaBookingServices
@@ -68,7 +68,28 @@ def pre_save_spa_booking_service(sender, instance, **kwargs):
             pass
 
 
+@receiver(post_save, sender=SpaBookingServices)
+def post_save_spa_booking_service(sender, instance, created, **kwargs):
+    """
+    Signal to update the associated time slots' availability when a new service is added.
+    """
+    selected_date = instance.date_and_time.date()
 
+    try:
+        time_slot = TimeSlot.objects.get(spa_service=instance.spa_service, time=instance.date_and_time.time())
+    except TimeSlot.DoesNotExist:
+        return
+
+    try:
+        specific_date, _ = SpecificDate.objects.get_or_create(date=selected_date)
+        TimeSlotAvailability.objects.update_or_create(
+            specific_date=specific_date,
+            time_slot=time_slot,
+            availability__spa_service=instance.spa_service,
+            defaults={'is_available': False, 'is_booked': True}
+        )
+    except (SpecificDate.DoesNotExist, Availability.DoesNotExist):
+        pass
 
 
 
