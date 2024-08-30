@@ -11,7 +11,7 @@ class SpaBookingServicesAdminInline(admin.TabularInline):
 class SpaBookingAdmin(admin.ModelAdmin):
     inlines = (SpaBookingServicesAdminInline,)
     readonly_fields = ('booking_number', 'booking_date', 'booking_total', 'original_cart', 'stripe_pid',)
-    fields = ('booking_number', 'customer_profile', 'booking_date', 'customer_name', 'email', 'phone_number', 'booking_total', 'original_cart', 'stripe_pid',)
+    fields = ('booking_number', 'customer_profile', 'booking_date', 'customer_name', 'email', 'phone_number', 'date_and_time', 'booking_total', 'original_cart', 'stripe_pid',)
     list_display = ('booking_number', 'booking_date', 'customer_name', 'email', 'phone_number', 'date_and_time', 'booking_total',)
     list_filter = ('booking_date',)
 
