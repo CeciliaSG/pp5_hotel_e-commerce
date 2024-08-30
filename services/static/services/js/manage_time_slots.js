@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let saveButton = document.getElementById('save-button');
 
     function loadTimeSlots(spaServiceId, dateId) {
-        let url = container.getAttribute('data-url').replace('availability.id', spaServiceId);
+        let url = container.getAttribute('data-url')
+            .replace('availability.id', spaServiceId);
+        
         if (url && dateId) {
             console.log('Making fetch request to:', url + "?date_id=" + dateId);
             fetch(url + "?date_id=" + dateId)
@@ -22,8 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     container.innerHTML = '';
 
                     data.time_slots.forEach(function (time_slot) {
-                        let checked = time_slot.is_available || time_slot.is_booked ? 'checked' : '';
-                        let checkboxClass = time_slot.is_booked ? 'booked-checkbox' : '';
+                        let checked = (time_slot.is_available || 
+                            time_slot.is_booked) ? 'checked' : '';
+                        let checkboxClass = time_slot.is_booked ? 
+                            'booked-checkbox' : '';
 
                         container.innerHTML += `
                             <div>
@@ -39,19 +43,19 @@ document.addEventListener('DOMContentLoaded', function () {
                                     ${time_slot.time_slot__time}
                                 </label>
                             </div>`;
-
                     });
 
-                    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
-                        checkbox.addEventListener('change', function() {
-                            if (!checkbox.checked) {
-                                const hiddenInput = document.createElement('input');
-                                hiddenInput.type = 'hidden';
-                                hiddenInput.name = 'unchecked_time_slots';
-                                hiddenInput.value = checkbox.value;
-                                container.appendChild(hiddenInput);
-                            }
-                        });
+                    document.querySelectorAll('input[type="checkbox"]')
+                        .forEach(function(checkbox) {
+                            checkbox.addEventListener('change', function() {
+                                if (!checkbox.checked) {
+                                    const hiddenInput = document.createElement('input');
+                                    hiddenInput.type = 'hidden';
+                                    hiddenInput.name = 'unchecked_time_slots';
+                                    hiddenInput.value = checkbox.value;
+                                    container.appendChild(hiddenInput);
+                                }
+                            });
                     });
 
                     container.style.display = 'block';
