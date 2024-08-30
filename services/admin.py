@@ -47,7 +47,7 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.order_by('specific_date__date')
+        return queryset.order_by('specific_date__date', 'time_slot__time')
 
     def get_formset(self, request, obj=None, **kwargs):
         spa_service = obj.spa_service if obj else None
