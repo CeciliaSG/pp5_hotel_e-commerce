@@ -237,6 +237,14 @@ def manage_time_slots_frontend(request, availability_id=None):
         form = FrontendTimeSlotForm(request.POST, availability=availability)
         if form.is_valid():
             form.save()
+
+            unchecked_time_slot_ids = request.POST.getlist('unchecked_time_slots')
+            if unchecked_time_slot_ids:
+                TimeSlotAvailability.objects.filter(
+                    availability=availability,
+                    time_slot_id__in=unchecked_time_slot_ids,
+                    specific_date=form.cleaned_data['specific_date']
+                ).update(is_available=False, is_booked=False)
             return redirect(
                 reverse('manage_time_slots_frontend', args=[availability.id])
             )
@@ -292,7 +300,6 @@ def get_time_slots_for_date(request, availability_id):
             spa_service=availability.spa_service
         )
         print(f"All Time Slots: {all_time_slots.count()}")
-
 
         available_time_slots = TimeSlotAvailability.objects.filter(
             availability=availability,

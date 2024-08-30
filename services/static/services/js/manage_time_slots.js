@@ -32,15 +32,26 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </label>
                             </div>`;
                     });
+
+                    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+                        checkbox.addEventListener('change', function() {
+                            if (!checkbox.checked) {
+                                const hiddenInput = document.createElement('input');
+                                hiddenInput.type = 'hidden';
+                                hiddenInput.name = 'unchecked_time_slots';
+                                hiddenInput.value = checkbox.value;
+                                container.appendChild(hiddenInput);
+                            }
+                        });
+                    });
+
                     container.style.display = 'block';
 
                     let bookedCheckboxes = document.querySelectorAll('.booked-checkbox');
                     bookedCheckboxes.forEach(function(checkbox) {
                         checkbox.style.accentColor = 'red';
-                        if (checkbox.checked) {
-                            checkbox.style.backgroundColor = 'red';
-                            checkbox.style.borderColor = 'red';
-                        }
+                        checkbox.style.backgroundColor = 'red';
+                        checkbox.style.borderColor = 'red';
                     });
                 })
                 .catch(error => {
@@ -65,3 +76,4 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTimeSlots(spaServiceDropdown.value, dateDropdown.value);
     }
 });
+

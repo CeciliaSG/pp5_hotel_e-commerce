@@ -749,14 +749,13 @@ footer {
 
 /* Admin */
 
-input.booked-checkbox {
+.booked-checkbox {
     accent-color: red !important;
     background-color: red !important;
     border-color: red !important;
 }
 
-input.booked-checkbox:checked {
-    accent-color: red !important;
+input[type="checkbox"].booked-checkbox:checked {
     background-color: red !important;
     border-color: red !important;
 }
