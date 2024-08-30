@@ -163,31 +163,4 @@ class SpaBookingServices(models.Model):
 
     def __str__(self):
         return f'{self.spa_service.name} x {self.quantity}'
-        
 
-@receiver(post_delete, sender=SpaBooking)
-def post_delete_spa_booking(sender, instance, **kwargs):
-    """
-    Signal to update the associated time slots' availability after a booking is deleted.
-    """
-    print("post_delete signal triggered for SpaBooking...")
-
-    related_services = instance.spa_booking_services.all()
-    for service in related_services:
-        time_slot = service.spa_service
-        selected_date = service.date_and_time.date()
-
-        try:
-            specific_date = SpecificDate.objects.get(date=selected_date)
-            availability = Availability.objects.get(
-                spa_service=service.spa_service,
-                specific_dates=specific_date
-            )
-            TimeSlotAvailability.objects.filter(
-                availability=availability,
-                specific_date=specific_date,
-                time_slot=time_slot
-            ).update(is_available=True, is_booked=False)
-        except (SpecificDate.DoesNotExist, Availability.DoesNotExist):
-            pass
-     
