@@ -9,7 +9,7 @@ class DateInput(forms.DateInput):
     """
     Widget class for rendering a date input field in a Django form.
 
-    This widget extends `forms.DateInput` and sets the HTML input 
+    This widget extends `forms.DateInput` and sets the HTML input
     type to 'date'. It is used to render date input fields in HTML
     forms with native date picker support in browsers that support it.
 
@@ -33,18 +33,18 @@ class DateInput(forms.DateInput):
 
 class ServiceBookingForm(forms.ModelForm):
     """
-    Form for booking spa services with additional customisation 
+    Form for booking spa services with additional customisation
     for fields.
 
-    This form inherits from `forms.ModelForm` and is designed 
+    This form inherits from `forms.ModelForm` and is designed
     for creating or updating spa bookings with fields such as
     service selection, date, and quantity.
 
     Attributes:
         Meta:
             model (SpaBooking): The model class associated with
-            this form. fields (list): The fields from the `SpaBooking` 
-            model to be included in the form. widgets (dict): 
+            this form. fields (list): The fields from the `SpaBooking`
+            model to be included in the form. widgets (dict):
             Custom widgets for specific fields (`date` and `quantity`)
             to control their appearance and behavior in HTML forms.
 
@@ -76,7 +76,7 @@ class ServiceBookingForm(forms.ModelForm):
         queryset=SpaService.objects.filter(status=1),
         empty_label="Select a service",
         widget=forms.Select(attrs={"class": "form-control service-select"})
-    )  
+    )
     date = forms.DateField(
         widget=DateInput(
             attrs={

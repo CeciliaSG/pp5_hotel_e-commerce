@@ -1,10 +1,10 @@
 from django.urls import path
 from . import views
 from .views import (
-    add_to_cart, 
-    view_cart, 
-    clear_cart, 
-    update_cart, 
+    add_to_cart,
+    view_cart,
+    clear_cart,
+    update_cart,
     remove_from_cart)
 
 

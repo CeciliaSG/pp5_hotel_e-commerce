@@ -11,6 +11,7 @@ class CustomerProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'Customer Profiles'
 
+
 class UserAdmin(BaseUserAdmin):
     inlines = (CustomerProfileInline,)
 
@@ -18,6 +19,7 @@ class UserAdmin(BaseUserAdmin):
         if not obj:
             return list()
         return super(UserAdmin, self).get_inline_instances(request, obj)
+
 
 admin.site.unregister(User)
 

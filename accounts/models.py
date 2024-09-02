@@ -10,7 +10,8 @@ class CustomerProfile(models.Model):
     """
     From Boutique Ado Walkthrough.
 
-    Represents a customer profile that extends the default Django User model.
+    Represents a customer profile that extends the default
+    Django User model.
 
     This model is used to store  information related to the user.
 
@@ -22,7 +23,8 @@ class CustomerProfile(models.Model):
         email (EmailField): The email address of the user.
 
     Methods:
-        __str__(): Returns the username of the associated User model.
+        __str__(): Returns the username of the associated
+        User model.
 
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -32,27 +34,12 @@ class CustomerProfile(models.Model):
             max_length=254, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     city = models.CharField(max_length=100, null=True,
-            blank=True)
-
+                            blank=True)
 
     def __str__(self):
         return self.user.username
-    
+
     def get_email(self):
         return self.email if self.email else self.user.email
 
-
-"""@receiver(post_save, sender=User)
-def create_or_update_customer_profile(sender, instance, created, **kwargs):
-    if created:
-        CustomerProfile.objects.create(user=instance, email=instance.email)
-    else:
-        instance.customerprofile.save()
-
-
-@receiver(post_save, sender=User)
-def create_or_update_customer_profile(sender, instance, created, **kwargs):
-    if created:
-        if not hasattr(instance, 'customerprofile'):
-            CustomerProfile.objects.create(user=instance, email=instance.email)"""
 

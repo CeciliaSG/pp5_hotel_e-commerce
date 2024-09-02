@@ -8,17 +8,19 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
         }
-        
+
         for field in self.fields:
-            self.fields[field].widget.attrs['placeholder'] = placeholders.get(field, field.capitalize())
-            self.fields[field].widget.attrs['class'] = 'border-black-rounded-o customer-profile-form-input'
+            self.fields[field].widget.attrs['placeholder'] = \
+                placeholders.get(field, field.capitalize())
+            self.fields[field].widget.attrs['class'] = \
+                'border-black-rounded-o customer-profile-form-input'
             self.fields[field].label = False
 
 
@@ -26,7 +28,7 @@ class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = CustomerProfile
         fields = ['default_phone_number', 'date_of_birth', 'city']
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
@@ -34,24 +36,35 @@ class CustomerProfileForm(forms.ModelForm):
             'date_of_birth': 'Date of Birth as: YYYY/DD/MM',
             'city': 'City',
         }
-        
+
         for field in self.fields:
-            self.fields[field].widget.attrs['placeholder'] = placeholders.get(field, field.capitalize())
-            self.fields[field].widget.attrs['class'] = 'border-black-rounded-o customer-profile-form-input'
+            self.fields[field].widget.attrs['placeholder'] = \
+                placeholders.get(field, field.capitalize())
+            self.fields[field].widget.attrs['class'] = \
+                'border-black-rounded-o customer-profile-form-input'
             self.fields[field].label = False
 
 
-
 class CustomSignupForm(SignupForm):
-    first_name = forms.CharField(max_length=30, label='First Name', required=True)
-    last_name = forms.CharField(max_length=30, label='Last Name', required=True)
-    phone_number = forms.CharField(max_length=20, label='Phone Number', required=True)
+    first_name = forms.CharField(
+        max_length=30, label='First Name', required=True
+    )
+    last_name = forms.CharField(
+        max_length=30, label='Last Name', required=True
+    )
+    phone_number = forms.CharField(
+        max_length=20, label='Phone Number', required=True
+    )
     date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'placeholder': 'DD/MM/YYYY', 'type': 'date'}),
+        widget=forms.DateInput(attrs={
+            'placeholder': 'DD/MM/YYYY', 'type': 'date'
+        }),
         required=False,
         label='Date of Birth (optional)'
     )
-    city = forms.CharField(max_length=100, label='City (optional)', required=False)
+    city = forms.CharField(
+        max_length=100, label='City (optional)', required=False
+    )
 
     def save(self, request):
         user = super(CustomSignupForm, self).save(request)
@@ -67,15 +80,16 @@ class CustomSignupForm(SignupForm):
             default_phone_number=self.cleaned_data['phone_number'],
             email=user.email,
             date_of_birth=date_of_birth,
-            city=city 
+            city=city
         )
         return user
 
 
 class DeleteAccountForm(forms.Form):
     """
-    Form class for users to delete their account and all associated information
+    Form class for users to delete their
+    account and all associated information
     """
-
-    confirm_delete = forms.BooleanField(required=True,
-                                        label='Confirm Account Deletion')
+    confirm_delete = forms.BooleanField(
+        required=True, label='Confirm Account Deletion'
+    )

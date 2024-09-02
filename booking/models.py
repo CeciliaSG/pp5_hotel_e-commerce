@@ -90,10 +90,10 @@ class SpaBooking(models.Model):
             self.booking_number = self._generate_booking_number()
         super().save(*args, **kwargs)
 
-    
     def delete(self, *args, **kwargs):
         """
-        Override the delete method to mark time slots as available and not booked again.
+        Override the delete method to mark time slots
+        as available and not booked again.
         """
 
         print("Deleting SpaBooking and updating availability...")
@@ -118,7 +118,6 @@ class SpaBooking(models.Model):
                 pass
 
         super().delete(*args, **kwargs)
-        
 
     def __str__(self):
         return self.booking_number
@@ -163,4 +162,3 @@ class SpaBookingServices(models.Model):
 
     def __str__(self):
         return f'{self.spa_service.name} x {self.quantity}'
-
