@@ -2,7 +2,7 @@ import json
 import time
 from datetime import datetime
 
-import uuid 
+import uuid
 import stripe
 
 from django.conf import settings
@@ -56,8 +56,8 @@ class StripeWH_Handler:
             body = render_to_string(
                 'checkout/confirmation_emails/confirmation_email_body.txt',
                 {'spa_booking': spa_booking,
-                'services': services,
-                'contact_email': settings.DEFAULT_FROM_EMAIL})
+                    'services': services,
+                    'contact_email': settings.DEFAULT_FROM_EMAIL})
 
             send_mail(
                 subject,
@@ -182,7 +182,6 @@ class StripeWH_Handler:
                 booking.delete()
             return HttpResponse({'error': str(e)}, status=500)
 
-
     def handle_payment_intent_payment_failed(self, event):
         """
         Handle the payment_intent.payment_failed webhook
@@ -211,3 +210,4 @@ class StripeWH_Handler:
         """
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',)
+

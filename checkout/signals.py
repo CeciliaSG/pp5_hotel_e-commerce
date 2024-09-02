@@ -3,6 +3,7 @@ from django.dispatch import receiver
 
 from booking.models import SpaBookingServices, SpaBooking
 
+
 @receiver(post_save, sender=SpaBookingServices)
 def update_on_save(sender, instance, created, **kwargs):
     """

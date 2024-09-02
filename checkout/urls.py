@@ -5,23 +5,23 @@ from .webhooks import webhook
 
 urlpatterns = [
     path(
-        '', 
-        views.checkout, 
+        '',
+        views.checkout,
         name='checkout'
     ),
     path(
-        'checkout_success/<str:booking_number>/', 
-        checkout_success, 
+        'checkout_success/<str:booking_number>/',
+        checkout_success,
         name='checkout_success'
     ),
     path(
-        'cache_checkout_data/', 
-        cache_checkout_data, 
+        'cache_checkout_data/',
+        cache_checkout_data,
         name='cache_checkout_data'
     ),
     path(
-        'wh/', 
-        webhook, 
+        'wh/',
+        webhook,
         name='webhook'
     ),
 ]

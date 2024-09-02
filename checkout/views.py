@@ -29,7 +29,7 @@ from booking.forms import ServiceBookingForm
 from accounts.models import CustomerProfile
 from booking.models import SpaBooking, SpaBookingServices
 from services.models import (SpaService, TimeSlot, SpecificDate,
-Availability, TimeSlotAvailability)
+                             Availability, TimeSlotAvailability)
 
 # Create your views here.
 
