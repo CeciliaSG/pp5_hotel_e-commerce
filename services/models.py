@@ -1,7 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
+from django.db import models
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -22,7 +22,6 @@ class ServiceCategory(models.Model):
     Methods:
         __str__(): Returns the string representation of
         the service category, which is its name.
-
 
     Usage:
         This model is typically used to categorise
@@ -45,10 +44,10 @@ class SpaService(models.Model):
     """
     Represents a spa service offered by the spa.
 
-    Each SpaService object represents a specific spa service
-    with details such as its name,
-    description, price, duration, category, availability status,
-    and whether it requires special
+    Each SpaService object represents a specific spa
+    service with details such as its name,
+    description, price, duration, category,
+    availability status, and whether it requires special
     access or not.
 
     Attributes:
@@ -88,20 +87,25 @@ class SpaService(models.Model):
     name = models.CharField(max_length=300, unique=True)
     description = models.TextField()
     price = models.DecimalField(
-        max_digits=6, decimal_places=2)
+        max_digits=6, decimal_places=2
+    )
     currency = models.CharField(
-        max_length=3, default="SEK")
+        max_length=3, default="SEK"
+    )
     category = models.ForeignKey(
-        ServiceCategory, on_delete=models.CASCADE)
+        ServiceCategory, on_delete=models.CASCADE
+    )
     duration = models.DurationField()
     is_access = models.BooleanField(default=False)
     employee_name = models.CharField(
-        max_length=100, blank=True, null=True)
+        max_length=100, blank=True, null=True
+    )
     featured_image = CloudinaryField(
-        "image", null=True, blank=True)
+        "image", null=True, blank=True
+    )
     status = models.SmallIntegerField(
-        choices=STATUS_CHOICES, default=1)
-
+        choices=STATUS_CHOICES, default=1
+    )
 
     def __str__(self):
         return self.name
@@ -141,7 +145,9 @@ class SpecificDate(models.Model):
 
 class TimeSlot(models.Model):
     time = models.TimeField()
-    spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
+    spa_service = models.ForeignKey(
+        SpaService, on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return f"{self.spa_service.name} - {self.time}"
@@ -151,7 +157,9 @@ class TimeSlot(models.Model):
         ordering = ['time']
 
     def mark_available_for_date(self, specific_date):
-        availability, created = Availability.objects.get_or_create(spa_service=self.spa_service)
+        availability, created = Availability.objects.get_or_create(
+            spa_service=self.spa_service
+        )
         TimeSlotAvailability.objects.update_or_create(
             availability=availability,
             specific_date=specific_date,
@@ -160,7 +168,9 @@ class TimeSlot(models.Model):
         )
 
     def mark_unavailable_for_date(self, specific_date):
-        availability, created = Availability.objects.get_or_create(spa_service=self.spa_service)
+        availability, created = Availability.objects.get_or_create(
+            spa_service=self.spa_service
+        )
         TimeSlotAvailability.objects.update_or_create(
             availability=availability,
             specific_date=specific_date,
@@ -170,18 +180,28 @@ class TimeSlot(models.Model):
 
 
 class TimeSlotAvailability(models.Model):
-    availability = models.ForeignKey('Availability', on_delete=models.CASCADE)
-    specific_date = models.ForeignKey(SpecificDate, on_delete=models.CASCADE)
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    availability = models.ForeignKey(
+        'Availability', on_delete=models.CASCADE
+    )
+    specific_date = models.ForeignKey(
+        SpecificDate, on_delete=models.CASCADE
+    )
+    time_slot = models.ForeignKey(
+        TimeSlot, on_delete=models.CASCADE
+    )
     is_available = models.BooleanField(default=True)
     is_booked = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ('availability', 'specific_date', 'time_slot')
+        unique_together = (
+            'availability', 'specific_date', 'time_slot'
+        )
 
     def clean(self):
         if self.is_available and self.is_booked:
-            raise ValidationError('Time slots cannot be both available and booked.')
+            raise ValidationError(
+                'Time slots cannot be both available and booked.'
+            )
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -189,28 +209,39 @@ class TimeSlotAvailability(models.Model):
 
 
 class Availability(models.Model):
-    spa_service = models.ForeignKey(SpaService, on_delete=models.CASCADE)
+    spa_service = models.ForeignKey(
+        SpaService, on_delete=models.CASCADE
+    )
     specific_dates = models.ManyToManyField(SpecificDate)
-    time_slots = models.ManyToManyField(TimeSlot, through=TimeSlotAvailability)
+    time_slots = models.ManyToManyField(
+        TimeSlot, through=TimeSlotAvailability
+    )
 
     def save_model(self, request, obj, form, change):
-        if Availability.objects.filter(spa_service=obj.spa_service).exists() and not change:
-            raise ValidationError(f"The spa service '{obj.spa_service}' is already available.")
+        if Availability.objects.filter(
+            spa_service=obj.spa_service
+        ).exists() and not change:
+            raise ValidationError(
+                f"The spa service '{obj.spa_service}' "
+                "is already available."
+            )
         super().save_model(request, obj, form, change)
 
     def __str__(self):
         return f"{self.spa_service.name} - Availability"
 
-   
+
 class Review(models.Model):
     """
     From "I Think therfore I blog".
     Lets logged-in users review spa services.
     """
     spa_service = models.ForeignKey(
-        SpaService, on_delete=models.CASCADE, related_name="reviews")
+        SpaService, on_delete=models.CASCADE, related_name="reviews"
+    )
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="reviewer")
+        User, on_delete=models.CASCADE, related_name="reviewer"
+    )
     body = models.TextField()
     approved = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)

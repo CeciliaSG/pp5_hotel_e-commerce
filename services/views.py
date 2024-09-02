@@ -1,46 +1,26 @@
-from django.shortcuts import (render, get_object_or_404,
-                              redirect, reverse, HttpResponseRedirect)
-from django.contrib.admin.views.decorators import staff_member_required
-from .models import (SpaService, ServiceCategory,
-                     Review, Availability, TimeSlotAvailability, TimeSlot)
-from django.contrib import messages
-from .forms import reviewForm, FrontendTimeSlotForm
 from collections import defaultdict
 
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Count, Q
 from django.http import JsonResponse
+from django.shortcuts import (
+    render, get_object_or_404, redirect, reverse, HttpResponseRedirect
+)
 
+from .forms import reviewForm, FrontendTimeSlotForm
+from .models import (
+    SpaService, ServiceCategory, Review, Availability,
+    TimeSlotAvailability, TimeSlot
+)
 
 # Create your views here.
+
 
 def services_by_category(request, category_id):
     """
     Fetches spa services belonging to a specific service
     category and renders them in the index.html template.
-
-    Retrieves the ServiceCategory object identified by the
-    provided category_id from the database.
-    Filters SpaService objects based on the retrieved category
-    to fetch all services associated with that category.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-        category_id (int): The ID of the ServiceCategory to
-        filter SpaService objects.
-
-    Returns:
-        HttpResponse: Rendered response with the index.html
-        template displaying spa services belonging to
-        the specified service category.
-
-    Raises:
-        Http404: If the ServiceCategory with the given
-        category_id does not exist.
-
-    Usage:
-        This view is typically used to display spa services
-        categorized under specific ServiceCategory objects
-        on the website's index or home page.
     """
 
     category = get_object_or_404(ServiceCategory, id=category_id)
@@ -58,33 +38,6 @@ def spa_services(request, context_only=False):
     """
     Fetches and optionally renders SpaService objects
     and ServiceCategory objects.
-
-    Retrieves all SpaService objects from the database. Filters
-    these objects into 'access_services'
-    (services that require special access) and 'spa_services'
-    (standard spa services).
-
-    Also retrieves all ServiceCategory objects to categorize
-    the spa services.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-        context_only (bool, optional): If True, returns
-        a dictionary context containing access_services,
-        spa_services, and categories without rendering a template.
-        Defaults to False.
-
-    Returns:
-        HttpResponse or dict: If context_only is False, renders
-        the 'home/index.html' template with context data
-        containing access_services, spa_services, and categories.
-        If context_only is True, returns a dictionary context with
-        the same data.
-
-    Usage:
-        This view is typically used to display various spa services
-        categorized by access type and ServiceCategory
-        on the index or home page of a spa website.
     """
     services = SpaService.objects.annotate(
         review_count=Count('reviews', filter=Q(reviews__approved=True))
@@ -109,31 +62,9 @@ def service_details(request, service_id):
     """
     Render the details of a specific spa service, including
     reviews.
-
-    Retrieves a SpaService object from the database based on
-    the provided service_id. If the service_id does not exist,
-    a HTTP 404 Not Found error is raised. Handles review submission
-    and displays reviews for the service.
-
-    Args:
-        request (HttpRequest): The HTTP request object.
-        service_id (int): The ID of the SpaService to retrieve
-        details for.
-
-    Returns:
-        HttpResponse: Rendered template 'services/service_details.html'
-        displaying details of the retrieved SpaService, including
-        reviews and a review form.
-
-    Usage:
-        This view is typically used to display detailed information
-        about a specific spa service on a dedicated service details
-        page in a spa website.
     """
-
     service = get_object_or_404(SpaService, id=service_id)
     reviews = service.reviews.all().order_by("-created_on")
-
     review_count = service.reviews.filter(approved=True).count()
 
     if request.method == "POST":
@@ -166,7 +97,7 @@ def service_details(request, service_id):
 
 def review_edit(request, service_id, review_id):
     """
-    view to edit reviews
+    View to edit reviews.
     """
     if request.method == "POST":
 
@@ -180,10 +111,13 @@ def review_edit(request, service_id, review_id):
             review.spa_service = spa_service
             review.approved = False
             review.save()
-            messages.add_message(request, messages.SUCCESS, 'review Updated!')
+            messages.add_message(
+                request, messages.SUCCESS, 'Review updated!'
+            )
         else:
-            messages.add_message(request, messages.ERROR,
-                                 'Error updating review!')
+            messages.add_message(
+                request, messages.ERROR, 'Error updating review!'
+            )
 
     return HttpResponseRedirect(reverse('service_details', args=[service_id]))
 
@@ -215,15 +149,17 @@ def availability_overview(request):
     Overview of availability.
     """
     availabilities = Availability.objects.all()
-    return render(request,
-                  'admin/services/availability/availability_overview.html', 
-    {'availabilities': availabilities})
+    return render(
+        request,
+        'admin/services/availability/availability_overview.html',
+        {'availabilities': availabilities}
+    )
 
 
 @staff_member_required
 def manage_time_slots_frontend(request, availability_id=None):
     """
-    View for managing time_slots
+    View for managing time slots.
     """
     spa_service_id = request.GET.get('spa_service')
     if spa_service_id:
@@ -232,13 +168,15 @@ def manage_time_slots_frontend(request, availability_id=None):
         )
     else:
         availability = get_object_or_404(Availability, id=availability_id)
-    
+
     if request.method == 'POST':
         form = FrontendTimeSlotForm(request.POST, availability=availability)
         if form.is_valid():
             form.save()
 
-            unchecked_time_slot_ids = request.POST.getlist('unchecked_time_slots')
+            unchecked_time_slot_ids = request.POST.getlist(
+                'unchecked_time_slots'
+            )
             if unchecked_time_slot_ids:
                 TimeSlotAvailability.objects.filter(
                     availability=availability,
@@ -250,15 +188,22 @@ def manage_time_slots_frontend(request, availability_id=None):
             )
     else:
         specific_date = request.GET.get('specific_date')
-        form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
+        form = FrontendTimeSlotForm(
+            availability=availability,
+            initial={'specific_date': specific_date}
+        )
 
     spa_services = SpaService.objects.all()
 
-    return render(request, 'admin/services/availability/manage_time_slots.html', {
-        'form': form,
-        'availability': availability,
-        'spa_services': spa_services,
-    })
+    return render(
+        request,
+        'admin/services/availability/manage_time_slots.html',
+        {
+            'form': form,
+            'availability': availability,
+            'spa_services': spa_services,
+        }
+    )
 
 
 @staff_member_required
@@ -266,28 +211,6 @@ def get_time_slots_for_date(request, availability_id):
     """
     Retrieves the list of time slots for a specific spa service
     on a given date.
-
-    This view function is restricted to staff members and is used to
-    retrieve all time slots associated with a specific spa service's
-    availability. For each time slot, it checks whether the time slot
-    is available on the specified date.
-
-    Args:
-        request (HttpRequest): The HTTP request object. It should include a
-            'date_id' parameter in the GET query string, which corresponds
-            to the specific date.
-        availability_id (int): The ID of the Availability object, which
-            links the spa service to its time slots.
-
-    Returns:
-        JsonResponse: A JSON response containing a dictionary with
-        a 'time_slots'
-            key. The value is a list of dictionaries, each representing
-            a time slot with the following fields:
-            - 'time_slot__id': The ID of the time slot.
-            - 'time_slot__time': The time associated with the time slot.
-            - 'is_available': A boolean indicating whether the time slot is
-              available on the specified date.
     """
     try:
         date_id = request.GET.get('date_id')
@@ -308,9 +231,17 @@ def get_time_slots_for_date(request, availability_id):
 
         time_slots_data = []
         for time_slot in all_time_slots:
-            availability_record = available_time_slots.filter(time_slot=time_slot).first()
-            is_available = availability_record.is_available if availability_record else False
-            is_booked = availability_record.is_booked if availability_record else False
+            availability_record = available_time_slots.filter(
+                time_slot=time_slot
+            ).first()
+            is_available = (
+                availability_record.is_available if availability_record
+                else False
+            )
+            is_booked = (
+                availability_record.is_booked if availability_record
+                else False
+            )
 
             time_slots_data.append({
                 'time_slot__id': time_slot.id,
@@ -328,10 +259,3 @@ def get_time_slots_for_date(request, availability_id):
     except Exception as e:
         print(f"Error occurred: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
-
-
-
-
-
-
-

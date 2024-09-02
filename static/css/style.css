@@ -175,7 +175,8 @@ nav {
 
 
 /*Override Bootstrap's gutter spacing for containers */
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+.container, .container-fluid, .container-lg,
+.container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 0 !important;
     --bs-gutter-y: 0;
     width: 100%;
@@ -461,7 +462,7 @@ input, .form-element {
 .button-group {
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* Adjust the gap value as needed */
+    gap: 10px;
 }
 
 

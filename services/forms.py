@@ -1,12 +1,15 @@
 from django import forms
-from django.forms.models import BaseInlineFormSet
-from .models import (Review, SpaService, SpecificDate,
-                     TimeSlot, TimeSlotAvailability, Availability)
 from django.db import transaction
+from django.forms.models import BaseInlineFormSet
+
+from .models import (
+    Review, SpaService, SpecificDate, TimeSlot,
+    TimeSlotAvailability, Availability
+)
 
 
 class reviewForm(forms.ModelForm):
-    """ Lets users review spa services. From Blog walkthroug"""
+    """ Lets users review spa services. From Blog walkthrough """
     class Meta:
         model = Review
         fields = ('body',)
@@ -38,20 +41,23 @@ class SpecificDateAdminForm(forms.ModelForm):
 
     def clean_dates(self):
         dates = self.cleaned_data['dates']
-        date_list = [date.strip() for date in dates.split(',') if date.strip()]
+        date_list = [
+            date.strip() for date in dates.split(',')
+            if date.strip()
+        ]
 
         if len(date_list) != len(set(date_list)):
             raise forms.ValidationError("You have entered duplicate dates.")
 
         existing_dates = (
-            SpecificDate.objects
-            .filter(date__in=date_list)
+            SpecificDate.objects.filter(date__in=date_list)
             .values_list('date', flat=True)
         )
 
         if existing_dates:
-            formatted_dates = (date.strftime('%Y-%m-%d')
-                               for date in existing_dates)
+            formatted_dates = (
+                date.strftime('%Y-%m-%d') for date in existing_dates
+            )
             existing_dates_str = ", ".join(formatted_dates)
             error_message = (
                 f"The following dates already exist: {existing_dates_str}"
@@ -82,8 +88,6 @@ class SpecificDateAdminForm(forms.ModelForm):
             )
         }
 
-
-# Frontend Admin for Time Slots
 
 class TimeSlotAvailabilityForm(forms.ModelForm):
     class Meta:
@@ -120,7 +124,9 @@ class FrontendTimeSlotForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.availability:
             spa_service = self.availability.spa_service
-            time_slots_queryset = TimeSlot.objects.filter(spa_service=spa_service)
+            time_slots_queryset = TimeSlot.objects.filter(
+                spa_service=spa_service
+            )
             self.fields['time_slots'].queryset = time_slots_queryset
             self.initial['time_slots'] = TimeSlot.objects.filter(
                 id__in=TimeSlotAvailability.objects.filter(
@@ -136,13 +142,18 @@ class FrontendTimeSlotForm(forms.ModelForm):
         selected_time_slots = self.cleaned_data['time_slots']
 
         if not self.availability:
-            raise ValueError("Availability must be set when saving TimeSlotAvailability instances.")
+            raise ValueError(
+                "Availability must be set when saving "
+                "TimeSlotAvailability instances."
+            )
 
         try:
             with transaction.atomic():
-                existing_time_slots = TimeSlotAvailability.objects.filter(
-                    availability=self.availability,
-                    specific_date=specific_date,
+                existing_time_slots = (
+                    TimeSlotAvailability.objects.filter(
+                        availability=self.availability,
+                        specific_date=specific_date,
+                    )
                 )
 
                 for tsa in existing_time_slots:
@@ -150,9 +161,8 @@ class FrontendTimeSlotForm(forms.ModelForm):
                         continue
                     if tsa.time_slot in selected_time_slots:
                         tsa.is_available = True
-                        tsa.is_booked = tsa.is_booked
+                    else:
                         tsa.is_available = False
-                        tsa.is_booked = False
                     tsa.save()
 
                 for time_slot in selected_time_slots:
