@@ -31,7 +31,7 @@ DEBUG = os.getenv('DEBUG') == '1'
 
 
 ALLOWED_HOSTS = [
-    "8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
+    '8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu116.gitpod.io',
     ".herokuapp.com",
     '127.0.0.1',
 ]
