@@ -57,7 +57,7 @@ class CustomSignupForm(SignupForm):
     )
     date_of_birth = forms.DateField(
         widget=forms.DateInput(attrs={
-            'placeholder': 'DD/MM/YYYY', 'type': 'date'
+            'type': 'date'
         }),
         required=False,
         label='Date of Birth (optional)'
