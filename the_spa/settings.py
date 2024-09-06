@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu115.gitpod.io",
+    "https://8000-ceciliasg-pp5spaecommer-as7j9of3nt4.ws-eu116.gitpod.io",
     "https://the-spa-df1f22d5aa6e.herokuapp.com/",
 ]
 
