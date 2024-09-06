@@ -42,6 +42,11 @@ main {
     color: #191521 !important;
 }
 
+/* Styling links */
+
+.link-colour {
+    color: #538991;
+}
 
 /* navbar */
 
