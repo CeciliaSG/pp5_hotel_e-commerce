@@ -10,62 +10,50 @@
         <div class="col-10 col-md-4">
             <div class="allauth-form-inner-content">
                 {% if messages %}
-                {% for message in messages %}
-                {% if 'error' in message.tags %}
-
                 <ul>
+                    {% for message in messages %}
+                    {% if 'error' in message.tags %}
                     <li class="message-list-item">
                         <div class="messages alert alert-{{ message.tags }}" role="alert">
                             {{ message }}
                         </div>
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                        <div class="col">
-                            <hr>
-                            <h1 class="logo-font mb-4">{% element h2 %}
-                                {% trans "Sign In" %}
-                                {% endelement %}</h1>
-                            <hr>
-                        </div>
                     </li>
+                    {% endif %}
+                    {% endfor %}
                 </ul>
-                {% if not SOCIALACCOUNT_ONLY %}
-                {% setvar link %}
-                <a class="link-colour" href="{{ signup_url }}">
-                    {% endsetvar %}
-                    {% setvar end_link %}
-                </a>
-                {% endsetvar %}
-                {% element p %}
-                {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }}
-                first.
-                {% endblocktranslate %}
-                {% endelement %}
-                {% url 'account_login' as login_url %}
-                {% element form form=form method="post" action=login_url tags="entrance,login" %}
-                {% slot body %}
-                {% csrf_token %}
-                {{ form|crispy }}
-                {{ redirect_field }}
-                {% endslot %}
-                {% slot actions %}
-                <div class="button btn">{% element button type="submit" tags="prominent,login" %}
-                    {% trans "Sign In" %}
-                    {% endelement %}
+                {% endif %}
+
+                <div class="col">
+                    <hr>
+                    <h1 class="logo-font mb-4">{% trans "Sign In" %}</h1>
+                    <hr>
                 </div>
-                {% endslot %}
-                {% endelement %}
+
+                {% if not SOCIALACCOUNT_ONLY %}
+                <p>
+                    {% blocktranslate %}If you have not created an account yet, then please <a class="link-colour"
+                        href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
+                </p>
+                {% url 'account_login' as login_url %}
+                <form method="post" action="{{ login_url }}" class="entrance login-form">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    {{ redirect_field }}
+                    <div class="button btn">
+                        <button type="submit" class="prominent login-btn">{% trans "Sign In" %}</button>
+                    </div>
+                </form>
                 {% endif %}
+
                 {% if LOGIN_BY_CODE_ENABLED %}
-                {% element hr %}#
-                {% endelement %}
-                {% element h2 %}
-                {% element button href=request_login_code_url tags="prominent,login,secondary" %}
-                {% trans "Mail me a sign-in code" %}
-                {% endelement %}
-                {% endelement %}
+                <hr>
+                <h2>
+                    <a href="{{ request_login_code_url }}" class="prominent secondary-btn">
+                        {% trans "Mail me a sign-in code" %}
+                    </a>
+                </h2>
                 {% endif %}
+
                 {% if SOCIALACCOUNT_ENABLED %}
                 {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
                 {% endif %}
@@ -76,5 +64,5 @@
 {% endblock %}
 
 {% block head_title %}
-
+{% trans "Sign In" %}
 {% endblock head_title %}
