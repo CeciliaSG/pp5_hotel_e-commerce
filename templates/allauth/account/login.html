@@ -13,24 +13,26 @@
                 {% for message in messages %}
                 {% if 'error' in message.tags %}
 
-                <ul><li class="message-list-item"><div class="messages alert alert-{{ message.tags }}" role="alert">
-                    {{ message }}
-                </div>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-                <div class="col">
-                    <hr>
-                    <h1 class="logo-font mb-4">{% element h2 %}
-                        {% trans "Sign In" %}
-                        {% endelement %}</h1>
-                    <hr>
-                </div>
-                </li>
+                <ul>
+                    <li class="message-list-item">
+                        <div class="messages alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <div class="col">
+                            <hr>
+                            <h1 class="logo-font mb-4">{% element h2 %}
+                                {% trans "Sign In" %}
+                                {% endelement %}</h1>
+                            <hr>
+                        </div>
+                    </li>
                 </ul>
                 {% if not SOCIALACCOUNT_ONLY %}
                 {% setvar link %}
-                <a href="{{ signup_url }}">
+                <a class="link-colour" href="{{ signup_url }}">
                     {% endsetvar %}
                     {% setvar end_link %}
                 </a>

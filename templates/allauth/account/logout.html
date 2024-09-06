@@ -2,9 +2,9 @@
 
 {% load allauth i18n %}
 {% block head_title %}
-
 {% trans "Sign Out" %}
 {% endblock head_title %}
+
 {% block content %}
 <div class="container form-container justify-content-center">
     <div class="row justify-content-center">
@@ -13,36 +13,31 @@
                 <div class="row">
                     <div class="col">
                         <hr>
-                        <h1 class="logo-font mb-4">{% element h2 %}
-                            {% trans "Sign Out" %}
-                            {% endelement %}</h1>
+                        <h1 class="logo-font mb-4">{% trans "Sign Out" %}</h1>
                         <hr>
                     </div>
                 </div>
-                {% element p %}
-                {% trans 'Are you sure you want to sign out?' %}
-                <h5>{{ request.user.username }}</h5>
-                <h6>{{ request.user.email }}</h6>
-                {% endelement %}
+                <div>
+                    <p>
+                        {% trans 'Are you sure you want to sign out?' %}
+                    </p>
+                    <h5>{{ request.user.username }}</h5>
+                    <h6>{{ request.user.email }}</h6>
+                </div>
                 <div>
                     {% url 'account_logout' as action_url %}
-                    {% element form method="post" action=action_url no_visible_fields=True %}
-                    {% slot body %}
-                    {% csrf_token %}
-                    {{ redirect_field }}
-                    {% endslot %}
-                    {% slot actions %}
-                    <div class="d-flex">
-                        {% element button type="submit" %}
-                        {% trans 'Sign Out' %}
-                        {% endelement %}
-                        <a href="{% url 'home' %}" class="btn button" style="margin-left: 10px;">
-                            {% trans 'Back to Home Page'%}</a>
-                    </div>
+                    <form method="post" action="{{ action_url }}">
+                        {% csrf_token %}
+                        {{ redirect_field }}
+                        <div class="d-flex">
+                            <button type="submit" class="btn">{% trans 'Sign Out' %}</button>
+                            <a href="{% url 'home' %}" class="btn button" style="margin-left: 10px;">
+                                {% trans 'Back to Home Page' %}
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
-            {% endslot %}
-            {% endelement %}
         </div>
     </div>
 </div>
