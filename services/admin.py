@@ -59,32 +59,18 @@ class SpecificDateInline(admin.TabularInline):
 
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
-    form = TimeSlotAvailabilityForm
     extra = 1
-    fields = [
-        'specific_date', 'time_slot', 'is_available', 'is_booked'
-    ]
+    fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
 
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        return queryset.order_by(
-            'specific_date__date', 'time_slot__time'
-        )
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "time_slot" and hasattr(self, 'spa_service'):
+            kwargs["queryset"] = TimeSlot.objects.filter(spa_service=self.spa_service).order_by('time')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_formset(self, request, obj=None, **kwargs):
-        spa_service = obj.spa_service if obj else None
+        self.spa_service = obj.spa_service if obj else None
+        return super().get_formset(request, obj, **kwargs)
 
-        formset_class = super().get_formset(request, obj, **kwargs)
-
-        class CustomFormset(formset_class):
-            def __init__(self, *args, **kwargs):
-                super().__init__(*args, **kwargs)
-                for form in self.forms:
-                    form.fields['time_slot'].queryset = (
-                        TimeSlot.objects.filter(spa_service=spa_service)
-                    )
-
-        return CustomFormset
 
 
 class SpecificDateAdmin(admin.ModelAdmin):

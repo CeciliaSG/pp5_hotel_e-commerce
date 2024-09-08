@@ -74,7 +74,8 @@ class SpecificDateAdminForm(forms.ModelForm):
             specific_date_objects.append(specific_date)
         if commit:
             SpecificDate.objects.bulk_create(specific_date_objects)
-        return specific_date_objects
+
+        return specific_date_objects[0] if specific_date_objects else None
 
     class Media:
         js = (
@@ -87,6 +88,7 @@ class SpecificDateAdminForm(forms.ModelForm):
                 'flatpickr.min.css',
             )
         }
+
 
 
 class TimeSlotAvailabilityForm(forms.ModelForm):
