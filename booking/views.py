@@ -4,6 +4,8 @@ from .forms import ServiceBookingForm, TimeSlotSelectionForm
 from services.models import (
     SpaService, Availability, TimeSlot, SpecificDate, TimeSlotAvailability
 )
+from django.http import JsonResponse
+from datetime import date
 
 
 def book_spa_service(request):
@@ -115,3 +117,31 @@ def book_spa_service(request):
             "is_access": is_access,
         },
     )
+
+
+def get_available_dates(request, service_id):
+    """
+    Returns available dates for a given spa service in JSON format.
+    """
+    available_dates = SpecificDate.objects.filter(
+        timeslotavailability__availability__spa_service_id=service_id,
+        timeslotavailability__is_available=True
+    ).distinct().values_list('date', flat=True)
+
+    available_dates_list = [date_obj.strftime('%Y-%m-%d') for date_obj in available_dates]
+
+    if available_dates.exists():
+        min_date = available_dates.earliest('date')
+        max_date = available_dates.latest('date')
+    else:
+        min_date = date.today()
+        max_date = date.today()
+
+    return JsonResponse({
+        'available_dates': available_dates_list,
+        'min_date': min_date.strftime('%Y-%m-%d'),
+        'max_date': max_date.strftime('%Y-%m-%d'),
+    })
+
+
+

@@ -59,7 +59,6 @@ class SpecificDateInline(admin.TabularInline):
 
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
-    # form = TimeSlotAvailabilityForm
     extra = 1
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
     autocomplete_fields = ['specific_date', 'time_slot']

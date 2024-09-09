@@ -28,7 +28,7 @@ class DateInput(forms.DateInput):
         rendering of date input fields across different browsers
         that support HTML5 date inputs.
     """
-    input_type = 'date'
+    input_type = 'text'
 
 
 class ServiceBookingForm(forms.ModelForm):
@@ -80,7 +80,9 @@ class ServiceBookingForm(forms.ModelForm):
     date = forms.DateField(
         widget=DateInput(
             attrs={
-                'type': 'date',
+                "id": "id_date",
+                #'type': 'date',
+                "placeholder": "Select date",
                 "class": "form-control",
                 "required": True
             }

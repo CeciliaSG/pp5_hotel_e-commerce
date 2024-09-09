@@ -22,17 +22,21 @@
   {% block extra_meta %}{% endblock %}
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- jQuery UI for Datepicker -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-  <!-- Favicon
+  <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon_package_v0.16/apple-touch-icon.png' %}">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon_package_v0.16/favicon-32x32.png' %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon_package_v0.16/favicon-16x16.png' %}">
   <link rel="manifest" href="{% static 'favicon_package_v0.16/site.webmanifest' %}">
   <link rel="mask-icon" href="{% static 'favicon_package_v0.16/safari-pinned-tab.svg' %}" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="theme-color" content="#ffffff">-->
+  <meta name="theme-color" content="#ffffff">
 
   {% block corecss %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -222,4 +226,14 @@
   <script src="https://js.stripe.com/v3/"></script>
 
   {% endblock %}
+
+  {% block scripts %}
+  <!-- Page-Specific Scripts (for Datepicker, Flatpickr, etc.) -->
+
+  <!-- jQuery UI for Datepicker  -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  {% endblock %}
+
+
 </body>

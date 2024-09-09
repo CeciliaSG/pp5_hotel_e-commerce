@@ -14,6 +14,7 @@
                 <button class="button btn mb-4" type="submit" aria-label="Show time slotss button">Show time
                     slots</button>
             </form>
+
             {% if service_id and available_time_slots %}
             <form method="post" action="{% url 'add_to_cart' service_id=service_id %}">
                 {% csrf_token %}
@@ -57,9 +58,18 @@
             {% endif %}
         </div>
         <div class="col-md-4 col-lg-5">
-            <img src="{% static 'images/image_water-lily.webp' %}" class="img-fluid my-5 mx-auto d-block" alt=" Spa
-                            Image">
+            <img src="{% static 'images/image_water-lily.webp' %}" class="img-fluid my-5 mx-auto d-block"
+                alt="Spa Image">
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Page-Specific Script (for Datepicker, Flatpickr, etc.) -->
+
+<!-- jQuery UI for Datepicker  -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'js/show_availability.js' %}"></script>
 {% endblock %}

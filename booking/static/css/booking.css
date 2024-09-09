@@ -1,0 +1,11 @@
+/* Style for available dates */
+.available-date a {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-radius: 50% !important;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    background-color: #e9ecef;
+    color: #17ba43;
+}
