@@ -90,7 +90,6 @@ class SpecificDateAdminForm(forms.ModelForm):
         }
 
 
-
 class TimeSlotAvailabilityForm(forms.ModelForm):
     class Meta:
         model = TimeSlotAvailability

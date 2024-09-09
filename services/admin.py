@@ -59,6 +59,7 @@ class SpecificDateInline(admin.TabularInline):
 
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
+    #form = TimeSlotAvailabilityForm
     extra = 1
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
     autocomplete_fields = ['specific_date', 'time_slot']
@@ -100,7 +101,6 @@ admin.site.register(SpecificDate, SpecificDateAdmin)
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
     inlines = [TimeSlotAvailabilityInline]
-    list_per_page = 10
     list_select_related = ("spa_service",)
 
     def specific_dates_display(self, obj):
