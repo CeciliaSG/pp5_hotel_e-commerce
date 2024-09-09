@@ -61,16 +61,25 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
     extra = 1
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
+    autocomplete_fields = ['specific_date', 'time_slot']
+
+    def get_queryset(self, request):
+        """
+        Optimized queryset without slicing and raw ID fields.
+        """
+        qs = super().get_queryset(request)
+        return qs.select_related('specific_date', 'time_slot')
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "time_slot" and hasattr(self, 'spa_service'):
             kwargs["queryset"] = TimeSlot.objects.filter(spa_service=self.spa_service).order_by('time')
+        elif db_field.name == "specific_date":
+            kwargs["queryset"] = SpecificDate.objects.all().order_by('date')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_formset(self, request, obj=None, **kwargs):
         self.spa_service = obj.spa_service if obj else None
         return super().get_formset(request, obj, **kwargs)
-
 
 
 class SpecificDateAdmin(admin.ModelAdmin):
@@ -91,13 +100,38 @@ admin.site.register(SpecificDate, SpecificDateAdmin)
 class AvailabilityAdmin(admin.ModelAdmin):
     list_display = ("spa_service",)
     inlines = [TimeSlotAvailabilityInline]
-    raw_id_fields = ['spa_service']
+    list_per_page = 10
+    list_select_related = ("spa_service",)
 
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(
-            request, obj=obj
+    def specific_dates_display(self, obj):
+        """
+        Custom display for specific dates in the list view.
+        Prepares dates as comma-separated strings to avoid multiple DB queries.
+        """
+        return ", ".join([str(date) for date in obj.specific_dates.all()])
+
+    def time_slots_display(self, obj):
+        """
+        Custom display for time slots in the list view.
+        Retrieves related time slots efficiently.
+        """
+        return ", ".join([str(slot) for slot in obj.time_slots.all()])
+
+    specific_dates_display.short_description = 'Specific Dates'
+    time_slots_display.short_description = 'Time Slots'
+
+    def get_queryset(self, request):
+        """
+        Optimized queryset that prefetches related data.
+        This reduces the number of DB hits by fetching related specific dates and time slots.
+        """
+        queryset = super().get_queryset(request)
+        return (
+            queryset
+            .select_related('spa_service')
+            .prefetch_related('specific_dates')
+            .prefetch_related('time_slots')
         )
-        return inline_instances
 
 
 admin.site.register(Availability, AvailabilityAdmin)

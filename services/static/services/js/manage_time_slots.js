@@ -92,3 +92,5 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTimeSlots(spaServiceDropdown.value, dateDropdown.value);
     }
 });
+
+

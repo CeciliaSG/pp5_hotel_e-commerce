@@ -134,17 +134,20 @@ class SpecificDate(models.Model):
         purposes.
 
     """
-    date = models.DateField()
+    date = models.DateField(db_index=True)
 
     def __str__(self):
         return str(self.date)
 
     class Meta:
-        ordering = ['date']
+        indexes = [
+            models.Index(fields=['date']),
+        ]
+        ordering = ['date']        
 
 
 class TimeSlot(models.Model):
-    time = models.TimeField()
+    time = models.TimeField(db_index=True)
     spa_service = models.ForeignKey(
         SpaService, on_delete=models.CASCADE
     )
@@ -196,6 +199,10 @@ class TimeSlotAvailability(models.Model):
         unique_together = (
             'availability', 'specific_date', 'time_slot'
         )
+        indexes = [
+            models.Index(fields=['specific_date', 'time_slot']),
+        ]
+
 
     def clean(self):
         if self.is_available and self.is_booked:
