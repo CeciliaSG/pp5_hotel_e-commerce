@@ -90,24 +90,6 @@ class SpecificDateAdminForm(forms.ModelForm):
         }
 
 
-class TimeSlotAvailabilityForm(forms.ModelForm):
-    class Meta:
-        model = TimeSlotAvailability
-        fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
-
-    def __init__(self, *args, **kwargs):
-        spa_service = kwargs.pop('spa_service', None)
-        super().__init__(*args, **kwargs)
-
-        if spa_service:
-            time_slot_queryset = TimeSlot.objects.filter(
-                spa_service=spa_service
-            )
-            self.fields['time_slot'].queryset = time_slot_queryset
-        else:
-            self.fields['time_slot'].queryset = TimeSlot.objects.none()
-
-
 class FrontendTimeSlotForm(forms.ModelForm):
     time_slots = forms.ModelMultipleChoiceField(
         queryset=TimeSlot.objects.none(),

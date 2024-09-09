@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 
 from .forms import SpecificDateAdminForm
-from .forms import TimeSlotAvailabilityForm
+#from .forms import TimeSlotAvailabilityForm
 
 from .models import Availability
 from .models import TimeSlotAvailability
@@ -14,7 +14,7 @@ from .models import Review
 
 
 class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name',)
     search_fields = ('name',)
     list_filter = ('name',)
     ordering = ('name',)
@@ -59,7 +59,7 @@ class SpecificDateInline(admin.TabularInline):
 
 class TimeSlotAvailabilityInline(admin.TabularInline):
     model = TimeSlotAvailability
-    #form = TimeSlotAvailabilityForm
+    # form = TimeSlotAvailabilityForm
     extra = 1
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
     autocomplete_fields = ['specific_date', 'time_slot']
@@ -73,7 +73,9 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "time_slot" and hasattr(self, 'spa_service'):
-            kwargs["queryset"] = TimeSlot.objects.filter(spa_service=self.spa_service).order_by('time')
+            kwargs["queryset"] = TimeSlot.objects.filter(
+                spa_service=self.spa_service
+            ).order_by('time')
         elif db_field.name == "specific_date":
             kwargs["queryset"] = SpecificDate.objects.all().order_by('date')
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -123,7 +125,8 @@ class AvailabilityAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         """
         Optimized queryset that prefetches related data.
-        This reduces the number of DB hits by fetching related specific dates and time slots.
+        This reduces the number of DB hits by fetching related specific
+        dates and time slots.
         """
         queryset = super().get_queryset(request)
         return (
@@ -158,3 +161,4 @@ admin.site.register(SpaService, SpaServiceAdmin)
 
 
 admin.site.register(Review)
+

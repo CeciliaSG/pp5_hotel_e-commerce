@@ -97,7 +97,7 @@ def service_details(request, service_id):
 
 def review_edit(request, service_id, review_id):
     """
-    View to edit reviews.
+    View to edit reviews. From Blog walkthrough.
     """
     if request.method == "POST":
 
@@ -163,7 +163,9 @@ def manage_time_slots_frontend(request, availability_id=None):
     """
     spa_service_id = request.GET.get('spa_service')
     if spa_service_id:
-        availability = get_object_or_404(Availability, spa_service_id=spa_service_id)
+        availability = get_object_or_404(
+            Availability, spa_service_id=spa_service_id
+        )
     else:
         availability = get_object_or_404(Availability, id=availability_id)
 
@@ -172,23 +174,34 @@ def manage_time_slots_frontend(request, availability_id=None):
         if form.is_valid():
             form.save()
 
-            unchecked_time_slot_ids = request.POST.getlist('unchecked_time_slots')
+            unchecked_time_slot_ids = request.POST.getlist(
+                'unchecked_time_slots'
+            )
             if unchecked_time_slot_ids:
                 TimeSlotAvailability.objects.filter(
                     availability=availability,
                     time_slot_id__in=unchecked_time_slot_ids,
-                    specific_date=form.cleaned_data['specific_date']
+                    specific_date=form.cleaned_data['specific_date'],
                 ).update(is_available=False, is_booked=False)
 
-            messages.success(request, "Time slots have been successfully updated.")
+            messages.success(
+                request, "Time slots have been successfully updated."
+            )
 
-            return redirect(reverse('manage_time_slots_frontend', args=[availability.id]))
+            return redirect(
+                reverse('manage_time_slots_frontend', args=[availability.id])
+            )
         else:
-            messages.error(request, "There was an issue updating the time slots. Please check your input.")
-    
+            messages.error(
+                request, "There was an issue updating the time slots. "
+                "Please check your input."
+            )
+
     else:
         specific_date = request.GET.get('specific_date')
-        form = FrontendTimeSlotForm(availability=availability, initial={'specific_date': specific_date})
+        form = FrontendTimeSlotForm(
+            availability=availability, initial={'specific_date': specific_date}
+        )
 
     spa_services = SpaService.objects.all()
 
