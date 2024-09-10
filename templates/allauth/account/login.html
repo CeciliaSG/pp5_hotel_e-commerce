@@ -43,6 +43,11 @@
                         <button type="submit" class="prominent login-btn">{% trans "Sign In" %}</button>
                     </div>
                 </form>
+                <hr>
+                <p>
+                    Didn't receive a confirmation email or forgot to confirm your account? <a class="link-colour"
+                        href="{% url 'resend_confirmation_email' %}">Request a new confirmation email here.</a>
+                </p>
                 {% endif %}
 
                 {% if LOGIN_BY_CODE_ENABLED %}
@@ -62,6 +67,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 {% block head_title %}
 {% trans "Sign In" %}

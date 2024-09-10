@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<section class="container-fluid d-flex justify-content-center bg-white delete-account-page ml-3 mr-3 form-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 text-left">
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                        <h1 class="logo-font mb-4">Resend Confirmation email</h1>
+                        <hr>
+                    </div>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email">{% trans "Enter your email to receive a new confirmation link" %}</label>
+                            <input type="email" name="email" id="email" class="form-control" required
+                                placeholder="{% trans 'Email address' %}">
+                        </div>
+                        <button type="submit" class="btn mt-2">{% trans "Request Confirmation" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% endblock %}

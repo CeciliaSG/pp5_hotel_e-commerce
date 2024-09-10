@@ -102,10 +102,10 @@
           </ul>
           <ul>
             {% if not request.user.is_authenticated %}
-            <li class="nav-item nav-link"><a href="{% url 'account_signup' %}"
+            <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}"
                 aria-label="For for registering">Register</a>
             </li>
-            <li class="nav-item nav-link"><a href="{% url 'account_login' %}" class="nav-link"
+            <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}" class="nav-link"
                 aria-label="Login page">Signin</a>
             </li>
             {% else %}

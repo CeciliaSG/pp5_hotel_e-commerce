@@ -42,11 +42,6 @@ main {
     color: #191521 !important;
 }
 
-/* Styling links */
-
-.link-colour {
-    color: #538991;
-}
 
 /* navbar */
 
@@ -462,7 +457,7 @@ input, .form-element {
 }
 
 
-/* Styling buttons */
+/* Styling buttons & links */
 
 .button-group {
     display: flex;
@@ -501,6 +496,7 @@ button.btn {
 }
 
 a.btn {
+    color: #191521 !important;
     background-color: #538991;
     border-color: #538991;
     border-radius: 0;
@@ -514,6 +510,20 @@ a.btn:hover {
     background-color: #375d66 !important; 
     color: #fff !important;
 }
+
+
+a {
+    color: #538991 !important;
+}
+
+a:hover {
+    color: #053f4c !important; 
+}
+
+.navbar-nav .nav-link  {
+    color: #fff !important;
+}
+
 
 .submit-button.btn {
     display: flex;

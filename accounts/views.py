@@ -4,8 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.http import Http404
 
-from allauth.account.views import ConfirmEmailView, LoginView
+from allauth.account.utils import send_email_confirmation
+from allauth.account.models import EmailAddress
+
+
+from allauth.account.views import (
+    ConfirmEmailView, LoginView)
 
 from booking.models import SpaBooking
 from .forms import UserProfileForm, CustomerProfileForm, DeleteAccountForm
@@ -83,16 +89,60 @@ def profile(request):
 
 class CustomConfirmEmailView(ConfirmEmailView):
     def post(self, *args, **kwargs):
-        response = super().post(*args, **kwargs)
-        if self.object and self.object.email_address.verified:
-            return HttpResponseRedirect(reverse('account_login'))
-        return response
+        try:
+            response = super().post(*args, **kwargs)
+            if self.object and self.object.email_address.verified:
+                messages.add_message(
+                    self.request, 
+                    messages.SUCCESS, 
+                    "Your email has been successfully confirmed."
+                )
+                return HttpResponseRedirect(reverse('account_login'))
+            return response
+        except Http404:
+            messages.add_message(
+                self.request, 
+                messages.ERROR, 
+                "The confirmation link has expired. Please request a new confirmation email."
+            )
+            return HttpResponseRedirect(reverse('account_email_verification_sent'))
 
     def get(self, *args, **kwargs):
-        response = super().get(*args, **kwargs)
-        if self.object and self.object.email_address.verified:
-            return HttpResponseRedirect(reverse('account_login'))
-        return response
+        try:
+            response = super().get(*args, **kwargs)
+            if self.object and self.object.email_address.verified:
+                messages.add_message(
+                    self.request, 
+                    messages.INFO, 
+                    "Your email is already confirmed."
+                )
+                return HttpResponseRedirect(reverse('account_login'))
+            return response
+        except Http404:
+            messages.add_message(
+                self.request, 
+                messages.ERROR, 
+                "The confirmation link has expired. Please request a new confirmation email."
+            )
+            return HttpResponseRedirect(reverse('account_email_verification_sent'))
+
+
+def resend_confirmation_email(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            email_address = EmailAddress.objects.get(email=email)
+            if not email_address.verified:
+                send_email_confirmation(request, email_address.user)
+                messages.success(request, "A new confirmation email has been sent.")
+            else:
+                messages.error(request, "This email is already verified.")
+        except EmailAddress.DoesNotExist:
+            messages.error(request, "This email address does not exist in our system.")
+        
+        return HttpResponseRedirect(reverse('account_email_verification_sent'))
+    
+    return render(request, 'accounts/resend_confirmation_email.html')
 
 
 def booking_history(request, booking_number):
