@@ -71,8 +71,10 @@
             {% element form form=form method="post" action=action_url tags="email,add" %}
             {% slot body %}
             {% csrf_token %}
-            {% element fields form=form %}
-            {% endelement %}
+            <div class="form-group">
+                <input type="email" class="form-control custom-email-field mb-2" name="email"
+                    placeholder="{% trans 'Email address' %}">
+            </div>
             {% endslot %}
             {% slot actions %}
             {% element button name="action_add" type="submit" %}
@@ -85,6 +87,7 @@
     </div>
 </div>
 {% endblock content %}
+
 
 {% block extra_body %}
 <script type="text/javascript">
