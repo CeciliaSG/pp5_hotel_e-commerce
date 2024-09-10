@@ -51,11 +51,18 @@
                 {% endif %}
                 <input type="hidden" name="price" value="{{ price }}">
 
-                <button class="btn mb-5" type="submit" aria-label="Add to Cart Button">Add to Cart</button>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-success" type="submit" aria-label="Add to Cart Button">Add to Cart</button>
+                </div>
             </form>
             {% elif service_id %}
             <p>No available time slots.</p>
             {% endif %}
+            <div class="d-flex gap-3">
+                <a href="{% url 'view_cart' %}" class="change_password_link link-colour" aria-label="Go to Cart link">
+                    Shortcut to the Cart >
+                </a>
+            </div>
         </div>
         <div class="col-md-4 col-lg-5">
             <img src="{% static 'images/image_water-lily.webp' %}" class="img-fluid my-5 mx-auto d-block"
