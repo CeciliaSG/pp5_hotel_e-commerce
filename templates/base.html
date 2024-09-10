@@ -109,12 +109,14 @@
                 aria-label="Login page">Signin</a>
             </li>
             {% else %}
-            <li class="nav-item nav-link"><a href="{% url 'account_logout' %}" aria-label="Logout page">Signout</a>
+            <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"
+                aria-label="Logout page">Signout</a>
             </li>
-            <li class="nav-item nav-link"><a href="{% url 'customer_profile' %}"
+            <li class="nav-item"><a class="nav-link" href="{% url 'customer_profile' %}"
                 aria-label="View your profile">Account</a>
             </li>
-            <li class="nav-item nav-link"><a href="{% url 'delete_profile' %}" aria-label="Delete your profile">Delete
+            <li class="nav-item"><a class="nav-link" href="{% url 'delete_profile' %}"
+                aria-label="Delete your profile">Delete
                 Account</a>
             </li>
             {% if user.is_staff or user.is_superuser %}
