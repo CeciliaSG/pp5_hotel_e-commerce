@@ -75,6 +75,13 @@
                 <input type="email" class="form-control custom-email-field mb-2" name="email"
                     placeholder="{% trans 'Email address' %}">
             </div>
+            {% if form.email.errors %}
+            <div class="alert alert-danger">
+                {% for error in form.email.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endslot %}
             {% slot actions %}
             {% element button name="action_add" type="submit" %}

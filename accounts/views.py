@@ -8,7 +8,7 @@ from django.http import Http404
 
 from allauth.account.utils import send_email_confirmation
 from allauth.account.models import EmailAddress
-
+from allauth.account.forms import AddEmailForm
 
 from allauth.account.views import (
     ConfirmEmailView, LoginView)
@@ -85,6 +85,15 @@ def profile(request):
         'messages': messages.get_messages(request),
     }
     return render(request, 'accounts/customer_profile.html', context)
+
+
+class CustomAddEmailForm(AddEmailForm):
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if EmailAddress.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email address already exists.")
+        return email
+
 
 
 class CustomConfirmEmailView(ConfirmEmailView):
