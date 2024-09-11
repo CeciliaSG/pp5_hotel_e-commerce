@@ -134,7 +134,6 @@ def resend_confirmation_email(request):
             email_address = EmailAddress.objects.get(email=email)
             if not email_address.verified:
                 send_email_confirmation(request, email_address.user)
-                #messages.success(request, "A new confirmation email has been sent.")
             else:
                 messages.error(request, "This email is already verified.")
         except EmailAddress.DoesNotExist:

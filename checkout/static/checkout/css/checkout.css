@@ -19,7 +19,7 @@
 
 .StripeElement,
 .stripe-style-input.ElementsApp, .ElementsApp .InputElement {
-    font-size: 14px !important; 
+    font-size: 12px !important; 
 }
 
 /* Focus styles */
@@ -46,7 +46,7 @@
 
 fieldset {
   max-width: 100%;
-  padding: 0 15px;
+  padding: 15 0px;
   box-sizing: border-box;
 }
 /* Label styling */
@@ -66,7 +66,6 @@ fieldset {
 
 #card-element {
   width: 100%;
-  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 0px;
   background-color: #f8f8f8;

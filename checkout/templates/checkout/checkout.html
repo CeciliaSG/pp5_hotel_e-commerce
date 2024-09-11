@@ -42,7 +42,7 @@
                 {{ spa_booking_form | crispy }}
                 <div class="form-check form-check-inline float-right mr-0">
                     {% if user.is_authenticated %}
-                    <label class="form-check-label" for="save-info">Save this booking information to my
+                    <label class="form-check-label mb-3" for="save-info">Save this booking information to my
                         profile</label>
                     <input class="form-check-input ml-2 mr-0" type="checkbox" id="save-info" name="save-info" checked>
                     {% else %}
@@ -55,11 +55,11 @@
                 <fieldset class="">
                     <legend class="fieldset-label small px-2 w-auto">Payment</legend>
                     <!-- Stripe -->
-                    <div class="mb-3 exclude-box-sizing" id="card-element"></div>
-                    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                    <div class="mb-2 exclude-box-sizing" id="card-element"></div>
+                    <div class="mb-2 text-danger" id="card-errors" role="alert"></div>
                     <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 </fieldset>
-                <div class="text-right mt-5 mb-0">
+                <div class="text-right mt-3 mb-0">
                     <a href="{% url 'view_cart' %}" class="btn button">
                         <span class="font-weight-bold">Update Cart</span>
                     </a>

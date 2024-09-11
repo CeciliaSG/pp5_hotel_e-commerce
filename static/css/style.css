@@ -19,7 +19,7 @@ html, body {
 
 main {
     flex: 1 0 auto;
-    padding-bottom: 150px;
+    padding-bottom: 100px;
 }
 
 .bg-colour-blue {
@@ -479,7 +479,6 @@ button {
     font-weight: 600;
     border-radius: 0;
     border: none;
-    padding: 15px;
 }
 
 
@@ -500,7 +499,7 @@ a.btn {
     background-color: #538991;
     border-color: #538991;
     border-radius: 0;
-    max-width: 300px;
+    max-width: 200px;
     transition: background-color 0.3s ease;
     font-weight: 600;
     height: 40px; 
@@ -511,7 +510,6 @@ a.btn:hover {
     color: #fff !important;
 }
 
-
 a {
     color: #538991 !important;
 }
@@ -520,10 +518,13 @@ a:hover {
     color: #053f4c !important; 
 }
 
+.remove-btn {
+    color: #191521 !important;
+}
+
 .navbar-nav .nav-link  {
     color: #fff !important;
 }
-
 
 .submit-button.btn {
     display: flex;
