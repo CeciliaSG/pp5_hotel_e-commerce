@@ -45,18 +45,24 @@ main {
 
 /* navbar */
 
+#collapseNavbar {
+    position: relative;
+    z-index: 1003;
+}
+
 .navbar-nav {
     padding-left: 20px;
     display: none;
-    position: fixed;
+    position: absolute;
     top: 70px;
     left: 0;
     min-width: 250px;
     max-width: 400px;
     background-color: #191521;
     padding-top: 0px;
-    z-index: 1002;
+    z-index: 1004;
 }
+
 .navbar-nav a {
     color: #fff; 
     text-decoration: none;
