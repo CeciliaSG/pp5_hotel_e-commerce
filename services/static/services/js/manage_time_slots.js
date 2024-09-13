@@ -60,13 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     container.style.display = 'block';
                     saveButton.style.display = 'block';
-
-                    let bookedCheckboxes = document.querySelectorAll('.booked-checkbox');
-                    bookedCheckboxes.forEach(function(checkbox) {
-                        checkbox.style.accentColor = 'red';
-                        checkbox.style.backgroundColor = 'red';
-                        checkbox.style.borderColor = 'red';
-                    });
                 })
                 .catch(error => {
                     console.error('Error fetching time slots:', error);

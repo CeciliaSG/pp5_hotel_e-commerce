@@ -779,19 +779,6 @@ footer {
     margin-right: 15px;
 }
 
-/* Admin */
-
-.booked-checkbox {
-    accent-color: red !important;
-    background-color: red !important;
-    border-color: red !important;
-}
-
-input[type="checkbox"].booked-checkbox:checked {
-    background-color: red !important;
-    border-color: red !important;
-}
-
 
 /* Media Screens */
 

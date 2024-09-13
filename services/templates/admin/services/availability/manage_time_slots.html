@@ -12,8 +12,8 @@
                     <h3 class="h5">Choose Spa Service</h3>
                     <select id="spa_service" name="spa_service">
                         {% for service in spa_services %}
-                        <option value="{{ service.id }}" {% if service.id == availability.spa_service.id %} 
-                        selected{% endif %}>
+                        <option value="{{ service.id }}" {% if service.id == availability.spa_service.id %} selected
+                        {% endif %}>
                             {{ service.name }}
                         </option>
                         {% endfor %}
@@ -22,8 +22,8 @@
 
                 <form method="post">
                     <h3 class="h6">Choose date to display possible time slots</h3>
-                    <h3 class="h6">(blue time slots are already set as available,
-                        and red time slots are booked.)</h3>
+                    <h3 class="h6">(blue checked time slots are already set as available,
+                        and grey time slots are booked.)</h3>
                     {% csrf_token %}
                     {{ form.specific_date }}
                     <div id="time-slots-container" data-url="{% url 'get_time_slots_for_date' availability.id %}"

@@ -6,7 +6,9 @@
 {% block content %}
 <div class="container form-container">
     <div class="row row-booking mt-5 justify-content-center">
-        <div class="col-md-6 mt-5">
+        <div class="col-md-4 mt-5">
+            <p>Choose a service and a date. The calender will show which dates have available time slots (quantity is
+                only applicable for Spa Acces).</p>
             <h1 class="h4">Create your booking:</h1>
             <form method="post" action="{% url 'book_spa_service' %}">
                 {% csrf_token %}
@@ -60,7 +62,7 @@
             {% endif %}
             <div class="d-flex gap-3">
                 <a href="{% url 'view_cart' %}" class="change_password_link link-colour" aria-label="Go to Cart link">
-                    Shortcut to the Cart >
+                    Shortcut to the Cart
                 </a>
             </div>
         </div>
