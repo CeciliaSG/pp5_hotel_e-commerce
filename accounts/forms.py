@@ -50,7 +50,6 @@ class CustomerProfileForm(forms.ModelForm):
         self.fields['default_phone_number'].required = True
 
 
-
 class CustomSignupForm(SignupForm):
     first_name = forms.CharField(
         max_length=30, label='First Name', required=True
@@ -99,3 +98,4 @@ class DeleteAccountForm(forms.Form):
     confirm_delete = forms.BooleanField(
         required=True, label='Confirm Account Deletion'
     )
+
