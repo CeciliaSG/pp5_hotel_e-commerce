@@ -23,6 +23,9 @@ class UserProfileForm(forms.ModelForm):
                 'border-black-rounded-o customer-profile-form-input'
             self.fields[field].label = False
 
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+
 
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
@@ -43,6 +46,9 @@ class CustomerProfileForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = \
                 'border-black-rounded-o customer-profile-form-input'
             self.fields[field].label = False
+
+        self.fields['default_phone_number'].required = True
+
 
 
 class CustomSignupForm(SignupForm):

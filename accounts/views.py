@@ -95,7 +95,6 @@ class CustomAddEmailForm(AddEmailForm):
         return email
 
 
-
 class CustomConfirmEmailView(ConfirmEmailView):
     def post(self, *args, **kwargs):
         try:
