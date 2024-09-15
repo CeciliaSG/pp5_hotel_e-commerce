@@ -384,12 +384,16 @@ The Boutique Ado walthrough forms the base for this project and has been consult
 - [Stack Overflow/scroll-to-element](https://stackoverflow.com/questions/52622885/scroll-to-element-from-bootstrap-navbar)
 
 - [www.w3schools.com/input-type-date](https://www.w3schools.com/tags/att_input_type_date.asp#:~:text=The%20%3Cinput%20type%3D%22date,tag%20for%20best%20accessibility%20practices!)
+https://stackoverflow.com/search?q=scroll+to
 
 
 #### Forms
 - [www.geeksforgeeks.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
 - [docs.djangoproject.com](https://docs.djangoproject.com/en/5.0/topics/forms/)
 - [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
+
+#### Admin
+https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates
 
 ### Content
 
