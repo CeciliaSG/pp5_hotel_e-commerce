@@ -1,4 +1,19 @@
 // Sticky Navbar
+
+/**
+ * JavaScript to handle the dynamic styling of a sticky navbar based on scroll position.
+ *
+ * - Once the DOM is fully loaded, the script selects elements for the sticky navbar, 
+ *   logo, navbar button, and the button's icon.
+ * - If any of these required elements are not found, an error is logged to the console 
+ *   and the script is halted.
+ * - A scroll event listener is added to the window to monitor the vertical scroll position 
+ *   (`scrollY`):
+ *   - If the scroll position is greater than 100 pixels, the navbar background becomes opaque, 
+ *     and the text colour of the logo, button, and icon changes to white.
+ *   - If the scroll position is less than or equal to 100 pixels, the navbar becomes 
+ *     semi-transparent, and the text colour reverts to the original colour (`#191521`).
+ */
 document.addEventListener("DOMContentLoaded", function() {
     let stickyNavbar = document.querySelector('.sticky-navbar');
     let logo = document.querySelector('.logo');
@@ -42,6 +57,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Messages
+/**
+ * JavaScript to handle fading out and removing alert messages after a delay.
+ *
+ * - Once the DOM is fully loaded, selects all alert messages within the `#messages` 
+ *   container.
+ * - For each alert message:
+ *   - The message's opacity is initially set to 1 (fully visible) after a brief delay 
+ *     of 100 milliseconds, ensuring any initial transition effects are applied.
+ *   - After 5 seconds (5000 milliseconds), the message's opacity is gradually set to 0 
+ *     (fade out effect).
+ *   - Once the fade-out is complete (after 500 milliseconds), the message element is 
+ *     removed from the DOM entirely.
+ */
  document.addEventListener("DOMContentLoaded", function() {
             const messages = document.querySelectorAll('#messages .alert');
             messages.forEach(message => {
@@ -59,6 +87,22 @@ document.addEventListener("DOMContentLoaded", function() {
         
 
 // Scroll to section with navbar
+/**
+ * JavaScript to handle smooth scrolling for anchor links and hash-based navigation.
+ *
+ * - Once the DOM is fully loaded, checks if the URL contains a hash (fragment identifier).
+ *   - If a valid hash is found and corresponds to an existing element, the page scrolls 
+ *     smoothly to that element.
+ *   - The hash must match a valid CSS selector format (i.e., a hash followed by letters, 
+ *     digits, underscores, or hyphens).
+ *
+ * - For all anchor links (`<a>`) that refer to an element with an ID (i.e., links 
+ *   starting with `#`), adds a click event listener.
+ *   - When clicked, prevents the default link behaviour and smoothly scrolls to the 
+ *     target element if it exists.
+ *   - The page's URL is updated to include the target element's ID without reloading 
+ *     the page, using `history.pushState()`.
+ */
 
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.hash) {
@@ -89,6 +133,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //Scroll to top button
 
+/**
+ * JavaScript to handle scrolling and button visibility based on page sections.
+ *
+ * - Adds an event listener for 'DOMContentLoaded' to initialise event handling once 
+ *   the DOM is fully loaded.
+ * - The `isInViewport` function determines if an element is visible within the viewport,
+ *   returning `true` if fully visible.
+ * - Attaches a click event to the 'scrollToAboutBtn', which smoothly scrolls to the 
+ *   "About" section's <h1> element when clicked.
+ * - On page scroll, the visibility of the 'scrollToAboutBtn' is toggled:
+ *   - The button is hidden when the "About" section is in view or if the "Home" section
+ *     is no longer in view.
+ *   - The button is displayed when the "Home" section is visible in the viewport.
+ * - Uses a passive event listener for performance optimisation during the button click.
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
   const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
@@ -109,6 +169,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //Scroll to about button
+
+/**
+ * JavaScript code to handle scrolling and button visibility behaviour on a webpage.
+ *
+ * - The `isInViewport` function checks if an HTML element is currently visible within
+ *   the user's viewport. It returns `true` if the element is fully visible, otherwise `false`.
+ * 
+ * - On DOMContentLoaded, the script attaches functionality to a button (`scrollToAboutBtn`)
+ *   that, when clicked, smoothly scrolls the page to the "About" section's `<h1>` element.
+ *
+ * - The button's visibility dynamically changes based on scroll position:
+ *   - The button is hidden when the "About" section is in view or when the "Home" section 
+ *     is no longer in view.
+ *   - The button reappears when the "Home" section is back in view.
+ *
+ * - Uses a `passive` event listener for the button click to improve scrolling performance.
+ */
 
 document.addEventListener('DOMContentLoaded', function() {
     function isInViewport(element) {
