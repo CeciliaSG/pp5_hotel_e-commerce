@@ -9,18 +9,18 @@
     </div>
 </div>
 
-<div class="container container-404 h-100 mb-5 ml-4 mr-4">
-    <div class="row h-100">
-        <div class="col-7 col-md-6 my-auto">
-            <h1 class="display-4 logo-font">
+<div class="container container-404 h-100 d-flex justify-content-center align-items-center">
+    <div class="row h-100 w-100">
+        <div class="col-7 col-md-6 text-center">
+            <h1 class="h2 display-4 logo-font">
                 The page you are looking for isn't available
             </h1>
             <div class="my-5">
                 <h4>
-                    <a href="{% url 'book_spa_service' %}" class="book-now-button-404 btn text-uppercase mt-3">
+                    <a href="{% url 'book_spa_service' %}" class="book-now-button-404 btn mt-3">
                         Return to book a service
                     </a>
-                    <a href="{% url 'home' %}" class="book-now-button-404 btn text-uppercase mt-3">
+                    <a href="{% url 'home' %}" class="book-now-button-404 btn mt-3">
                         Return to home page
                     </a>
                 </h4>
@@ -28,4 +28,3 @@
         </div>
     </div>
 </div>
-{% endblock %}
