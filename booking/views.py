@@ -128,7 +128,9 @@ def get_available_dates(request, service_id):
         timeslotavailability__is_available=True
     ).distinct().values_list('date', flat=True)
 
-    available_dates_list = [date_obj.strftime('%Y-%m-%d') for date_obj in available_dates]
+    available_dates_list = [
+    date_obj.strftime('%Y-%m-%d') for date_obj in available_dates
+]
 
     if available_dates.exists():
         min_date = available_dates.earliest('date')
