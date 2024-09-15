@@ -8,53 +8,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.getElementById("submitButton");
 
     /**
-     * From Blog walkthrough
-     * Initialises edit functionality for the provided edit buttons.
+     * Initializes edit functionality for the provided edit buttons.
      * 
      * For each button in the `editButtons` collection:
-     * - Retrieves the associated reviews's ID upon click.
+     * - Retrieves the associated review's ID upon click.
      * - Fetches the content of the corresponding review.
      * - Populates the `commentText` input/textarea with the review's content for editing.
      * - Updates the submit button's text to "Update".
-     * - Sets the form's action attribute to the `edit_review/{reviwId}` endpoint.
+     * - Sets the form's action attribute to the `edit_review/{reviewId}` endpoint.
      */
     editButtons.forEach(button => {
-            button.addEventListener("click", (e) => {
+        button.addEventListener("click", (e) => {
+            try {
                 const reviewId = e.target.getAttribute("data-review-id");
                 const reviewContent = document.getElementById(`review${reviewId}`).innerText;
                 reviewText.value = reviewContent;
                 submitButton.innerText = "Update";
                 reviewForm.setAttribute("action", `edit_review/${reviewId}`);
-            });
+            } catch (error) {
+                alert("An error occurred while loading the review for editing. Please try again.");
+            }
         });
+    });
 
     /*
-     * Initialises deletion functionality for the provided delete buttons.
+     * Initializes deletion functionality for the provided delete buttons.
      * 
      * For each button in the `deleteButtons` collection:
-     * - Retrieves the associated comment's ID upon click.
+     * - Retrieves the associated review's ID upon click.
      * - Updates the `deleteConfirm` link's href to point to the 
-     * deletion endpoint for the specific review.
+     *   deletion endpoint for the specific review.
      * - Displays a confirmation modal (`deleteModal`) to prompt 
-     * the user for confirmation before deletion.
+     *   the user for confirmation before deletion.
      */
 
     const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
     const deleteButtons = document.getElementsByClassName("btn-delete");
     const deleteConfirm = document.getElementById("deleteConfirm");
 
-    window.location.href = deleteConfirm.href;
     for (let button of deleteButtons) {
-    button.addEventListener("click", (e) => {
-        let reviewId = e.target.getAttribute("data-review-id");
-        deleteConfirm.href = `delete_review/${reviewId}`;
-        console.log(`Delete URL set to: ${deleteConfirm.href}`);
-        console.log('Delete button clicked');
-        deleteModal.show();
-    });
-      deleteConfirm.addEventListener('click', (e) => {
-        console.log('Delete confirmed, navigating to:', deleteConfirm.href);
-        window.location.href = deleteConfirm.href;
-    });
-     }
+        button.addEventListener("click", (e) => {
+            try {
+                let reviewId = e.target.getAttribute("data-review-id");
+                deleteConfirm.href = `delete_review/${reviewId}`;
+                deleteModal.show();
+            } catch (error) {
+                alert("An error occurred while preparing the deletion. Please try again.");
+            }
+        });
+
+        deleteConfirm.addEventListener('click', (e) => {
+            try {
+                window.location.href = deleteConfirm.href;
+            } catch (error) {
+                alert("Failed to delete the review. Please try again.");
+            }
+        });
+    }
 });
