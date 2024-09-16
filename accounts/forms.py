@@ -54,7 +54,7 @@ class CustomerProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         placeholders = {
             'default_phone_number': 'Phone Number',
-            'date_of_birth': 'Date of Birth as: YYYY/DD/MM',
+            'date_of_birth': 'Date of Birth as: YYYY-DD-MM',
             'city': 'City',
         }
 

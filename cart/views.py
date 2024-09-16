@@ -260,10 +260,9 @@ def view_cart(request):
                         }
             )
         except KeyError as e:
-            print(f"Missing key in cart session data: {e}")
+            pass
         except TimeSlot.DoesNotExist:
-            print(f"TimeSlot with id {details.get(
-                        'selected_time_slot_id')} does not exist.")
+            pass
 
     context = {
         "services": services,
