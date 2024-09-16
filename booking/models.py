@@ -82,12 +82,20 @@ class SpaBooking(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override the original save method to
-        set the booking number
-        if it hasn't been set already.
+        Override the save method to set the booking number
+        and handle different logic for admin vs front-end bookings.
         """
+        if hasattr(self, '_request') and \
+                self._request.path.startswith('/admin/'):
+            print("Booking made in admin. Applying admin-specific logic.")
+        else:
+            print("Booking made from front-end. Enforcing constraints.")
+            if not self.is_valid_booking():
+                raise ValidationError('Invalid booking: availability conflict')
+
         if not self.booking_number:
             self.booking_number = self._generate_booking_number()
+
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

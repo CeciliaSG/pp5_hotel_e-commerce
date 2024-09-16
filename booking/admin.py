@@ -20,16 +20,6 @@ class SpaBookingServicesAdminInline(admin.TabularInline):
 class SpaBookingAdmin(admin.ModelAdmin):
     """
     Admin configuration for SpaBooking model.
-
-    - Inlines the SpaBookingServicesAdminInline to allow editing related
-      services.
-    - Sets readonly fields such as booking number, date, total, and payment
-      details.
-    - Specifies the fields to display in the admin form, including customer
-      information and booking details.
-    - Customizes the list display in the admin overview, showing key booking
-      details.
-    - Adds a filter for bookings by date.
     """
     inlines = (SpaBookingServicesAdminInline,)
     readonly_fields = (
@@ -46,6 +36,13 @@ class SpaBookingAdmin(admin.ModelAdmin):
         'phone_number', 'date_and_time', 'booking_total',
     )
     list_filter = ('booking_date',)
+
+    def save_model(self, request, obj, form, change):
+        """
+        Pass the request object to the model to allow admin-specific logic.
+        """
+        obj._request = request
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(SpaBooking, SpaBookingAdmin)
