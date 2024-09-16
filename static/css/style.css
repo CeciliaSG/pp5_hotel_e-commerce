@@ -45,9 +45,26 @@ main {
 
 /* navbar */
 
+.navbar-button {
+    position: fixed;
+    left: 30px;
+    padding-right: 20px;
+    margin-right: 20px;
+    z-index: 1001; 
+    background-color: transparent !important;
+}
+
+.navbar-button:hover{
+    background-color: transparent !important;
+}
+
 #collapseNavbar {
-    position: relative;
+    position: fixed;
+    background-color: #191521;
     z-index: 1003;
+    width: 250px;
+    max-height: 90vh;
+    max-height: 300px;
 }
 
 .navbar-nav {
@@ -134,8 +151,6 @@ nav {
 .navbar-nav .nav-item .nav-link:hover {
     color: #538991; 
 }
-
-
 
 .dropdown-menu {
     border-radius: 0 !important;
@@ -599,18 +614,6 @@ button.btn.btn-sm:hover {
     z-index: 1001; 
 }
 
-.navbar-button {
-    position: fixed;
-    left: 30px;
-    padding-right: 20px;
-    margin-right: 20px;
-    z-index: 1001; 
-    background-color: transparent !important;
-}
-
-.navbar-button:hover{
-    background-color: transparent !important;
-}
 
 .book-now-button {
   white-space: nowrap; 
