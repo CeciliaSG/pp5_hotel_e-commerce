@@ -88,11 +88,6 @@ class SpaBooking(models.Model):
         if hasattr(self, '_request') and \
                 self._request.path.startswith('/admin/'):
             print("Booking made in admin. Applying admin-specific logic.")
-        else:
-            print("Booking made from front-end. Enforcing constraints.")
-            if not self.is_valid_booking():
-                raise ValidationError('Invalid booking: availability conflict')
-
         if not self.booking_number:
             self.booking_number = self._generate_booking_number()
 
