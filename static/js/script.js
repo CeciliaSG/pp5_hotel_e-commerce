@@ -209,12 +209,12 @@ document.addEventListener("DOMContentLoaded", function() {
   if (window.innerWidth < 769) {
     window.addEventListener("scroll", function() {
       let scrollTop = window.scrollY || document.documentElement.scrollTop;
-      console.log("Scroll position:", scrollTop);
 
-      if (scrollTop > 100) {
+      if (scrollTop > 400) { 
         bookingButton.classList.add("hidden");
-      } else {
+      } else { 
         bookingButton.classList.remove("hidden");
+        bookingButton.style.pointerEvents = 'auto';
       }
     });
   }
