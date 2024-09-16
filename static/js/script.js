@@ -201,3 +201,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const bookingButton = document.querySelector(".book-now-button");
+
+  if (window.innerWidth < 769) {
+    window.addEventListener("scroll", function() {
+      let scrollTop = window.scrollY || document.documentElement.scrollTop;
+      console.log("Scroll position:", scrollTop);
+
+      if (scrollTop > 100) {
+        bookingButton.classList.add("hidden");
+      } else {
+        bookingButton.classList.remove("hidden");
+      }
+    });
+  }
+});
+
+
+

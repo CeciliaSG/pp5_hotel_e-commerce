@@ -621,7 +621,16 @@ button.btn.btn-sm:hover {
   height: auto;
   border-color: #538991;
   margin-top: 5px;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
 }
+
+.book-now-button.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
 
 .book-now-button:hover {
     background-color: #375d66 !important; 
@@ -787,6 +796,16 @@ footer {
 position: static;
 transform: none;
 }
+
+.sticky-navbar {
+    height: 170px;
+}
+
+ .book-now-button {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s ease-in-out;
+  }
 
 .cart-container {
     margin-top: 200px;
