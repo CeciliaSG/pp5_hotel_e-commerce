@@ -2,7 +2,6 @@ from django import forms
 from django.contrib import admin
 
 from .forms import SpecificDateAdminForm
-#from .forms import TimeSlotAvailabilityForm
 
 from .models import Availability
 from .models import TimeSlotAvailability
@@ -160,4 +159,3 @@ admin.site.register(SpaService, SpaServiceAdmin)
 
 
 admin.site.register(Review)
-

@@ -18,11 +18,7 @@ class reviewForm(forms.ModelForm):
 class MultiDateInput(forms.TextInput):
     """
     Custom form widget for selecting multiple dates.
-
-    - Inherits from Django's TextInput widget.
-    - Initialises with default HTML attributes such as 'class' and 'placeholder'.
-    - Allows customization of attributes by accepting an optional 'attrs' argument 
-      that can override or extend the default attributes.
+    Inherits from Django's TextInput widget.
     """
     def __init__(self, attrs=None):
         default_attrs = {
@@ -37,17 +33,6 @@ class MultiDateInput(forms.TextInput):
 class SpecificDateAdminForm(forms.ModelForm):
     """
     Custom form for managing specific dates in the Django admin interface.
-
-    - The 'dates' field uses a custom widget (MultiDateInput) to allow input of 
-      multiple dates in a single field, with help text for the expected format.
-    - Validates that the entered dates are unique and checks for any duplicate 
-      dates already existing in the database.
-    - The clean_dates method ensures that only unique dates are accepted, 
-      raising validation errors for duplicates or already existing dates.
-    - The save method creates and bulk inserts new SpecificDate objects based 
-      on the cleaned date input.
-    - Includes JavaScript and CSS for flatpickr, a date picker UI, to enhance 
-      the user experience when selecting multiple dates.
     """
     dates = forms.CharField(
         widget=MultiDateInput(attrs={'id': 'specific_dates_picker'}),
@@ -114,19 +99,7 @@ class SpecificDateAdminForm(forms.ModelForm):
 
 class FrontendTimeSlotForm(forms.ModelForm):
     """
-    Custom form for selecting available time slots for a given date in the frontend.
-
-    - The 'time_slots' field is a ModelMultipleChoiceField allowing users to select
-      multiple time slots using checkboxes.
-    - The queryset for 'time_slots' is dynamically set based on the provided
-      'availability' object, which links to a specific spa service.
-    - If an 'availability' object is passed during the form's initialisation, the form
-      pre-populates the available time slots based on the specific date and spa service.
-    - The save method ensures that time slot availability is updated correctly for the
-      selected date, managing existing availability and handling both new and updated
-      time slots. It uses a transaction to ensure atomic updates.
-    - A ValueError is raised if no 'availability' object is provided when attempting 
-      to save.
+    Custom form for selecting available time slots for a given date.
     """
     time_slots = forms.ModelMultipleChoiceField(
         queryset=TimeSlot.objects.none(),
@@ -179,10 +152,7 @@ class FrontendTimeSlotForm(forms.ModelForm):
                 for tsa in existing_time_slots:
                     if tsa.is_booked:
                         continue
-                    if tsa.time_slot in selected_time_slots:
-                        tsa.is_available = True
-                    else:
-                        tsa.is_available = False
+                    tsa.is_available = tsa.time_slot in selected_time_slots
                     tsa.save()
 
                 for time_slot in selected_time_slots:

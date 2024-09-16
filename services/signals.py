@@ -117,9 +117,3 @@ def post_save_spa_booking_service(sender, instance, created, **kwargs):
         )
     except (SpecificDate.DoesNotExist, Availability.DoesNotExist):
         pass
-
-
-
-
-
-
