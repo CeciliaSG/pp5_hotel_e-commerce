@@ -42,4 +42,3 @@ class CustomerProfile(models.Model):
     def get_email(self):
         return self.email if self.email else self.user.email
 
-

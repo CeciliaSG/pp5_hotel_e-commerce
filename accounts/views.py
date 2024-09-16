@@ -11,7 +11,8 @@ from allauth.account.models import EmailAddress
 from allauth.account.forms import AddEmailForm
 
 from allauth.account.views import (
-    ConfirmEmailView, LoginView)
+    ConfirmEmailView, LoginView
+)
 
 from booking.models import SpaBooking
 from .forms import UserProfileForm, CustomerProfileForm, DeleteAccountForm
@@ -91,7 +92,9 @@ class CustomAddEmailForm(AddEmailForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         if EmailAddress.objects.filter(email=email).exists():
-            raise forms.ValidationError("This email address already exists.")
+            raise forms.ValidationError(
+                "This email address already exists."
+            )
         return email
 
 
@@ -101,38 +104,40 @@ class CustomConfirmEmailView(ConfirmEmailView):
             response = super().post(*args, **kwargs)
             if self.object and self.object.email_address.verified:
                 messages.add_message(
-                    self.request, 
-                    messages.SUCCESS, 
+                    self.request, messages.SUCCESS,
                     "Your email has been successfully confirmed."
                 )
                 return HttpResponseRedirect(reverse('account_login'))
             return response
         except Http404:
             messages.add_message(
-                self.request, 
-                messages.ERROR, 
-                "The confirmation link has expired. Please request a new confirmation email."
+                self.request, messages.ERROR,
+                "The confirmation link has expired. Please request a new "
+                "confirmation email."
             )
-            return HttpResponseRedirect(reverse('account_email_verification_sent'))
+            return HttpResponseRedirect(
+                reverse('account_email_verification_sent')
+            )
 
     def get(self, *args, **kwargs):
         try:
             response = super().get(*args, **kwargs)
             if self.object and self.object.email_address.verified:
                 messages.add_message(
-                    self.request, 
-                    messages.INFO, 
+                    self.request, messages.INFO,
                     "Your email is already confirmed."
                 )
                 return HttpResponseRedirect(reverse('account_login'))
             return response
         except Http404:
             messages.add_message(
-                self.request, 
-                messages.ERROR, 
-                "The confirmation link has expired. Please request a new confirmation email."
+                self.request, messages.ERROR,
+                "The confirmation link has expired. Please request a new "
+                "confirmation email."
             )
-            return HttpResponseRedirect(reverse('account_email_verification_sent'))
+            return HttpResponseRedirect(
+                reverse('account_email_verification_sent')
+            )
 
 
 def resend_confirmation_email(request):
@@ -143,12 +148,18 @@ def resend_confirmation_email(request):
             if not email_address.verified:
                 send_email_confirmation(request, email_address.user)
             else:
-                messages.error(request, "This email is already verified.")
+                messages.error(
+                    request, "This email is already verified."
+                )
         except EmailAddress.DoesNotExist:
-            messages.error(request, "This email address does not exist in our system.")
-        
-        return HttpResponseRedirect(reverse('account_email_verification_sent'))
-    
+            messages.error(
+                request, "This email address does not exist in our system."
+            )
+
+        return HttpResponseRedirect(
+            reverse('account_email_verification_sent')
+        )
+
     return render(request, 'accounts/resend_confirmation_email.html')
 
 
@@ -165,14 +176,14 @@ def booking_history(request, booking_number):
     Parameters:
     - request: HttpRequest object representing the request made by the user.
     - booking_number: str, the unique booking number of the SpaBooking to
-    display.
+      display.
 
     Raises:
     - Http404: If no SpaBooking object exists with the provided booking_number.
 
     Returns:
     - HttpResponse: Renders 'checkout/checkout_success.html' template with the
-    following context:
+      following context:
       {
           'booking': SpaBooking object with the specified booking_number,
           'spa_bookings': QuerySet of all SpaBooking objects,
@@ -232,7 +243,9 @@ def delete_profile(request):
                 )
                 return redirect('home')
             except Exception as e:
-                messages.error(request, f'Failed to delete profile: {str(e)}')
+                messages.error(
+                    request, f'Failed to delete profile: {str(e)}'
+                )
                 return redirect('delete_profile')
     else:
         form = DeleteAccountForm()

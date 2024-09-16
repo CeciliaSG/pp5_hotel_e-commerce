@@ -28,6 +28,24 @@ class UserProfileForm(forms.ModelForm):
 
 
 class CustomerProfileForm(forms.ModelForm):
+    """
+    Form for updating or creating a CustomerProfile
+    instance.
+
+    This form allows users to provide or update
+    the following fields:
+    - Default Phone Number (required)
+    - Date of Birth
+    - City
+
+    The `__init__` method customizes the form fields by:
+    1. Setting placeholder text for each field.
+    2. Removing the labels for a cleaner form appearance.
+    3. Enforcing that the 'default_phone_number' field is required.
+
+    The placeholders and styling help improve the user experience
+    when filling out the form.
+    """
     class Meta:
         model = CustomerProfile
         fields = ['default_phone_number', 'date_of_birth', 'city']
@@ -51,6 +69,27 @@ class CustomerProfileForm(forms.ModelForm):
 
 
 class CustomSignupForm(SignupForm):
+    """
+    Custom signup form that extends the default allauth
+    SignupForm to collect additional user information
+    during registration.
+
+    This form collects the following additional fields:
+    - First Name (required)
+    - Last Name (required)
+    - Phone Number (required)
+    - Date of Birth (optional)
+    - City (optional)
+
+    The save method overrides the default save behavior to:
+    1. Save the first name and last name to the user instance.
+    2. Create a CustomerProfile instance with the phone number,
+    date of birth, city, and other related fields.
+
+    This ensures that the User and associated CustomerProfile
+    are created and populated with the custom data provided
+    during signup.
+    """
     first_name = forms.CharField(
         max_length=30, label='First Name', required=True
     )
@@ -98,4 +137,3 @@ class DeleteAccountForm(forms.Form):
     confirm_delete = forms.BooleanField(
         required=True, label='Confirm Account Deletion'
     )
-

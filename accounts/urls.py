@@ -18,4 +18,3 @@ urlpatterns = [
     path('resend-confirmation/', resend_confirmation_email,
          name='resend_confirmation_email'),
 ]
-
