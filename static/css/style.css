@@ -809,6 +809,10 @@ transform: none;
     transition: opacity 0.5s ease-in-out;
   }
 
+.extra-bottom-space {
+    padding-bottom: 150px;
+}
+
 .cart-container {
     margin-top: 200px;
 }
