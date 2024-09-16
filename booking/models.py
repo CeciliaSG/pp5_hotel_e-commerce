@@ -99,8 +99,6 @@ class SpaBooking(models.Model):
         as available and not booked again.
         """
 
-        print("Deleting SpaBooking and updating availability...")
-
         related_services = self.spa_booking_services.all()
         for service in related_services:
             time_slot = service.spa_service

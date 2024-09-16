@@ -5,8 +5,6 @@
  *
  * - Once the DOM is fully loaded, the script selects elements for the sticky navbar, 
  *   logo, navbar button, and the button's icon.
- * - If any of these required elements are not found, an error is logged to the console 
- *   and the script is halted.
  * - A scroll event listener is added to the window to monitor the vertical scroll position 
  *   (`scrollY`):
  *   - If the scroll position is greater than 100 pixels, the navbar background becomes opaque, 
@@ -20,26 +18,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let navbarButton = document.querySelector('.navbar-button');
     let navbarButtonIcon = document.querySelector('.navbar-button i.fa-bars');
 
-    if (!stickyNavbar) {
-        console.error("Sticky navbar element not found");
+    if (!stickyNavbar || !logo || !navbarButton || !navbarButtonIcon) {
         return;
     }
-
-    if (!logo) { 
-        console.error("Logo element not found");
-        return;
-    }
-
-    if (!navbarButton) { 
-        console.error("Navbar button element not found");
-        return;
-    }
-
-    if (!navbarButtonIcon) {
-        console.error("Navbar button icon element not found");
-        return;
-    }
-
 
     window.addEventListener('scroll', function() {
         if (window.scrollY > 100) {
@@ -71,20 +52,19 @@ document.addEventListener("DOMContentLoaded", function() {
  *     removed from the DOM entirely.
  */
  document.addEventListener("DOMContentLoaded", function() {
-            const messages = document.querySelectorAll('#messages .alert');
-            messages.forEach(message => {
-                setTimeout(() => {
-                    message.style.opacity = 1;
-                }, 100);
-                setTimeout(() => {
-                    message.style.opacity = 0;
-                    setTimeout(() => {
-                        message.remove();
-                    }, 500); 
-                }, 5000);
-            });
-        });
-        
+    const messages = document.querySelectorAll('#messages .alert');
+    messages.forEach(message => {
+        setTimeout(() => {
+            message.style.opacity = 1;
+        }, 100);
+        setTimeout(() => {
+            message.style.opacity = 0;
+            setTimeout(() => {
+                message.remove();
+            }, 500); 
+        }, 5000);
+    });
+});
 
 // Scroll to section with navbar
 /**
@@ -103,11 +83,9 @@ document.addEventListener("DOMContentLoaded", function() {
  *   - The page's URL is updated to include the target element's ID without reloading 
  *     the page, using `history.pushState()`.
  */
-
 document.addEventListener("DOMContentLoaded", function() {
     if (window.location.hash) {
-      const hash = window.location.hash;
-        // Validate that the hash is a valid CSS selector
+        const hash = window.location.hash;
         if (/^#[\w-]+$/.test(hash)) {
             const element = document.querySelector(hash);
             if (element) {
@@ -115,24 +93,24 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     }
+
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
-        const targetId = this.getAttribute('href');
-         if (/^#[\w-]+$/.test(targetId)) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (/^#[\w-]+$/.test(targetId)) {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                     history.pushState(null, null, targetId);
                 }
-              }
-      });
+            }
+        });
     });
-  });
+});
 
-//Scroll to top button
-
+// Scroll to top button
 /**
  * JavaScript to handle scrolling and button visibility based on page sections.
  *
@@ -148,28 +126,26 @@ document.addEventListener("DOMContentLoaded", function() {
  *   - The button is displayed when the "Home" section is visible in the viewport.
  * - Uses a passive event listener for performance optimisation during the button click.
  */
-
 document.addEventListener('DOMContentLoaded', function() {
-  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 100) {
-      scrollToTopBtn.style.display = 'block';
-    } else {
-      scrollToTopBtn.style.display = 'none';
-    }
-  });
-  scrollToTopBtn.addEventListener('click', function () {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 100) {
+            scrollToTopBtn.style.display = 'block';
+        } else {
+            scrollToTopBtn.style.display = 'none';
+        }
     });
-  });
+
+    scrollToTopBtn.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 });
 
-
-//Scroll to about button
-
+// Scroll to about button
 /**
  * JavaScript code to handle scrolling and button visibility behaviour on a webpage.
  *
@@ -186,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
  *
  * - Uses a `passive` event listener for the button click to improve scrolling performance.
  */
-
 document.addEventListener('DOMContentLoaded', function() {
     function isInViewport(element) {
         const rect = element.getBoundingClientRect();
@@ -200,10 +175,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
 
-   if (scrollToAboutBtn) {
+    if (scrollToAboutBtn) {
         scrollToAboutBtn.addEventListener('click', function() {
             const aboutH1 = document.querySelector('#about h1');
-
             if (aboutH1) {
                 const offsetTop = aboutH1.offsetTop;
                 window.scrollTo({

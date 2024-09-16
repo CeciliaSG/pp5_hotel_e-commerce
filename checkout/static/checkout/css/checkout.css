@@ -11,10 +11,8 @@
   border-radius: 0px;
   background-color: white;
   box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
-  /*width: 100%;*/
-  max-width: auto;
+  width: auto;
 }
 
 .StripeElement,
@@ -46,7 +44,7 @@
 
 fieldset {
   max-width: 100%;
-  padding: 15 0px;
+  padding: 15px 0px;
   box-sizing: border-box;
 }
 /* Label styling */

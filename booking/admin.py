@@ -49,8 +49,9 @@ class SpaBookingAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         """
-        Overrides the save_model method to pass the request object to the
-        model's save method. This allows different logic for admin vs front-end.
+        Overrides the save_model method to pass the request object
+        to the model's save method. This allows different logic for
+        admin vs front-end.
         """
         obj._request = request
         super().save_model(request, obj, form, change)
