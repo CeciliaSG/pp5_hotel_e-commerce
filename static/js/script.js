@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("scroll", function() {
       let scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-      if (scrollTop > 400) { 
+      if (scrollTop > 200) { 
         bookingButton.classList.add("hidden");
       } else { 
         bookingButton.classList.remove("hidden");
