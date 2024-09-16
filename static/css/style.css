@@ -19,7 +19,6 @@ html, body {
 
 main {
     flex: 1 0 auto;
-    /*padding-bottom: 100px;*/
 }
 
 .bg-colour-blue {
@@ -127,8 +126,8 @@ nav {
 }
 
 .logo {
-    margin-top: 30px;
-    font-size: 85px;
+    margin-top: 10px;
+    font-size: 60px;
     margin-bottom: 0;
     font-weight: 400;
     font-style: normal;
@@ -136,7 +135,7 @@ nav {
 
   p.logo-text {
     margin: 0;
-    font-size: 25px;
+    font-size: 15px;
     font-weight: 400;
     font-style: normal;
   }
@@ -174,7 +173,8 @@ nav {
     top: 0;
     width: 100%;
     z-index: 999;
-    height: 170px;
+    height: auto;
+    max-height: 150px;
     transition: background-color 0.3s;
 }
 
@@ -712,7 +712,6 @@ button.btn.btn-sm:hover {
 
 footer {
     flex-shrink: 0;
-    /*position: fixed;*/
     padding: 20px 20px; 
     bottom: 0;
     width: 100%;
@@ -802,11 +801,18 @@ position: static;
 transform: none;
 }
 
+
 .sticky-navbar {
-    height: 170px;
+    height: auto;
+    max-height: 250px;
 }
 
- .book-now-button {
+.logo {
+margin-top: 10px;
+font-size: 60px;
+}
+
+.book-now-button {
     opacity: 1;
     pointer-events: auto;
     transition: opacity 0.5s ease-in-out;
@@ -855,10 +861,41 @@ footer {
 
 .logo {
     margin-top: 70px;
+    font-size: 85px;
 }
+
+  p.logo-text {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
 
 
 .book-now-button {
   margin-top: 100px;
+}
+}
+
+@media (min-width: 820px) {
+
+.logo{
+margin-top: 20px;
+font-size: 75px;
+}
+
+.sticky-navbar {
+    max-height: 200px;
+}
+
+}
+
+@media (min-width: 1024px) {
+
+.logo{
+margin-top: 60px;
+font-size: 75px;
+}
+
+.sticky-navbar {
+    max-height: 200px;
 }
 }
