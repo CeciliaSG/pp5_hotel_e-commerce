@@ -109,10 +109,15 @@ def post_save_spa_booking_service(sender, instance, created, **kwargs):
         specific_date, _ = SpecificDate.objects.get_or_create(
             date=selected_date
         )
+
+        availability, created = Availability.objects.get_or_create(
+            spa_service=instance.spa_service
+        )
+
         TimeSlotAvailability.objects.update_or_create(
             specific_date=specific_date,
             time_slot=time_slot,
-            availability__spa_service=instance.spa_service,
+            availability=availability,
             defaults={'is_available': False, 'is_booked': True}
         )
     except (SpecificDate.DoesNotExist, Availability.DoesNotExist):

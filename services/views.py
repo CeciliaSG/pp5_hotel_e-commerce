@@ -22,7 +22,6 @@ def services_by_category(request, category_id):
     Fetches spa services belonging to a specific service
     category and renders them in the index.html template.
     """
-
     category = get_object_or_404(ServiceCategory, id=category_id)
     services = SpaService.objects.filter(category=category)
 
@@ -224,15 +223,12 @@ def get_time_slots_for_date(request, availability_id):
     """
     try:
         date_id = request.GET.get('date_id')
-        print(f"Date ID: {date_id}, Availability ID: {availability_id}")
 
         availability = get_object_or_404(Availability, id=availability_id)
-        print(f"Found Availability: {availability}")
 
         all_time_slots = TimeSlot.objects.filter(
             spa_service=availability.spa_service
         )
-        print(f"All Time Slots: {all_time_slots.count()}")
 
         available_time_slots = TimeSlotAvailability.objects.filter(
             availability=availability,
@@ -259,7 +255,6 @@ def get_time_slots_for_date(request, availability_id):
                 'is_available': is_available,
                 'is_booked': is_booked,
             })
-        print(f"Time Slots Data: {time_slots_data}")
 
         data = {
             'time_slots': time_slots_data
@@ -267,5 +262,4 @@ def get_time_slots_for_date(request, availability_id):
 
         return JsonResponse(data)
     except Exception as e:
-        print(f"Error occurred: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)

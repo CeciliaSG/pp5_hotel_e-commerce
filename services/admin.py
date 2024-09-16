@@ -62,25 +62,17 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
     autocomplete_fields = ['specific_date', 'time_slot']
 
-    def get_queryset(self, request):
+    def save_model(self, request, obj, form, change):
         """
-        Optimized queryset without slicing and raw ID fields.
+        Ensure availability is set before saving each TimeSlotAvailability object.
         """
-        qs = super().get_queryset(request)
-        return qs.select_related('specific_date', 'time_slot')
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "time_slot" and hasattr(self, 'spa_service'):
-            kwargs["queryset"] = TimeSlot.objects.filter(
-                spa_service=self.spa_service
-            ).order_by('time')
-        elif db_field.name == "specific_date":
-            kwargs["queryset"] = SpecificDate.objects.all().order_by('date')
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_formset(self, request, obj=None, **kwargs):
-        self.spa_service = obj.spa_service if obj else None
-        return super().get_formset(request, obj, **kwargs)
+        if not obj.availability:
+            spa_service = obj.time_slot.spa_service
+            availability, created = Availability.objects.get_or_create(
+                spa_service=spa_service
+            )
+            obj.availability = availability
+        super().save_model(request, obj, form, change)
 
 
 class SpecificDateAdmin(admin.ModelAdmin):
