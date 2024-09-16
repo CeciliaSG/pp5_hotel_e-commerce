@@ -81,7 +81,6 @@ class ServiceBookingForm(forms.ModelForm):
         widget=DateInput(
             attrs={
                 "id": "id_date",
-                #'type': 'date',
                 "placeholder": "Select date",
                 "class": "form-control",
                 "required": True
