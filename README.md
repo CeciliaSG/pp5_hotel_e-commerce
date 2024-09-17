@@ -178,7 +178,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <img src="assets_readme/images/contact_email.png">
 
 ### Facebook page
-
+<img src="assets_readme/images/Facebook_sida.png">
 
 
 ### Email Confirmation
@@ -234,7 +234,6 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 
 ## Testing
-### Testing
 
 The sites content and features are available to all user whether logged in or not. But only registered users can access their account and the information associated with it, such as for example their bookings.
 
@@ -302,7 +301,7 @@ Testing: Tested the links by clicking them.
 
 Result: The links link to the correct pages/endpoints.
 
-<img src="">
+<img src="assets_readme/images/Footer.png">
 </br>
 
 

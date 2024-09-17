@@ -57,20 +57,11 @@ main {
     background-color: transparent !important;
 }
 
-#collapseNavbar {
-    position: fixed;
-    background-color: #191521;
-    z-index: 1003;
-    width: 250px;
-    max-height: 90vh;
-    max-height: 300px;
-}
-
 .navbar-nav {
     padding-left: 20px;
     display: none;
-    position: absolute;
-    top: 70px;
+    position: fixed;
+    top: 50px;
     left: 0;
     min-width: 250px;
     max-width: 400px;

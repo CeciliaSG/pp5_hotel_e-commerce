@@ -77,7 +77,10 @@
         <div class="col">
           <ul>
             <li class="nav-item">
-              <a class="nav-link mt-4" href="{% url 'home' %}#home" aria-label="Home">Home</a>
+              <a class="nav-link mt-4" href="{% url 'home' %}" aria-label="Home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}" aria-label="Contact">Contact</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -103,7 +106,7 @@
           <ul>
             {% if not request.user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}"
-                aria-label="For for registering">Register</a>
+                aria-label="For registering">Register</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}" aria-label="Login page">Signin</a>
             </li>
@@ -111,12 +114,19 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}"
                 aria-label="Logout page">Signout</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'customer_profile' %}"
-                aria-label="View your profile">Account</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'delete_profile' %}"
-                aria-label="Delete your profile">Delete
-                Account</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Account
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                <li><a class="dropdown-item nav-link" href="{% url 'customer_profile' %}"
+                    aria-label="View your profile">Profile</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'delete_profile' %}"
+                    aria-label="Delete your profile">Delete
+                    Account</a>
+                </li>
+              </ul>
             </li>
             {% if user.is_staff or user.is_superuser %}
             <li class="nav-item">
