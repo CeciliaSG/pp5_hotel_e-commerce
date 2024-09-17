@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import handler404
+from django.urls import path, re_path
+from django.views.generic.base import RedirectView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +32,8 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('checkout/', include('checkout.urls')),
     path('customer_profile/', include('accounts.urls')),
+    re_path(r'^robots\.txt$', RedirectView.as_view(url='/static/robots.txt', permanent=True)),
+    re_path(r'^sitemap\.xml$', RedirectView.as_view(url='/static/sitemap.xml', permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'the_spa.views.handler404'
 
