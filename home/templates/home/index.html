@@ -83,7 +83,8 @@
           <a class="text-info card-link" href="{% url 'service_details' service.id %}">
             <div class="card h-100">
               <div class="card-image-container">
-                <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.image }}">
+                <img class="card-img-top" src="{{ service.featured_image.url }}" alt="{{ service.image }}" width="375"
+                  height="250">
               </div>
               <div class="card-body text-start pb-3">
                 <h3 class="h6 card-category">{{ service.category }}</h3>
