@@ -321,6 +321,8 @@ ul li .message-list-item{
 
 .card-image-container {
     width: 100%;
+    height: auto;
+    object-fit: cover;
     margin: 0;
 }
 
