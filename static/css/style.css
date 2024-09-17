@@ -561,12 +561,12 @@ a:hover {
 }
 
 a.text-info {
-    color: #538991 !important;
+    color: #213a40 !important;
     text-decoration: none;
 }
 
 a.text-info:hover {
-    color: #375d66 !important;
+    color: #538991 !important;
     text-decoration: none;
 }
 
