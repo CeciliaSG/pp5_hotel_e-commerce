@@ -644,8 +644,6 @@ Spa Bookings: A log of bookings and all dtails. Bookings can be changed, delted 
 **Specific Times:** General time slots are added here - and associated with a spa service. these are then used in availabilites.
 
 
-
-
 ### Validator Testing 
 
 The W3C Markup Validator and W3C CSS Validator Services were used to validate every page of the project to ensure there were no syntax errors in the project.
@@ -810,6 +808,7 @@ https://monim67.github.io/django-bootstrap-datepicker-plus/demo/bootstrap5/custo
 - [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
 
 #### Admin
+https://reintech.io/blog/customizing-the-admin-interface-in-django
 https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates
 https://stackoverflow.com/questions/76851414/multible-objects-creation-in-django-admin-panel
 https://pypi.org/project/django-batch-select/
@@ -817,6 +816,9 @@ https://docs.djangoproject.com/en/dev/ref/models/querysets/#defer
 https://realpython.com/customize-django-admin-python/
 https://docs.djangoproject.com/en/5.1/ref/contrib/admin/
 https://testdriven.io/blog/customize-django-admin/
+https://earthly.dev/blog/customize-django-admin-site/
+https://medium.com/@abasifreke/mastering-django-admin-customization-best-practices-and-techniques-66a6b31ad4f8
+https://github.com/duplxey/django-admin-customization
 
 ### Content
 
