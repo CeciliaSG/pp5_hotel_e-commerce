@@ -15,6 +15,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     let stickyNavbar = document.querySelector('.sticky-navbar');
     let logo = document.querySelector('.logo');
+    let logoText = document.querySelector('.logo-text');
     let navbarButton = document.querySelector('.navbar-button');
     let navbarButtonIcon = document.querySelector('.navbar-button i.fa-bars');
 
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             stickyNavbar.style.height = originalNavbarHeight * 0.7 + 'px';
             logo.style.color = 'white';
             logo.style.transform = 'scale(0.7)';
+            logoText.style.display = 'none';
             navbarButton.style.color = 'white';
             navbarButtonIcon.style.color = 'white'; 
         } else {
@@ -39,11 +41,13 @@ document.addEventListener("DOMContentLoaded", function() {
             stickyNavbar.style.height = originalNavbarHeight + 'px';
             logo.style.color = '#191521';
             logo.style.transform = 'scale(1)';
+            logoText.style.display = 'block'; 
             navbarButton.style.color = '#191521';
             navbarButtonIcon.style.color = '#191521';  
         }
     });
 });
+
 
 // Messages
 /**
