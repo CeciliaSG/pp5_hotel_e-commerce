@@ -134,8 +134,8 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 
 
 ### Models/ERDs
- <img src="assets_readme/images/spa_erds_page_1.png">
- <img src="assets_readme/images/spa_erds_page_2.png">
+ <img src="assets_readme/images/spa_erds_1.png">
+ <img src="assets_readme/images/spa_erds_2.png">
 
 
 ### Kanban Board
@@ -149,7 +149,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <br>
 
 ### Dropdown Menu
-<img src="">
+<img src="assets_readme/images/dropdown_menu.png">
 
 <br>
 
@@ -159,7 +159,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <br>
 
 ### Treatments Section
-<img src="">
+<img src="assets_readme/images/treatments_section.png">
 
 <br>
 

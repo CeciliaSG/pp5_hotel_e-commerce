@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let navbarButton = document.querySelector('.navbar-button');
     let navbarButtonIcon = document.querySelector('.navbar-button i.fa-bars');
 
+    let originalNavbarHeight = stickyNavbar.offsetHeight;
+    let originalLogoWidth = logo.offsetWidth;
+    let originalLogoHeight = logo.offsetHeight;
+
     if (!stickyNavbar || !logo || !navbarButton || !navbarButtonIcon) {
         return;
     }
@@ -25,12 +29,16 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('scroll', function() {
         if (window.scrollY > 100) {
             stickyNavbar.style.backgroundColor = 'rgba(25, 21, 33, 1)';
+            stickyNavbar.style.height = originalNavbarHeight * 0.7 + 'px';
             logo.style.color = 'white';
+            logo.style.transform = 'scale(0.7)';
             navbarButton.style.color = 'white';
             navbarButtonIcon.style.color = 'white'; 
         } else {
             stickyNavbar.style.backgroundColor = 'rgba(25, 21, 33, 0.1)';
+            stickyNavbar.style.height = originalNavbarHeight + 'px';
             logo.style.color = '#191521';
+            logo.style.transform = 'scale(1)';
             navbarButton.style.color = '#191521';
             navbarButtonIcon.style.color = '#191521';  
         }
