@@ -62,6 +62,10 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
     fields = ['specific_date', 'time_slot', 'is_available', 'is_booked']
     autocomplete_fields = ['specific_date', 'time_slot']
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.order_by('specific_date__date')
+
     def save_model(self, request, obj, form, change):
         """
         Ensure availability is set before saving each TimeSlotAvailability object.
