@@ -562,7 +562,7 @@ Features visible to logged-out users:
 
 - __The Delete Account Page__
 
-  - Gives the user the ability to easily delete their account. Registered users/members can delete their account and all associated information. Accessible from the dropdown menu and link Delete Account.
+  - Founder under Account. Gives the user the ability to easily delete their account. Registered users/members can delete their account and all associated information. Accessible from the dropdown menu and link Delete Account.
 
 <br>  
 
@@ -570,7 +570,9 @@ Features visible to logged-out users:
 | ----------- | ----------- |  ----------- | ----------- | ----------- |
 | **DeleteAccountForm**, App: Accounts, delete_profile.html | Lets user delete their account and all associated information. <br> | When the link in the dropdown menu is clicked the user should be redirected to the delete account page. When thy check confirms account deletion and click delete account the account should be deleted, and they should be logged out and redirected to the home page. | The Delete Account link in the dropdown was clicked. The confirm delete checkbox was checked and the delete button clicked. The feature was also tested without checking the delete account confirm box. | The menu link takes the user to the delete profile page. When the user checks the checkbox and clicks delete the account is deleted and the user is signed-out and returned to the home page for logged out users. All user info and any profile information <br> related to the user is deleted from the admin panel and the database. When the delete account confirm wasn’t checked the deletion isn’t possible – the user is then prompted to check the box if they want to continue. |
 
-<img src="">
+<img src="delete_account_1">
+
+<img src="delete_account_2">
 
 <br>
 
@@ -586,11 +588,10 @@ For staff only:
 | ----------- | ----------- |  ----------- | ----------- | ----------- |
 | **Manage Time slots**, App: Services (admin), manage_time_slots.html | Lets staff users manage time slots from the frontend. <br> | When the link in the dropdown menu is clicked the user should be redirected to the Availability overview page. When they click the link for the service they are redirected to a page where the service should be pre-selected in the dropdown (they can select another service from the list if the whish). They should then be able to select a date and the possible time slots for that service should display. Time slot checked and blue are already set as available and time slots marked with grey are already booked. | The links were clicked, a service chosen on the manage time slot page. A date was then chosen, and a time slot was clicked/set unset to test the functionality.| When the links were clicked the user was taken to the correct pages. The correct service was displayed, and when a date was chosen the possible time slots were displayed. When a date was set or unset and then saved it was correctly displayed both in the front and backend.
 
-<img src="">
+<img src="manage_timeslots_1">
+<img src="manage_timeslots_2">
 
 <br>
-
-
 
 
 - __Contact form__
@@ -598,6 +599,8 @@ For staff only:
 | Form | Description | Expected | Testing | Result |
 | ----------- | ----------- |  ----------- | ----------- | ----------- | 
 | **Contact form**, App: Home, contact.html | Page and form for sending a contact message to the Spa. Accessible for all users – logged in and logged out | When the users fill in their name, email, send a message should be sent to The Spas email. | The form was tested by filling out the required info. And clicking send | A message appears on the screen letting the user know the message has been sent and received by The Spa and that they will be in touch shortly. A message also appears in the Spas inbox |
+
+<img src="">
 
 
 ### Testing Back to top button
@@ -610,7 +613,7 @@ For staff only:
 
 **Result:** When the page scrolls up taking the user back to the top of the page.
 
-<img src=" ">
+<img src="assets_readme/images/back_totop_button.png">
 
 
 ### 404
@@ -621,9 +624,26 @@ For staff only:
 
 **Result:** When knowingly entering a url that doesn't exist on the site it returns the custom url.
 
-<img src=" ">
+<img src="assets_readme/images/404.png">
 
 ### Testing the Admin
+
+Quite alot of work has gone into trying to make the admin user friendly and creating a booking system taht works. Ther is still some work to be done on this and the loading times with regards to dates and timeslots are slow.
+
+### Booking
+Spa Booking services: List bokkings by service
+Spa Bookings: A log of bookings and all dtails. Bookings can be changed, delted and added from the admin and it will update the availabilies.
+
+### Services
+
+**Availabilities:** Handles availability for the spa services - and dates and timeslots. The user can choose a service and add dates and times for availability. It also shows which times slots are available and which are already booked.
+**Reviews:** Reviews are handled heere. Can be approved and deleted
+**Service categories:** The the Spa categories are handled here - added or delted.
+**Spa Services:** Spa services are handled here. Can be added, changed and deleted. All details regarding a service is also handled here as dration, price etc.
+**Specific Dates:** Dates are added here and then used in availabilites.
+**Specific Times:** General time slots are added here - and associated with a spa service. these are then used in availabilites.
+
+
 
 
 ### Validator Testing 
@@ -640,9 +660,12 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 ### Lighthouse testing
 
 - Mobile (third party cookies and Cloudinary are causing issues)
- <img src="assets_readme/images/Lighthouse_mobile.png">
+ <img src="assets_readme/images/lighthouse_mobile.png">
+
+ Comment: There is still some work to be done with regards to sizing of images etc.
+
 - Desktop (third party cookies and Cloudinary are causing issues)
- <img src="assets_readme/images/Lighthouse_desktop.png">
+ <img src="assets_readme/images/lighthouse_desktop.png">
 
 
 ### Further Testing
