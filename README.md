@@ -164,7 +164,7 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <br>
 
 ### Booking Page
-<img src="">
+<img src="assets_readme/images/booking_page.png">
 
 <br>
 
@@ -174,11 +174,11 @@ The e-commerce model for The Spa Stockholm will enhance the customer experience 
 <br>
 
 ### Contact
-<img src="assets_readme/images/contact_form.png">
 <img src="assets_readme/images/contact_email.png">
+<img src="assets_readme/images/contact_form_submission.png">
 
 ### Facebook page
-<img src="assets_readme/images/Facebook_sida.png">
+<img src="assets_readme/images/facebook_sida.png">
 
 
 ### Email Confirmation
@@ -239,7 +239,7 @@ The sites content and features are available to all user whether logged in or no
 
 Only registered staff members can access the Manage Time slot section which is a frond end extension of the back admin to make it easy to add or delete available time slots for services and dates.
 
-- __Navigation Bars: First Navbar and Second Navbar__
+- __Navigation Bars: Sticky Navbar and Dropdown Navbar__
 
 - Featured on all pages, the fully responsive navbar includes the logo which also works as a link back to the home page and a Make a Booking button that takes the user to the booking page.
 
@@ -283,8 +283,8 @@ Testing: Tested the links by clicking them.
 
 Result: The links takes the user correct pages/endpoints when clicked.
 
-<img src=" ">
-<img src=" ">
+<img src="assets_readme/images/dropdown_menu.png">
+<img src="assets_readme/images/sticky_navbar.png">
 
 <br>
 
@@ -301,7 +301,7 @@ Testing: Tested the links by clicking them.
 
 Result: The links link to the correct pages/endpoints.
 
-<img src="assets_readme/images/Footer.png">
+<img src="assets_readme/images/footer.png">
 </br>
 
 
@@ -312,7 +312,7 @@ Result: The links link to the correct pages/endpoints.
 
   - The About section features a text about the spa and there is also a button that will take the user to a page where they can read more about the spa.
 
-<img src="">
+<img src="assets_readme/images/home_page.png">
 
 <br>
 
@@ -357,7 +357,8 @@ There is also a function to add a review for the treatment.
 
 <br>
 
-<img src=" ">
+<img src="assets_readme/images/details_page_1.png">
+<img src="assets_readme/images/details_page_2.png">
 
 <br>
 
@@ -403,7 +404,7 @@ The services added were visible. When the buttons were clicked, they performed t
 
 <br>
 
-<img src=" ">
+<img src="assets_readme/images/cart.png">
 
 <br>
 
@@ -435,7 +436,7 @@ The update cart button takes the user back to the cart when it is clicked.
 
 
 Image stripe:
-<img src=" ">
+<img src="assets_readme/images/checkout.png">
 
 <br>
 
@@ -457,8 +458,8 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="">
-<img src="">
+<img src="assets_readme/images/signup_1.png">
+<img src="assets_readme/images/signup_2.png">
 
 <br>
 
@@ -476,7 +477,7 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="">
+<img src="assets_readme/images/signin.png">
 
 <br>
 
@@ -505,7 +506,7 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="">
+<img src="assets_readme/images/profile_page.png">
 
 <br>
 
@@ -521,7 +522,7 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="”
+<img src="assets_readme/images/signout.png"
 
 <br>
 
@@ -538,13 +539,13 @@ Features visible to logged-out users:
 
 <br>
 
-<img src=" ">
+<img src="assets_readme/images/handle_email.png">
 
 <br>
 
 
 
-- __The Change Password__
+- __The Change/Reset Password__
 
   - Gives the user the ability to change their password. Registered users can change their password.
 
@@ -556,7 +557,7 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="">
+<img src="assets_readme/images/reset_password.png">
 
 <br>
 
@@ -600,7 +601,9 @@ For staff only:
 | ----------- | ----------- |  ----------- | ----------- | ----------- | 
 | **Contact form**, App: Home, contact.html | Page and form for sending a contact message to the Spa. Accessible for all users – logged in and logged out | When the users fill in their name, email, send a message should be sent to The Spas email. | The form was tested by filling out the required info. And clicking send | A message appears on the screen letting the user know the message has been sent and received by The Spa and that they will be in touch shortly. A message also appears in the Spas inbox |
 
-<img src="">
+<img src="assets_readme/images/contact.png">
+<img src="assets_readme/images/contact_form_submission.png">
+assets_readme/images/contact_form_submission.png
 
 
 ### Testing Back to top button
