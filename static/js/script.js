@@ -20,8 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let navbarButtonIcon = document.querySelector('.navbar-button i.fa-bars');
 
     let originalNavbarHeight = stickyNavbar.offsetHeight;
-    let originalLogoWidth = logo.offsetWidth;
-    let originalLogoHeight = logo.offsetHeight;
 
     if (!stickyNavbar || !logo || !navbarButton || !navbarButtonIcon) {
         return;
@@ -214,6 +212,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+/**
+ * JavaScript to handle the visibility of the "Book Now" button based on scroll position and screen width.
+ *
+ * - Once the DOM is fully loaded, the script selects the element with the class `.book-now-button`.
+ * - If the screen width is less than 769 pixels, a scroll event listener is added to the window.
+ * - The scroll event listener monitors the vertical scroll position (`scrollY`):
+ *   - If the scroll position is greater than 200 pixels, the "Book Now" button is hidden by adding 
+ *     the `hidden` class.
+ *   - If the scroll position is less than or equal to 200 pixels, the "Book Now" button is shown by 
+ *     removing the `hidden` class and re-enabling pointer events.
+ *
+ * This functionality is intended for smaller screens, ensuring that the "Book Now" button is not 
+ * always visible when the user scrolls down, improving the user experience on mobile devices.
+ */
 
 document.addEventListener("DOMContentLoaded", function() {
   const bookingButton = document.querySelector(".book-now-button");
@@ -231,6 +243,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
-
-
-
