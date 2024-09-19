@@ -821,7 +821,7 @@ p.logo-text {
     opacity: 1;
     pointer-events: auto;
     transition: opacity 0.5s ease-in-out;
-    margin-top: 70px;
+    margin-top: 0px;
   }
 
 .extra-bottom-space {
@@ -877,7 +877,7 @@ font-size: 75px;
 }
 
 .book-now-button {
-  margin-top: 100px;
+  margin-top: 0px;
 }
 }
 
