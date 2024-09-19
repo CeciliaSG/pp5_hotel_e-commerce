@@ -432,6 +432,9 @@ When the form is filled out and the book now button is clicked the booking and p
 An email is also sent to the users email address and a booking containing all information appears in the admin. An entry for the charge is also visible in Stripe.
 
 The update cart button takes the user back to the cart when it is clicked.
+
+**Note!**
+The input field for card details was tested on a laptop,  a large screen, iphone 10, Ipad and Iphone 8. it works well on all but one screen, the iphone 8 where there seems to be an issue with th input overlapping. I was unable to resolve this issue. but it works fine on all other screens.
 <br>
 
 
