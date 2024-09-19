@@ -438,7 +438,6 @@ The input field for card details was tested on a laptop,  a large screen, iphone
 <br>
 
 
-Image stripe:
 <img src="assets_readme/images/checkout.png">
 
 <br>
@@ -525,7 +524,7 @@ Features visible to logged-out users:
 
 <br>
 
-<img src="assets_readme/images/signout.png"
+<img src="assets_readme/images/signout.png">
 
 <br>
 
@@ -574,9 +573,9 @@ Features visible to logged-out users:
 | ----------- | ----------- |  ----------- | ----------- | ----------- |
 | **DeleteAccountForm**, App: Accounts, delete_profile.html | Lets user delete their account and all associated information. <br> | When the link in the dropdown menu is clicked the user should be redirected to the delete account page. When thy check confirms account deletion and click delete account the account should be deleted, and they should be logged out and redirected to the home page. | The Delete Account link in the dropdown was clicked. The confirm delete checkbox was checked and the delete button clicked. The feature was also tested without checking the delete account confirm box. | The menu link takes the user to the delete profile page. When the user checks the checkbox and clicks delete the account is deleted and the user is signed-out and returned to the home page for logged out users. All user info and any profile information <br> related to the user is deleted from the admin panel and the database. When the delete account confirm wasn’t checked the deletion isn’t possible – the user is then prompted to check the box if they want to continue. |
 
-<img src="delete_account_1">
+<img src="assets_readme/images/delete_account_1.png">
 
-<img src="delete_account_2">
+<img src="assets_readme/images/delete_account_2.png">
 
 <br>
 
@@ -592,8 +591,8 @@ For staff only:
 | ----------- | ----------- |  ----------- | ----------- | ----------- |
 | **Manage Time slots**, App: Services (admin), manage_time_slots.html | Lets staff users manage time slots from the frontend. <br> | When the link in the dropdown menu is clicked the user should be redirected to the Availability overview page. When they click the link for the service they are redirected to a page where the service should be pre-selected in the dropdown (they can select another service from the list if the whish). They should then be able to select a date and the possible time slots for that service should display. Time slot checked and blue are already set as available and time slots marked with grey are already booked. | The links were clicked, a service chosen on the manage time slot page. A date was then chosen, and a time slot was clicked/set unset to test the functionality.| When the links were clicked the user was taken to the correct pages. The correct service was displayed, and when a date was chosen the possible time slots were displayed. When a date was set or unset and then saved it was correctly displayed both in the front and backend.
 
-<img src="manage_timeslots_1">
-<img src="manage_timeslots_2">
+<img src="assets_readme/images/manage_timeslots_1.png">
+<img src="assets_readme/images/manage_timeslots_2.png">
 
 <br>
 
@@ -661,14 +660,10 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 <br>
 
-### Lighthouse testing
+### Lighthouse testing (mobile & desktop)
 
-- Mobile (third party cookies and Cloudinary are causing issues)
  <img src="assets_readme/images/lighthouse_mobile.png">
 
- Comment: There is still some work to be done with regards to sizing of images etc.
-
-- Desktop (third party cookies and Cloudinary are causing issues)
  <img src="assets_readme/images/lighthouse_desktop.png">
 
 
@@ -802,18 +797,18 @@ The Boutique Ado walthrough forms the base for this project and has been consult
 - [Stack Overflow/scroll-to-element](https://stackoverflow.com/questions/52622885/scroll-to-element-from-bootstrap-navbar)
 
 - [www.w3schools.com/input-type-date](https://www.w3schools.com/tags/att_input_type_date.asp#:~:text=The%20%3Cinput%20type%3D%22date,tag%20for%20best%20accessibility%20practices!)
-https://stackoverflow.com/search?q=scroll+to
-https://testdriven.io/blog/customize-django-admin/
-https://stackoverflow.com/search?q=scroll+to
-https://monim67.github.io/django-bootstrap-datepicker-plus/demo/bootstrap5/custom-form.html
+- [Stack Overflow/scroll to](https://stackoverflow.com/search?q=scroll+to)
 
 
 #### Forms
 - [www.geeksforgeeks.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
 - [docs.djangoproject.com](https://docs.djangoproject.com/en/5.0/topics/forms/)
 - [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms)
+- [Bootstrap5](https://monim67.github.io/django-bootstrap-datepicker-plus/demo/bootstrap5/custom-form.html)
+
 
 #### Admin
+https://testdriven.io/blog/customize-django-admin/
 https://reintech.io/blog/customizing-the-admin-interface-in-django
 https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates
 https://stackoverflow.com/questions/76851414/multible-objects-creation-in-django-admin-panel
@@ -825,6 +820,7 @@ https://testdriven.io/blog/customize-django-admin/
 https://earthly.dev/blog/customize-django-admin-site/
 https://medium.com/@abasifreke/mastering-django-admin-customization-best-practices-and-techniques-66a6b31ad4f8
 https://github.com/duplxey/django-admin-customization
+
 
 ### Content
 
