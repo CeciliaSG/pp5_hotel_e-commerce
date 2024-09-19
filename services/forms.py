@@ -32,7 +32,24 @@ class MultiDateInput(forms.TextInput):
 
 class SpecificDateAdminForm(forms.ModelForm):
     """
-    Custom form for managing specific dates in the Django admin interface.
+    A custom form for managing specific dates in the Django
+    admin interface.
+
+    Fields:
+    - dates: A CharField for entering multiple dates, separated
+    by commas.
+
+    Meta:
+    - model: SpecificDate.
+    - fields: [] (no predefined fields).
+
+    Clean method:
+    - Validates the dates field, ensuring no duplicates and checking
+    for existing dates.
+
+    Save method:
+    - Creates SpecificDate instances for the entered dates and
+    saves them in bulk.
     """
     dates = forms.CharField(
         widget=MultiDateInput(attrs={'id': 'specific_dates_picker'}),
@@ -99,7 +116,31 @@ class SpecificDateAdminForm(forms.ModelForm):
 
 class FrontendTimeSlotForm(forms.ModelForm):
     """
-    Custom form for selecting available time slots for a given date.
+    A form for selecting available time slots on
+    a specific date.
+
+    This form allows users to choose multiple time slots
+    for a given date, based on the availability of
+    a spa service.
+
+    Fields:
+    - time_slots: Multiple choice field displayed as
+    checkboxes.
+
+    Meta:
+    - model: TimeSlotAvailability.
+    - fields: ['specific_date', 'time_slots'].
+
+    Initialisation:
+    - Expects an 'availability' argument to filter available time slots.
+
+    Save method:
+    - Updates the availability of selected time slots and ensures
+    booked slots remain unchanged.
+    - Uses a transaction to apply changes safely.
+
+    Raises:
+    - ValueError if 'availability' is not set when saving.
     """
     time_slots = forms.ModelMultipleChoiceField(
         queryset=TimeSlot.objects.none(),

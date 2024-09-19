@@ -68,7 +68,8 @@ class TimeSlotAvailabilityInline(admin.TabularInline):
 
     def save_model(self, request, obj, form, change):
         """
-        Ensure availability is set before saving each TimeSlotAvailability object.
+        Ensure availability is set before saving
+        each TimeSlotAvailability object.
         """
         if not obj.availability:
             spa_service = obj.time_slot.spa_service

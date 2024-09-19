@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.getElementById("submitButton");
 
     /**
-     * Initializes edit functionality for the provided edit buttons.
+     * Initialises edit functionality for the provided edit buttons.
      * 
      * For each button in the `editButtons` collection:
      * - Retrieves the associated review's ID upon click.
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /*
-     * Initializes deletion functionality for the provided delete buttons.
+     * Initialises deletion functionality for the provided delete buttons.
      * 
      * For each button in the `deleteButtons` collection:
      * - Retrieves the associated review's ID upon click.

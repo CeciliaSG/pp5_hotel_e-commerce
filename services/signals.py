@@ -38,6 +38,19 @@ def pre_delete_spa_booking_service(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=SpaBookingServices)
 def pre_save_spa_booking_service(sender, instance, **kwargs):
+    """
+    Handles the pre-save signal for SpaBookingServices to
+    manage time slot availability.
+
+    This function updates the availability of time slots when
+    the booking's date and time are changed. It marks
+    the old time slot as available and the new one as booked.
+
+    Args:
+        sender: The model class sending the signal.
+        instance: The instance of SpaBookingServices being saved.
+        **kwargs: Additional keyword arguments.
+    """
     if instance.pk:
         try:
             old_instance = SpaBookingServices.objects.get(pk=instance.pk)

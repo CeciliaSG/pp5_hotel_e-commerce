@@ -69,8 +69,8 @@ class SpaService(models.Model):
         or Published (1).
 
     Methods:
-        __str__(): Returns the string representation of the spa service,
-        which is its name.
+        __str__(): Returns the string representation of
+        the spa service, which is its name.
 
     Usage:
         This model is typically used to manage and display
@@ -143,10 +143,30 @@ class SpecificDate(models.Model):
         indexes = [
             models.Index(fields=['date']),
         ]
-        ordering = ['date']        
+        ordering = ['date']
 
 
 class TimeSlot(models.Model):
+    """
+    Represents a time slot for a specific spa service.
+
+    Fields:
+    - time: The time of the slot, indexed for faster queries.
+    - spa_service: ForeignKey to the SpaService model.
+
+    Meta:
+    - unique_together: Ensures each time slot is unique per
+    spa service.
+    - ordering: Orders time slots by time.
+
+    Methods:
+    - __str__: Returns a string representation of the spa service
+    and time.
+    - mark_available_for_date: Marks the time slot as available for
+    a given date.
+    - mark_unavailable_for_date: Marks the time slot as unavailable for
+    a given date.
+    """
     time = models.TimeField(db_index=True)
     spa_service = models.ForeignKey(
         SpaService, on_delete=models.CASCADE
@@ -183,6 +203,27 @@ class TimeSlot(models.Model):
 
 
 class TimeSlotAvailability(models.Model):
+    """
+    Links availability of spa services to specific dates
+    and time slots.
+
+    Fields:
+    - availability: ForeignKey to the Availability model.
+    - specific_date: ForeignKey to the SpecificDate model.
+    - time_slot: ForeignKey to the TimeSlot model.
+    - is_available: Indicates if the time slot is available.
+    - is_booked: Indicates if the time slot is booked.
+
+    Meta:
+    - unique_together: Ensures unique combinations of availability,
+    specific date, and time slot.
+    - indexes: Adds an index on specific_date and time_slot for
+    faster queries.
+
+    Methods:
+    - clean: Validates that a time slot cannot be both available and booked.
+    - save: Cleans the instance before saving.
+    """
     availability = models.ForeignKey(
         'Availability', on_delete=models.CASCADE
     )
@@ -203,7 +244,6 @@ class TimeSlotAvailability(models.Model):
             models.Index(fields=['specific_date', 'time_slot']),
         ]
 
-
     def clean(self):
         if self.is_available and self.is_booked:
             raise ValidationError(
@@ -216,6 +256,23 @@ class TimeSlotAvailability(models.Model):
 
 
 class Availability(models.Model):
+    """
+    Manages the availability of spa services with
+    specific dates and time slots.
+
+    Fields:
+    - spa_service: Links to the SpaService model.
+    - specific_dates: Many-to-many relationship with
+    SpecificDate.
+    - time_slots: Many-to-many relationship with TimeSlot
+    through TimeSlotAvailability.
+
+    Methods:
+    - save_model: Ensures a spa service cannot be added as
+    available more than once.
+    - __str__: Returns a string representation of the
+    spa service availability.
+    """
     spa_service = models.ForeignKey(
         SpaService, on_delete=models.CASCADE
     )
