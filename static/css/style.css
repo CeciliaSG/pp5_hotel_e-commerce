@@ -690,9 +690,9 @@ button.btn.btn-sm:hover {
 }
 
 #scrollToAboutBtn {
-    display: block;
+    display: block !important;
     position: fixed;
-    top: 650px;
+    top: 600px;
     padding: 10px 10px;
     cursor: pointer;
     width: 120px;
