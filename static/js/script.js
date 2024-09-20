@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 /**
  * JavaScript to handle the visibility of the "Book Now" button based on scroll position and screen width.
  *
