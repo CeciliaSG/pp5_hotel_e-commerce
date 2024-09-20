@@ -182,6 +182,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
 
+    function checkButtonVisibility() {
+        const homeSection = document.getElementById('home');
+        const aboutSection = document.getElementById('about');
+
+        if (aboutSection && homeSection) {
+            const threshold = 150;
+            
+            if (isInViewport(aboutSection, threshold)) {
+                scrollToAboutBtn.style.display = 'none';
+            } else {
+                scrollToAboutBtn.style.display = 'block';
+            }
+        }
+    }
+
     if (scrollToAboutBtn) {
         scrollToAboutBtn.addEventListener('click', function() {
             const aboutH1 = document.querySelector('#about h1');
@@ -194,24 +209,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, { passive: true });
 
-        window.addEventListener('scroll', function() {
-            const homeSection = document.getElementById('home');
-            const aboutSection = document.getElementById('about');
+        window.addEventListener('scroll', checkButtonVisibility);
+        window.addEventListener('resize', checkButtonVisibility);
 
-            if (aboutSection && homeSection) {
-                const threshold = 150;
-                
-                if (isInViewport(aboutSection, threshold)) {
-                    scrollToAboutBtn.style.display = 'none';
-                } else {
-                    scrollToAboutBtn.style.display = 'block';
-                }
-            }
-        });
-
-        window.dispatchEvent(new Event('scroll'));
+        setTimeout(checkButtonVisibility, 100);
     }
 });
+
 
 
 /**
