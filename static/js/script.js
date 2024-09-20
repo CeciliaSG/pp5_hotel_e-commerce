@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const aboutSection = document.getElementById('about');
 
             if (aboutSection && homeSection) {
-                if (isInViewport(aboutSection) || !isInViewport(homeSection)) {
+                if (isInViewport(aboutSection, -200) || !isInViewport(homeSection)) { 
                     scrollToAboutBtn.style.display = 'none';
                 } else if (isInViewport(homeSection)) {
                     scrollToAboutBtn.style.display = 'block';
