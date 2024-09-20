@@ -173,35 +173,17 @@ document.addEventListener('DOMContentLoaded', function() {
  * - Uses a `passive` event listener for the button click to improve scrolling performance.
  */
 document.addEventListener('DOMContentLoaded', function() {
-    function isInViewport(element, threshold = 0) {
+    function isInViewport(element) {
         const rect = element.getBoundingClientRect();
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-        const elementVisible = rect.top < windowHeight - threshold && rect.bottom > threshold;
-        return elementVisible;
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
 
     const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
-
-    function checkButtonVisibility() {
-        const homeSection = document.getElementById('home');
-        const aboutSection = document.getElementById('about');
-
-        if (aboutSection && homeSection) {
-            const threshold = 150;
-            
-            const aboutInView = isInViewport(aboutSection, threshold);
-            const homeInView = isInViewport(homeSection);
-
-            console.log(`About Section in view: ${aboutInView}`);
-            console.log(`Home Section in view: ${homeInView}`);
-
-            if (aboutInView || !homeInView) {
-                scrollToAboutBtn.style.display = 'none';
-            } else {
-                scrollToAboutBtn.style.display = 'block';
-            }
-        }
-    }
 
     if (scrollToAboutBtn) {
         scrollToAboutBtn.addEventListener('click', function() {
@@ -215,16 +197,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, { passive: true });
 
-        window.addEventListener('scroll', checkButtonVisibility);
-        window.addEventListener('resize', checkButtonVisibility);
+        window.addEventListener('scroll', function() {
+            const homeSection = document.getElementById('home');
+            const aboutSection = document.getElementById('about');
 
-        setTimeout(() => {
-            console.log('Initial visibility check');
-            checkButtonVisibility();
-        }, 500);
+            if (aboutSection && homeSection) {
+                if (isInViewport(aboutSection) || !isInViewport(homeSection)) {
+                    scrollToAboutBtn.style.display = 'none';
+                } else if (isInViewport(homeSection)) {
+                    scrollToAboutBtn.style.display = 'block';
+                }
+            }
+        });
     }
 });
-
 
 
 
