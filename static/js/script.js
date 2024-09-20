@@ -173,14 +173,11 @@ document.addEventListener('DOMContentLoaded', function() {
  * - Uses a `passive` event listener for the button click to improve scrolling performance.
  */
 document.addEventListener('DOMContentLoaded', function() {
-    function isInViewport(element) {
+    function isInViewport(element, threshold = 0) {
         const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        const elementVisible = rect.top < windowHeight - threshold && rect.bottom > threshold;
+        return elementVisible;
     }
 
     const scrollToAboutBtn = document.getElementById('scrollToAboutBtn');
@@ -202,15 +199,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const aboutSection = document.getElementById('about');
 
             if (aboutSection && homeSection) {
-                if (isInViewport(aboutSection, -200) || !isInViewport(homeSection)) { 
+                const threshold = 150;
+                
+                if (isInViewport(aboutSection, threshold)) {
                     scrollToAboutBtn.style.display = 'none';
-                } else if (isInViewport(homeSection)) {
+                } else {
                     scrollToAboutBtn.style.display = 'block';
                 }
             }
         });
+
+        window.dispatchEvent(new Event('scroll'));
     }
 });
+
 
 /**
  * JavaScript to handle the visibility of the "Book Now" button based on scroll position and screen width.
