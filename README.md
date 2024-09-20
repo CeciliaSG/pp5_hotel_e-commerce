@@ -351,9 +351,9 @@ Expected:
 **Testing the Details page:**
 - __The Details page__
 
-The details page features a text about the treatment, details about duration, price etc. as well as a book now button.
+- The details page features a text about the treatment, details about duration, price etc. as well as a book now button.
 
-There is also a function to add a review for the treatment.
+- There is also a function to add a review for the treatment.
 
 <br>
 
@@ -379,7 +379,6 @@ Expected:
 
 - __The Booking page and function__
 
-- 
   <br>
 
 | Form | Description | Expected | Testing | Result | Comment |
@@ -415,11 +414,11 @@ The checkout displays a booking summary, the total price for all services in the
 
 
 **Expected:**
-When the user fills in the form with name, email, phone number and clicks book after adding their card details – a booking confirmation message should be displayed on the page. An email should also be sent to the user’s email.
+- When the user fills in the form with name, email, phone number and clicks book after adding their card details – a booking confirmation message should be displayed on the page. An email should also be sent to the user’s email.
 
-On the admin side a booking should be created in the spa bookings in the admin. The booking should contain all the details for the booking. When checking Stripe a there should be an event/record for the booking and its charge.
+- On the admin side a booking should be created in the spa bookings in the admin. The booking should contain all the details for the booking. When checking Stripe a there should be an event/record for the booking and its charge.
 
-The update cart button should take the user back to the cart.
+- The update cart button should take the user back to the cart.
 
 **Testing:**
 -	The Checkout feature was tested by filling out the form and making a payment booking.
@@ -427,11 +426,11 @@ The update cart button should take the user back to the cart.
 -	The updated cart button was clicked.
 
 **Result:**
-When the form is filled out and the book now button is clicked the booking and payment goes through and a confirmation message is displayed.
+- When the form is filled out and the book now button is clicked the booking and payment goes through and a confirmation message is displayed.
 
-An email is also sent to the users email address and a booking containing all information appears in the admin. An entry for the charge is also visible in Stripe.
+- An email is also sent to the users email address and a booking containing all information appears in the admin (the process is a little slow and it would be good to add a spinner so the user know what is happening). An entry for the charge is also visible in Stripe.
 
-The update cart button takes the user back to the cart when it is clicked.
+- The update cart button takes the user back to the cart when it is clicked.
 
 **Note!**
 The input field for card details was tested on a laptop,  a large screen, iphone 10, Ipad and Iphone 8. it works well on all but one screen, the iphone 8 where there seems to be an issue with th input overlapping. I was unable to resolve this issue. but it works fine on all other screens.
