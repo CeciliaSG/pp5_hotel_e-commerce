@@ -239,35 +239,35 @@ The sites content and features are available to all user whether logged in or no
 
 Only registered staff members can access the Manage Time slot section which is a frond end extension of the back admin to make it easy to add or delete available time slots for services and dates.
 
-- __Navigation Bars: Sticky Navbar and Dropdown Navbar__
+### Navigation Bars: Sticky Navbar and Dropdown Navbar
 
 - Featured on all pages, the fully responsive navbar includes the logo which also works as a link back to the home page and a Make a Booking button that takes the user to the booking page.
 
-  - Featured on all pages, the fully responsive dropdown navigation bar on left hand side includes links to Services (with its own dropdowns linking to sections treatments and prices & booking), cart, checkout, Sign-in, sign-out (when the user is signed in, Register (Account when the user is signed in), Delete Account (when signed in) – and for Staff a link to Manage Availability (admin) from the front end (only visible when a user is logged in and staff). It also includes a Home-link and a Facebook-link linking to the Spas FB-page.
+- Featured on all pages, the fully responsive dropdown navigation bar on left hand side includes links to Services (with its own dropdowns linking to sections treatments and prices & booking), cart, checkout, Sign-in, sign-out (when the user is signed in, Register (Account when the user is signed in), Delete Account (when signed in) – and for Staff a link to Manage Availability (admin) from the front end (only visible when a user is logged in and staff). It also includes a Home-link and a Facebook-link linking to the Spas FB-page.
 
 The navbars are identical on every page to allow for easy navigation.
   - This section will allow the user (logged-in and non-authenticated) to easily navigate from page to page across all devices without having to revert to the previous page via the ‘back’ button. 
 
   - The featured logo works as the link to the home/landing page.
 
-Testing sticky navbar and logo-link:
-Expected: 
+### Testing sticky navbar and logo-link:
 
+***Expected:**
 The Book now button is expected to take the user to the booking page/feature when the user clicks the link.
 
 Clicking the logo is expected to take the user back to the home page.
 
-Testing: Tested the button and logo by clicking them.
+**Testing:** Tested the button and logo by clicking them.
 
-Result: The links link to the correct pages/endpoints when clicked. And the logo works as a link back to the home page.
+**Result:** The links link to the correct pages/endpoints when clicked. And the logo works as a link back to the home page.
 
-Testing dropdown navbar for logged-out users. Links: services, sign-in, register, book now, cart and checkout:
+### Testing dropdown navbar for logged-out users. Links: services, sign-in, register, book now, cart and checkout:__
 
-Expected: The links are expected to take the user to the declared page/feature when the user clicks the link.
+**Expected:** The links are expected to take the user to the declared page/feature when the user clicks the link.
 
-Testing: Tested the links by clicking them.
+**Testing:** Tested the links by clicking them.
 
-Result: The links home, register, cart, sign-in and FB-symbol takes the user correct pages/endpoints when clicked.
+**Result:** The links home, register, cart, sign-in and FB-symbol takes the user correct pages/endpoints when clicked.
 
 **Checkout** can only be accessed when there is something in the cart, otherwise the user will get a message telling them there is nothing in the cart.
 
@@ -275,38 +275,69 @@ Result: The links home, register, cart, sign-in and FB-symbol takes the user cor
 
 **Comment:** It was noted it would be beneficial to users to have a booking link in the dropdown menu, so a link to the booking page was added.
 
-Testing dropdown navbar for logged-in users. Links only visible when logged in: sign-out, Account, Delete Account. Links for staff that are logged in: Manage Availability
+### Testing dropdown navbar for logged-in users. Links only visible when logged in: sign-out, Account, Delete Account. Links for staff that are logged in: Manage Availability
 
-Expected: The links are expected to take the user to the declared page/feature when the user clicks the link.
+**Expected:** The links are expected to take the user to the declared page/feature when the user clicks the link.
 
-Testing: Tested the links by clicking them.
+**Testing:** Tested the links by clicking them.
 
-Result: The links takes the user correct pages/endpoints when clicked.
+**Result:** The links takes the user correct pages/endpoints when clicked.
 
 <img src="assets_readme/images/dropdown_menu.png">
 <img src="assets_readme/images/sticky_navbar.png">
 
 <br>
 
-- __The Footer__ 
+### Testing Spa Treatments & Therapies section:
+
+The section features cards with images and excerpts text for spa treatments, and each card can be clicked linking the user to a details page with more information about the treatment. The cards also feature a count of reviews left for each treatment.
+
+**Expected:** 
+- The links take the users to the correct details page.
+
+**Testing:**
+- Post-links were clicked.
+
+**Result:**
+-	The links take the user to the correct post-details page.
+
+
+### Email Signup:
+
+An email signup powered by Mail Chimp appears when the user first enters the page. It provides the user with the opportunity to sign up for the Spas newsletter and recieve exclusive updtes and offers.
+
+ **Expected:**
+- The newsletter signup form appears when the user first enters the website.
+- A message is displayed after clicking subscribe.
+
+**Testing:**
+- Cache and cookies were cleared and the page reloaded.
+- An email was entered and the subscribe button was clicked.
+
+**Result:**
+-	the Subscribe form appears on the screens.
+-	When and email is entered and the subscribe button clicked a message is displayed informing the user they are now subscribed. If the email is enterd again and subscribe clicked the user is informed they are already subscribed.
+
+<img src="assets_readme/images/newsletter_signup.png">
+
+### The Footer
 
 -	Featured on all pages and visible for both logged-out and logged in users.
 -	Includes links to pages: Home, About the Spa and Contact.
 
 <br>
 
-Expected: The links are expected to take the user to the declared destination when the user clicks the link.
+**Expected:** The links are expected to take the user to the declared destination when the user clicks the link.
 
-Testing: Tested the links by clicking them.
+**Testing:** Tested the links by clicking them.
 
-Result: The links link to the correct pages/endpoints.
+**Result:** The links link to the correct pages/endpoints.
 
 <img src="assets_readme/images/footer.png">
 </br>
 
 
 ### Landing/Home page (index.html)
-- __The landing page__
 
   - The top of the landing page features a hero image, the section below gives the users an overview of the Spa is about. All content is accessible for all users. The page is divided into sections which can be reached by scrolling down or using the links linking to specific sections. The first section acts as the landing “page” and features a hero image and the top navbar with the logo and Make a booking button is clearly visible.
 
@@ -317,45 +348,54 @@ Result: The links link to the correct pages/endpoints.
 <br>
 
 
-Testing Spa Treatments & Therapies section: 
+### Testing Spa Treatments & Therapies section:
 
 The section features cards with images and excerpts text for spa treatments, and each card can be clicked linking the user to a details page with more information about the treatment. The cards also feature a count of reviews left for each treatment.
 
-Expected: 
+**Expected:**
 - The links take the users to the correct details page.
 
--	Testing: 
+**Testing:**
 - Post-links were clicked.
 
--	Result: 
+**Result:**
 -	The links take the user to the correct post-details page.
--	
 
-Testing Prices & Booking section: 
+### Testing Prices & Booking section: 
 
 The section features a list of spa services grouped into main headings: Massages, Facials, Pedicures & Spa Access (more to be added in the future). Under each heading the Spa treatments are listed as links so that users can click the link and read more about the treatment. The section also features a text about the spa and the treatments as well as Book Now button that will take the user to the booking page.
 
-Expected: 
+**Expected:**
 - The treatment links take the users to the correct details page.
 - The Book now Button takes the user to the booking page.
 
--	Testing: 
+**Testing:**
 - The links were clicked.
 - The button was clicked.
 
--	Result: 
+**Result:**
 -	The links take the user to the correct details page.
 -	The button takes the user to the booking page.
 
 
-**Testing the Details page:**
-- __The Details page__
+### Testing the Details page:**
 
 - The details page features a text about the treatment, details about duration, price etc. as well as a book now button.
 
 - There is also a function to add a review for the treatment.
 
 <br>
+**Expected:**
+- The Book now Button takes the user to the booking page.
+- By writing a review and submitting it the review should be submitted for review. The review should be shown as awaiting approval.
+
+**Testing:**
+- The button was clicked.
+- A review was written and submitted.
+
+**Result:**
+-	The button takes the user to the booking page.
+-	The review was added and show as awaiting approval (lighter grey). When review is approved is shows as black and ads a count to the reviews count feature (The home page needs to reload for the count to show).
 
 <img src="assets_readme/images/details_page_1.png">
 <img src="assets_readme/images/details_page_2.png">
@@ -363,21 +403,7 @@ Expected:
 <br>
 
 
-Expected: 
-- The Book now Button takes the user to the booking page.
-- By writing a review and submitting it the review should be submitted for review. The review should be shown as awaiting approval.
-
--	Testing: 
-- The button was clicked.
-- A review was written and submitted.
-
--	Result: 
--	The button takes the user to the booking page.
--	The review was added and show as awaiting approval (lighter grey). When review is approved is shows as black and ads a count to the reviews count feature (The home page needs to reload for the count to show).
-
-
-
-- __The Booking page and function__
+### The Booking page and function
 
   <br>
 
@@ -387,7 +413,7 @@ Expected:
 
 <br>
 
-## The Cart ##
+### The Cart
 **Description:**
 The cart displays the services added in the booking. It lists the name of the service, the quantity added, the price and a separate remove button for each line item. It also shows the total cost of all services, as well as a button to clear the cart, a button to add another service and a button to move ahead to the checkout.
 
@@ -407,7 +433,7 @@ The services added were visible. When the buttons were clicked, they performed t
 
 <br>
 
-## The Checkout ##
+### The Checkout
 
 **Description:**
 The checkout displays a booking summary, the total price for all services in the checkout. It also features a formed that needs to be filled in to complete the booking and payments. It features two buttons – update cart and book now.
@@ -442,12 +468,11 @@ The input field for card details was tested on a laptop,  a large screen, iphone
 <br>
 
 
-
-### Features reachable from dropdown navbar:
+## Features reachable from dropdown navbar:
 
 Features visible to logged-out users:
 
-- __Register__
+### Register
 
 
   <br>
@@ -466,7 +491,7 @@ Features visible to logged-out users:
 
 
 
-- __The Sign-in/login Page__
+### The Sign-in/login Page
 
   - Registered/signed-up users can login. The page also contains a link to the sign-up form, and a link to issue a new confirmation email, as well as a link to reset their password.
   
@@ -483,7 +508,6 @@ Features visible to logged-out users:
 <br>
 
 
-
 | Form | Description | Expected | Testing | Result |
 | ----------- | ----------- |  ----------- |  ----------- |  ----------- |
 | **Resend Verification**, Form App: Core, Template: resend_verfication.html | Lets the user request a new verification link sent to their email. Note! New verifications can be sent more than once but straight after each other. It seems there is a limit on how many emails can be sent to the same email address with a certain time span. | When an email is filled in and the re-send verification button is clicked an email should be sent with a new link. A message letting them know the email has been sent should be shown. If the email exists but is already registered a message should be shown informing the user of this. If the email doesn’t exist in the database a message should be shown informing the user of this. | An incorrect and a correct email were entered and the re-send verification button clicked. | When an email existing in the database was entered an email with a new verification link was sent. When the link in the email was clicked the email was verified and the user asked to login. When an already verified email was entered a message was displayed informing the user. When an email that doesn’t exist in the database a message is displayed informing the user of this.  |
@@ -495,7 +519,7 @@ Features visible to logged-out users:
 
 
 
-- __The Accounts Page__
+### The Accounts Page
 
   - This page allows users to see their personal info, as well as their booking past and present. It also allows them to update their contact information, they can also add or change their date of birth and city. The form is pre-populated with first and last name, as well as phone number. There are also links to handle their email and to change/reset their password.
 
@@ -512,8 +536,7 @@ Features visible to logged-out users:
 <br>
 
 
-
-- __The Signout Page__
+### The Signout Page
 
  ### Signout link visible in the dropdown menu when signed in
 
@@ -528,7 +551,7 @@ Features visible to logged-out users:
 <br>
 
 
-- __The Change Email__
+### The Change Email
 
   - Link visible in the Account dropdown menu when user is logged in. Registered users can change/update their email.
 
@@ -546,7 +569,7 @@ Features visible to logged-out users:
 
 
 
-- __The Change/Reset Password__
+### The Change/Reset Password
 
   - Gives the user the ability to change their password. Registered users can change their password.
 
@@ -562,7 +585,7 @@ Features visible to logged-out users:
 
 <br>
 
-- __The Delete Account Page__
+### The Delete Account Page
 
   - Founder under Account. Gives the user the ability to easily delete their account. Registered users/members can delete their account and all associated information. Accessible from the dropdown menu and link Delete Account.
 
@@ -579,8 +602,7 @@ Features visible to logged-out users:
 <br>
 
 
-For staff only:
-- __Manage Time Slots Frontend__
+### Manage Time Slots Frontend (only for staff)
 
   - Lets staff set time slots as available or unavailable easily from the frontend. The link in the dropdown menu is only visible to logged in staff.
 
@@ -595,8 +617,7 @@ For staff only:
 
 <br>
 
-
-- __Contact form__
+### Contact form
 
 | Form | Description | Expected | Testing | Result |
 | ----------- | ----------- |  ----------- | ----------- | ----------- | 
@@ -651,8 +672,8 @@ DEBUG = os.getenv('DEBUG') == '1'
 Quite alot of work has gone into trying to make the admin user friendly and creating a booking system taht works. Ther is still some work to be done on this and the loading times with regards to dates and timeslots are slow.
 
 ### Booking
-Spa Booking services: List bokkings by service
-Spa Bookings: A log of bookings and all dtails. Bookings can be changed, delted and added from the admin and it will update the availabilies.
+- Spa Booking services: List bokkings by service
+- Spa Bookings: A log of bookings and all dtails. Bookings can be changed, delted and added from the admin and it will update the availabilies.
 
 ### Services
 
@@ -774,7 +795,8 @@ Steps to follow for deployment to Heroku:
 
 ### Code
 
-The Boutique Ado walthrough forms the base for this project and has been consulted extensively. Django docs have also been used as well as Bootstrap documentation.
+The Boutique Ado walthrough forms the base for this project and has been consulted extensively. I have also used the blog walkthrough. Django docs have also been used as well as Bootstrap documentation. Stackoverflow and other forums have been used exensively to find solutions ans suggestions. No code has been directly copied - but code has been adapted for this projects purpose.
+
 -   [Bootstrap5](https://getbootstrap.com/docs/5.3/getting-started/introduction/): Bootstrap Library used throughout the project mainly to make site responsive using the Bootstrap Grid System.
 
 -   [Stack Overflow/editing-inline-formset](https://stackoverflow.com/questions/66814402/python-django-editing-inlineformset-factory)
@@ -821,18 +843,18 @@ The Boutique Ado walthrough forms the base for this project and has been consult
 
 
 #### Admin
-https://testdriven.io/blog/customize-django-admin/
-https://reintech.io/blog/customizing-the-admin-interface-in-django
-https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates
-https://stackoverflow.com/questions/76851414/multible-objects-creation-in-django-admin-panel
-https://pypi.org/project/django-batch-select/
-https://docs.djangoproject.com/en/dev/ref/models/querysets/#defer
-https://realpython.com/customize-django-admin-python/
-https://docs.djangoproject.com/en/5.1/ref/contrib/admin/
-https://testdriven.io/blog/customize-django-admin/
-https://earthly.dev/blog/customize-django-admin-site/
-https://medium.com/@abasifreke/mastering-django-admin-customization-best-practices-and-techniques-66a6b31ad4f8
-https://github.com/duplxey/django-admin-customization
+- https://testdriven.io/blog/customize-django-admin/
+- https://reintech.io/blog/customizing-the-admin-interface-in-django
+- https://stackoverflow.com/questions/6583877/how-to-override-and-extend-basic-django-admin-templates
+- https://stackoverflow.com/questions/76851414/multible-objects-creation-in-django-admin-panel
+- https://pypi.org/project/django-batch-select/
+- https://docs.djangoproject.com/en/dev/ref/models/querysets/#defer
+- https://realpython.com/customize-django-admin-python/
+- https://docs.djangoproject.com/en/5.1/ref/contrib/admin/
+- https://testdriven.io/blog/customize-django-admin/
+- https://earthly.dev/blog/customize-django-admin-site/
+- https://medium.com/@abasifreke/mastering-django-admin-customization-best-practices-and-techniques-66a6b31ad4f8
+- https://github.com/duplxey/django-admin-customization
 
 
 ### Content
