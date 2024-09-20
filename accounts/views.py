@@ -101,38 +101,17 @@ class CustomConfirmEmailView(ConfirmEmailView):
     def post(self, *args, **kwargs):
         try:
             response = super().post(*args, **kwargs)
-            if self.object and self.object.email_address.verified:
-                messages.add_message(
-                    self.request, messages.SUCCESS,
-                    "Your email has been successfully confirmed."
+            if (self.object and
+                    self.object.email_address.verified):
+                return HttpResponseRedirect(
+                    reverse('account_login')
                 )
-                return HttpResponseRedirect(reverse('account_login'))
             return response
         except Http404:
             messages.add_message(
                 self.request, messages.ERROR,
-                "The confirmation link has expired. Please request a new "
-                "confirmation email."
-            )
-            return HttpResponseRedirect(
-                reverse('account_email_verification_sent')
-            )
-
-    def get(self, *args, **kwargs):
-        try:
-            response = super().get(*args, **kwargs)
-            if self.object and self.object.email_address.verified:
-                messages.add_message(
-                    self.request, messages.INFO,
-                    "Your email is already confirmed."
-                )
-                return HttpResponseRedirect(reverse('account_login'))
-            return response
-        except Http404:
-            messages.add_message(
-                self.request, messages.ERROR,
-                "The confirmation link has expired. Please request a new "
-                "confirmation email."
+                "The confirmation link has expired. "
+                "Please request a new confirmation email."
             )
             return HttpResponseRedirect(
                 reverse('account_email_verification_sent')

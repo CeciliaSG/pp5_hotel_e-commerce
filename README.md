@@ -631,6 +631,22 @@ assets_readme/images/contact_form_submission.png
 
 <img src="assets_readme/images/404.png">
 
+
+### DEBUG mode set to False
+
+**In env.py:**
+#DEVELOPMENT=True
+os.environ["DEVELOPMENT"] = "1"
+os.environ['DEBUG'] = '1'
+
+**In settings:**
+DEBUG = os.getenv('DEBUG') == '1'
+
+**Explanation:**
+- os.getenv('DEBUG'): This fetches the value of the DEBUG environment variable. If the environment variable DEBUG is set to '1', os.getenv('DEBUG') will return '1'.
+- == '1': This comparison checks if the DEBUG environment variable is equal to '1'. If true, DEBUG is set to True; otherwise, it's set to False.
+
+
 ### Testing the Admin
 
 Quite alot of work has gone into trying to make the admin user friendly and creating a booking system taht works. Ther is still some work to be done on this and the loading times with regards to dates and timeslots are slow.
@@ -675,10 +691,8 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 
 ### Features Left to Implement
 
-- The Admin panel needs to be developed and made better. It works but it is not ideal for adding treatments/service, dates and times.
-- Also employees/users should be able to adminstrate the treatments etc. from the front end.
-- Customers should also be able to choose a therapist when booking.
-- The prices section should be developed.
+- The Admin panel needs to be further developed and made better. Loading times need to be reduces. 
+- Customers should be able to choose a therapist when booking.
 
 <br>
 
