@@ -189,7 +189,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (aboutSection && homeSection) {
             const threshold = 150;
             
-            if (isInViewport(aboutSection, threshold)) {
+            const aboutInView = isInViewport(aboutSection, threshold);
+            const homeInView = isInViewport(homeSection);
+
+            console.log(`About Section in view: ${aboutInView}`);
+            console.log(`Home Section in view: ${homeInView}`);
+
+            if (aboutInView || !homeInView) {
                 scrollToAboutBtn.style.display = 'none';
             } else {
                 scrollToAboutBtn.style.display = 'block';
@@ -212,9 +218,13 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', checkButtonVisibility);
         window.addEventListener('resize', checkButtonVisibility);
 
-        setTimeout(checkButtonVisibility, 100);
+        setTimeout(() => {
+            console.log('Initial visibility check');
+            checkButtonVisibility();
+        }, 500);
     }
 });
+
 
 
 
